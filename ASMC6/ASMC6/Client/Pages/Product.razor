@@ -1,0 +1,43 @@
+﻿@page "/product"
+@using ASMC6.Shared
+@inject HttpClient httpClient
+
+<h3>Product</h3>
+
+<table>
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Price</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in listProd)
+        {
+            <tr>
+                <td>@item.ProductId</td>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<ASMC6.Shared.Product> listProd;
+    private ASMC6.Shared.Product prod = new ASMC6.Shared.Product();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/getProduct");
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        await base.OnInitializedAsync();
+    }
+}
