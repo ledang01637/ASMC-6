@@ -29,6 +29,13 @@ namespace ASMC6.Server
             services.AddRazorPages();
 
             services.AddScoped<ProductService>();
+            services.AddScoped<MenuService>();
+            services.AddScoped<CategoryService>();
+            services.AddScoped<OrderService>();
+            services.AddScoped<OrderItemService>();
+            services.AddScoped<RestaurantService>();
+            services.AddScoped<RoleService>();
+            services.AddScoped<UserService>();
 
             //Kết Nối
             services.AddDbContext<AppDBContext>(options =>

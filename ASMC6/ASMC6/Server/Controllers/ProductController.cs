@@ -17,19 +17,19 @@ namespace ASMC6.Server.Controllers
             _productService = _product;
         }
 
-        [HttpGet]
-        [Route("GetProducts")]
-        public ActionResult<List<Product>> GetProducts()
+        [HttpGet("GetProducts")]
+        public List<Product> GetProducts()
         {
             return _productService.GetProducts();
         }
 
-        [HttpPost]
-        public Product Add(Product product)
+        [HttpPost("AddProduct")]
+        public Product AddProduct(Product product)
         {
             return _productService.AddProduct(new Product
             {
                 MenuId = product.MenuId,
+                CategoryId = product.CategoryId,
                 Name = product.Name,
                 Description = product.Description,
                 Image = product.Image,

@@ -4,25 +4,51 @@
 
 <h3>Product</h3>
 
-<table>
-    <thead>
-        <tr>
-            <td>Id</td>
-            <td>Name</td>
-            <td>Price</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in listProd)
-        {
+@if (listProd != null)
+{
+    <table>
+        <thead>
             <tr>
-                <td>@item.ProductId</td>
-                <td>@item.Name</td>
-                <td>@item.Price</td>
+                <td>Id</td>
+                <td>Name</td>
+                <td>Price</td>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in listProd)
+            {
+                <tr>
+                    <td>@item.ProductId</td>
+                    <td>@item.Name</td>
+                    <td>@item.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+<h3>Form</h3>
+<form>
+    <label>Name</label>
+    <input @bind="prod.Name" />
+    <label>MenuId</label>
+    <input @bind="prod.MenuId" />
+    <label>CategoryId</label>
+    <input @bind="prod.CategoryId" />
+    <label>Price</label>
+    <input @bind="prod.Price" />
+    <label>Description</label>
+    <input @bind="prod.Description" />
+    <label>IsDelete</label>
+    <input @bind="prod.IsDelete" />
+    <label>Image</label>
+    <input @bind="prod.Image" />
+    <button type="button" @onclick="AddProd">Add Product</button>
+</form>
 
 @code {
     private List<ASMC6.Shared.Product> listProd;
@@ -30,14 +56,25 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadProducts();
+    }
+
+    private async Task LoadProducts()
+    {
         try
         {
-            listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/getProduct");
+            listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Console.WriteLine($"Error: {ex.Message}");
         }
-        await base.OnInitializedAsync();
+    }
+
+    private async Task AddProd()
+    {
+        await httpClient.PostAsJsonAsync("api/Product/AddProduct", prod);
+        await LoadProducts();
+        StateHasChanged();
     }
 }
