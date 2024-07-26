@@ -1,0 +1,386 @@
+﻿@page "/inforproduct/{id:int}"
+@using ASMC6.Shared
+@inject HttpClient httpClient
+
+@* <div class="container col-md-12">
+    <div class="col-md-12 row">
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <img src="~/anh.png" width="100%" alt="" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <h1>Marketside Fresh Organic Bananas, Bunch</h1>
+            </div>
+            <div class="col-md-12 row">
+                <div class="col-md-3">
+                    <img src="./public/img--rated-433-out-of-5.svg"
+                         class="img-fluid"
+                         alt="Rating" />
+                    <span class="empty-rating">3</span>
+                </div>
+                <div class="col-md-3">
+                    <p>Món ăn</p>
+                </div>
+            </div>
+            <hr />
+            <div class="col-md-12">
+                <p>
+                    Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus
+                    malesuada tincidunt. Class aptent taciti sociosqu ad litora
+                    torquent Vivamus adipiscing nisl ut dolor dignissim semper.
+                </p>
+            </div>
+            <div class="col-md-12">
+                <b class="fs-3 text-danger">120.000 VND</b>
+                <span class="del m-3">150.000 VND</span>
+            </div>
+            <div class="col-md-12">
+                <input class="col-md-2 border border-2 rounded p-1 m-3"
+                       type="number" />
+                <button class="col-md-4 rounded btn btn-danger">Đặt hàng</button>
+                <button class="col-md-4 rounded btn btn-dark">Đến cửa hàng</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 mt-5">
+        <b>Description</b>
+        <hr />
+        <p>
+            Quisque varius diam vel metus mattis, id aliquam diam rhoncus. Proin
+            vitae magna in dui finibus malesuada et at nulla. Morbi elit ex,
+            viverra vitae ante vel, blandit feugiat ligula. Fusce fermentum
+            iaculis nibh, at sodales leo maximus a. Nullam ultricies sodales nunc,
+            in pellentesque lorem mattis quis. Cras imperdiet est in nunc
+            tristique lacinia. Nullam aliquam mauris eu accumsan tincidunt.
+            Suspendisse velit ex, aliquet vel ornare vel, dignissim a tortor.
+        </p>
+        <p>
+            Quisque varius diam vel metus mattis, id aliquam diam rhoncus. Proin
+            vitae magna in dui finibus malesuada et at nulla. Morbi elit ex,
+            viverra vitae ante vel, blandit feugiat ligula. Fusce fermentum
+            iaculis nibh, at sodales leo maximus a. Nullam ultricies sodales nunc,
+            in pellentesque lorem mattis quis. Cras imperdiet est in nunc
+            tristique lacinia. Nullam aliquam mauris eu accumsan tincidunt.
+            Suspendisse velit ex, aliquet vel ornare vel, dignissim a tortor.
+        </p>
+    </div>
+
+    <div class="col-md-12">
+        <b>Món ăn tương tự</b>
+        <hr />
+        <div class="col-md-12 row">
+            <!---->
+            <a class="col-md-2 p-2 text-decoration-none" href="#">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="badge bg-danger text-white">75% Off</div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="./public/divpostgallery@2x.png"
+                                     class="img-fluid"
+                                     alt="Product Image" />
+                            </div>
+                            <b>Nước cam ép Juice</b>
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="./public/img--rated-433-out-of-5.svg"
+                                             class="img-fluid"
+                                             alt="Rating" />
+                                        <span class="empty-rating">3</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <b class="text-danger ins">120.000 VND</b>
+                                </div>
+                                <div>
+                                    <p></p>
+                                </div>
+                                <div>
+                                    <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <!---->
+            <!---->
+            <a class="col-md-2 p-2 text-decoration-none" href="#">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="badge bg-danger text-white">75% Off</div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="./public/divpostgallery@2x.png"
+                                     class="img-fluid"
+                                     alt="Product Image" />
+                            </div>
+                            <b>Nước cam ép Juice</b>
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="./public/img--rated-433-out-of-5.svg"
+                                             class="img-fluid"
+                                             alt="Rating" />
+                                        <span class="empty-rating">3</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <b class="text-danger ins">120.000 VND</b>
+                                </div>
+                                <div>
+                                    <p></p>
+                                </div>
+                                <div>
+                                    <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <!---->
+            <!---->
+            <a class="col-md-2 p-2 text-decoration-none" href="#">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="badge bg-danger text-white">75% Off</div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="./public/divpostgallery@2x.png"
+                                     class="img-fluid"
+                                     alt="Product Image" />
+                            </div>
+                            <b>Nước cam ép Juice</b>
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="./public/img--rated-433-out-of-5.svg"
+                                             class="img-fluid"
+                                             alt="Rating" />
+                                        <span class="empty-rating">3</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <b class="text-danger ins">120.000 VND</b>
+                                </div>
+                                <div>
+                                    <p></p>
+                                </div>
+                                <div>
+                                    <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <!---->
+            <!---->
+            <a class="col-md-2 p-2 text-decoration-none" href="#">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="badge bg-danger text-white">75% Off</div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="./public/divpostgallery@2x.png"
+                                     class="img-fluid"
+                                     alt="Product Image" />
+                            </div>
+                            <b>Nước cam ép Juice</b>
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="./public/img--rated-433-out-of-5.svg"
+                                             class="img-fluid"
+                                             alt="Rating" />
+                                        <span class="empty-rating">3</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <b class="text-danger ins">120.000 VND</b>
+                                </div>
+                                <div>
+                                    <p></p>
+                                </div>
+                                <div>
+                                    <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <!---->
+            <!---->
+            <a class="col-md-2 p-2 text-decoration-none" href="#">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="badge bg-danger text-white">75% Off</div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="./public/divpostgallery@2x.png"
+                                     class="img-fluid"
+                                     alt="Product Image" />
+                            </div>
+                            <b>Nước cam ép Juice</b>
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="./public/img--rated-433-out-of-5.svg"
+                                             class="img-fluid"
+                                             alt="Rating" />
+                                        <span class="empty-rating">3</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <b class="text-danger ins">120.000 VND</b>
+                                </div>
+                                <div>
+                                    <p></p>
+                                </div>
+                                <div>
+                                    <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <!---->
+            <!---->
+            <a class="col-md-2 p-2 text-decoration-none" href="#">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="badge bg-danger text-white">75% Off</div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img src="./public/divpostgallery@2x.png"
+                                     class="img-fluid"
+                                     alt="Product Image" />
+                            </div>
+                            <b>Nước cam ép Juice</b>
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="./public/img--rated-433-out-of-5.svg"
+                                             class="img-fluid"
+                                             alt="Rating" />
+                                        <span class="empty-rating">3</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <b class="text-danger ins">120.000 VND</b>
+                                </div>
+                                <div>
+                                    <p></p>
+                                </div>
+                                <div>
+                                    <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <!---->
+        </div>
+    </div>
+
+    <div class="col-md-12 row">
+        <b>Thông tin nhà hàng</b>
+        <hr />
+        <!---->
+        <a class="col-md-3 p-2 text-decoration-none" href="#">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="./public/divpostgallery@2x.png"
+                                 class="img-fluid"
+                                 alt="Product Image" />
+                        </div>
+                        <b>How grocers are approaching delivery as the market evolves</b>
+                        <div class="col-md-12">
+                            <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <!---->
+        <!---->
+        <a class="col-md-3 p-2 text-decoration-none" href="#">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="./public/divpostgallery@2x.png"
+                                 class="img-fluid"
+                                 alt="Product Image" />
+                        </div>
+                        <b>How grocers are approaching delivery as the market evolves</b>
+                        <div class="col-md-12">
+                            <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <!---->
+        <!---->
+        <a class="col-md-3 p-2 text-decoration-none" href="#">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="./public/divpostgallery@2x.png"
+                                 class="img-fluid"
+                                 alt="Product Image" />
+                        </div>
+                        <b>How grocers are approaching delivery as the market evolves</b>
+                        <div class="col-md-12">
+                            <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <!---->
+        <!---->
+        <a class="col-md-3 p-2 text-decoration-none" href="#">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="./public/divpostgallery@2x.png"
+                                 class="img-fluid"
+                                 alt="Product Image" />
+                        </div>
+                        <b>How grocers are approaching delivery as the market evolves</b>
+                        <div class="col-md-12">
+                            <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <!---->
+    </div>
+</div>
+ *@
+@if (prod != null)
+{
+    <div>
+        <h4>@prod.Name</h4>
+        <p><strong>ID:</strong> @prod.ProductId</p>
+        <p><strong>Price:</strong> @prod.Price</p>
+        <p><strong>Description:</strong> @prod.Description</p>
+        <p><strong>Image:</strong> <img src="@prod.Image" alt="@prod.Name" style="width:200px;" /></p>
+        <p><strong>Is Deleted:</strong> @(prod.IsDelete ? "Yes" : "No")</p>
+    </div>
+}

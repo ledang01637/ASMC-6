@@ -39,7 +39,7 @@ namespace ASMC6.Server.Controllers
             });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetInforProduct/{id}")]
         public ActionResult<Product> GetId(int id)
         {
             if (id == 0)

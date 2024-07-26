@@ -12,7 +12,7 @@ namespace ASMC6.Server.Service
         {
             _context = context;
         }
-        public IEnumerable<Role> GetRole()
+        public List<Role> GetRoles()
         {
             return _context.Role.ToList();
         }

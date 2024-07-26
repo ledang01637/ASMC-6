@@ -18,7 +18,13 @@
             @foreach (var item in listProd)
             {
                 <tr>
-                    <td>@item.ProductId</td>
+                    
+                     <td>
+                        <a href="inforproduct/@item.ProductId">
+                            @item.ProductId
+                        </a>
+                    </td>
+
                     <td>@item.Name</td>
                     <td>@item.Price</td>
                 </tr>
