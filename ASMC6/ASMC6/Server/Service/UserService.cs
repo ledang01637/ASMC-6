@@ -1,7 +1,5 @@
 ﻿using ASMC6.Server.Data;
 using ASMC6.Shared;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,16 +12,9 @@ namespace ASMC6.Server.Service
         {
             _context = context;
         }
-        public List<User> GetUsers()
+        public IEnumerable<User> GetUser()
         {
-            try
-            {
-                return _context.User.ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error retrieving data from the database: {ex.Message}");
-            }
+            return _context.User.ToList();
         }
         public User AddUser(User User)
         {
