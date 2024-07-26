@@ -34,21 +34,3 @@
         </div>
     </div>
 </div>
-
-@if(listUser != null)
-{
-    <table class="table table-bordered">
-        @foreach (var item in listUser)
-        {
-            <tr>
-                <td>@item.Email</td>
-                <td>@item.Password</td>
-            </tr>
-        }
-    </table>
-
-}
-else
-{
-    <p>loading...</p>
-}

@@ -1,0 +1,39 @@
+﻿using ASMC6.Shared;
+using Microsoft.JSInterop;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+namespace ASMC6.Server.Service
+{
+    public class CartService
+    {
+        private readonly IJSRuntime _jsRuntime;
+        private const string CartKey = "cart";
+
+        public CartService(IJSRuntime jsRuntime)
+        {
+            _jsRuntime = jsRuntime;
+        }
+
+        public async Task AddItemToCartAsync(Product item)
+        {
+            var cart = await GetCartAsync();
+            cart.Add(item);
+            await SaveCartAsync(cart);
+        }
+
+        public async Task<List<Product>> GetCartAsync()
+        {
+            var cartJson = await _jsRuntime.InvokeAsync<string>("sessionStorage.getItem", CartKey);
+            return string.IsNullOrEmpty(cartJson) ? new List<Product>() : JsonSerializer.Deserialize<List<Product>>(cartJson);
+        }
+
+        public async Task SaveCartAsync(List<Product> cart)
+        {
+            var cartJson = JsonSerializer.Serialize(cart);
+            await _jsRuntime.InvokeVoidAsync("sessionStorage.setItem", CartKey, cartJson);
+        }
+    }
+
+}

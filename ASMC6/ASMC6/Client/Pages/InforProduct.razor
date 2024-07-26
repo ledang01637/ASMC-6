@@ -375,12 +375,13 @@
  *@
 @if (prod != null)
 {
-    <div>
+    <a href="/cart/">
         <h4>@prod.Name</h4>
         <p><strong>ID:</strong> @prod.ProductId</p>
         <p><strong>Price:</strong> @prod.Price</p>
         <p><strong>Description:</strong> @prod.Description</p>
         <p><strong>Image:</strong> <img src="@prod.Image" alt="@prod.Name" style="width:200px;" /></p>
         <p><strong>Is Deleted:</strong> @(prod.IsDelete ? "Yes" : "No")</p>
-    </div>
+    </a>
 }
+

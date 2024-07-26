@@ -30,3 +30,11 @@
         });
     }
 }
+window.cartFunctions = {
+    getCart: function () {
+        return sessionStorage.getItem('cart');
+    },
+    saveCart: function (cart) {
+        sessionStorage.setItem('cart', cart);
+    }
+};

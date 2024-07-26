@@ -1,12 +1,15 @@
 ﻿@page "/product"
 @using ASMC6.Shared
+@using ASMC6.Server.Service
 @inject HttpClient httpClient
+@inject CartService CartService
+@inject NavigationManager Navigation
 
 <h3>Product</h3>
 
 @if (listProd != null)
 {
-    <table>
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <td>Id</td>
@@ -24,10 +27,10 @@
                             @item.ProductId
                         </a>
                     </td>
-
                     <td>@item.Name</td>
                     <td>@item.Price</td>
                 </tr>
+                <button @onclick="() => AddToCart(item)">Mua</button>
             }
         </tbody>
     </table>
@@ -82,5 +85,10 @@ else
         await httpClient.PostAsJsonAsync("api/Product/AddProduct", prod);
         await LoadProducts();
         StateHasChanged();
+    }
+    private async Task AddToCart(ASMC6.Shared.Product product)
+    {
+        await CartService.AddItemToCartAsync(product);
+        Navigation.NavigateTo("/cart");
     }
 }

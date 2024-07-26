@@ -1,0 +1,119 @@
+﻿@page "/cart"
+@using ASMC6.Shared
+@using ASMC6.Server.Service
+@inject HttpClient httpClient
+@inject CartService CartService
+
+<div class="container mt-5">
+    <div class="col-md-12 row">
+        <div class="col-md-8">
+            <hr />
+            <div class="col-md-12">
+                <b>GIỎ HÀNG</b>
+@*                 <p>giỏ hàng hiện có @cartItems.Count() sản phẩm</p> *@
+            </div>
+            @if (cartItems == null)
+            {
+                <p>Loading...</p>
+            }
+            else if (!cartItems.Any())
+            {
+                <p>Your cart is empty.</p>
+            }
+            else
+            {
+                @foreach (var item in cartItems)
+                {
+                    <div class="col-md-12 row border border-1 rounded">
+                        <div class="col-md-2">
+                            <img src="./image/@item.Image" alt="" width="100%" />
+                        </div>
+                        <div class="col-md-4 m-auto">
+                            <b class="col-md-12">@item.Name</b>
+                        </div>
+                        <input type="number" class="col-md-1 m-auto" value="1" />
+                        <div class="col-md-3 m-auto">
+                            <b>@item.Price VND</b>
+                        </div>
+                        <div class="col-md-2 text-end m-auto">
+                            <button class="btn btn-danger">Xóa</button>
+                        </div>
+                    </div>
+                    Total += item.Price;
+                }
+
+            }
+        </div>
+
+        <div class="col-md-4 rounded bg-primary text-white">
+            <h2 class="col-md-12">Thanh toán</h2>
+            <div class="col-md-12 p-4 row">
+                <p>chọn ngân hàng</p>
+                <hr />
+                <div class="col-md-3">
+                    <img src="./image/banner/card1.jpg"
+                         alt=""
+                         width="100%"
+                         height="100%" />
+                </div>
+                <div class="col-md-3">
+                    <img src="./image/banner/card2.jpg"
+                         alt=""
+                         width="100%"
+                         height="100%" />
+                </div>
+                <div class="col-md-3">
+                    <img src="./image/banner/card3.jpg"
+                         alt=""
+                         width="100%"
+                         height="100%" />
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-light">Xem thêm</button>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label for="">Tên tài khoản</label>
+                <div>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label for="">Tên tài khoản</label>
+                <div>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-12 row">
+                <div class="col-md-6">
+                    <label for="">Tên tài khoản</label>
+                    <div>
+                        <input type="text" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="">Tên tài khoản</label>
+                    <div>
+                        <input type="text" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="col-md-12 row">
+                <p class="col-md-6">Thành tiền</p>
+                <p class="col-md-6 text-end">@Total VND</p>
+            </div>
+            <div class="col-md-12 row">
+                <p class="col-md-6">Giao hàng</p>
+                <p class="col-md-6 text-end">25.000 VND</p>
+            </div>
+            <div class="col-md-12 row">
+                <p class="col-md-6">Tổng</p>
+                <p class="col-md-6 text-end">@Total + 25000 VND</p>
+            </div>
+            <div class="col-md-12 mb-3">
+                <button class="col-md-12 btn btn-danger">Thanh toán</button>
+            </div>
+        </div>
+    </div>
+</div>
