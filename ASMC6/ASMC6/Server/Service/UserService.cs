@@ -12,7 +12,7 @@ namespace ASMC6.Server.Service
         {
             _context = context;
         }
-        public IEnumerable<User> GetUser()
+        public List<User> GetUsers()
         {
             return _context.User.ToList();
         }

@@ -2,7 +2,7 @@
 @using ASMC6.Shared
 @inject HttpClient httpClient
 
-@* <div class="container col-md-12">
+<div class="container col-md-12">
     <div class="col-md-12 row">
         <div class="col-md-6">
             <div class="col-md-12">
@@ -372,16 +372,5 @@
         <!---->
     </div>
 </div>
- *@
-@if (prod != null)
-{
-    <a href="/cart/">
-        <h4>@prod.Name</h4>
-        <p><strong>ID:</strong> @prod.ProductId</p>
-        <p><strong>Price:</strong> @prod.Price</p>
-        <p><strong>Description:</strong> @prod.Description</p>
-        <p><strong>Image:</strong> <img src="@prod.Image" alt="@prod.Name" style="width:200px;" /></p>
-        <p><strong>Is Deleted:</strong> @(prod.IsDelete ? "Yes" : "No")</p>
-    </a>
-}
+
 

@@ -19,8 +19,8 @@ namespace ASMC6.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            await LoadRole();
             await LoadUser();
+            await LoadRole();
         }
 
         private async Task DangNhap()
