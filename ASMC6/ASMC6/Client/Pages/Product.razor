@@ -19,8 +19,11 @@
             {
                 <tr>
                     <td>@item.ProductId</td>
+                    <td>@item.MenuId</td>
                     <td>@item.Name</td>
                     <td>@item.Price</td>
+                    <tb>@item.Description</tb>
+                    <tb><img src="@item.Image" alt="Alternate Text" width="20%" /></tb>
                 </tr>
             }
         </tbody>
@@ -53,6 +56,8 @@ else
 @code {
     private List<ASMC6.Shared.Product> listProd;
     private ASMC6.Shared.Product prod = new ASMC6.Shared.Product();
+
+    
 
     protected override async Task OnInitializedAsync()
     {

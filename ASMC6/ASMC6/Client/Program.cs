@@ -21,5 +21,6 @@ namespace ASMC6.Client
 
             await builder.Build().RunAsync();
         }
+
     }
 }
