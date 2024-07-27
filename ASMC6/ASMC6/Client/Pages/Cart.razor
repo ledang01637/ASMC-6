@@ -3,6 +3,7 @@
 @using ASMC6.Server.Service
 @inject HttpClient httpClient
 @inject CartService CartService
+@inject NavigationManager Navigation
 
 <div class="container mt-5">
     <div class="col-md-12 row">
@@ -36,10 +37,9 @@
                             <b>@item.Price VND</b>
                         </div>
                         <div class="col-md-2 text-end m-auto">
-                            <button class="btn btn-danger">Xóa</button>
+                            <button class="btn btn-danger" @onclick="() => RemoveFromCart(item)">Xóa</button>
                         </div>
                     </div>
-                    Total += item.Price;
                 }
 
             }
@@ -51,19 +51,19 @@
                 <p>chọn ngân hàng</p>
                 <hr />
                 <div class="col-md-3">
-                    <img src="./image/banner/card1.jpg"
+                    <img src="./image/visa.jpg"
                          alt=""
                          width="100%"
                          height="100%" />
                 </div>
                 <div class="col-md-3">
-                    <img src="./image/banner/card2.jpg"
+                    <img src="./image/vnpay.jpg"
                          alt=""
                          width="100%"
                          height="100%" />
                 </div>
                 <div class="col-md-3">
-                    <img src="./image/banner/card3.jpg"
+                    <img src="./image/mastercard.jpg"
                          alt=""
                          width="100%"
                          height="100%" />
@@ -112,7 +112,7 @@
                 <p class="col-md-6 text-end">@Total + 25000 VND</p>
             </div>
             <div class="col-md-12 mb-3">
-                <button class="col-md-12 btn btn-danger">Thanh toán</button>
+                <button class="col-md-12 btn btn-danger" @onclick="Thanhtoan">Thanh toán</button>
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using ASMC6.Shared;
 using Microsoft.JSInterop;
+using ASMC6.Client.Session;
 
 namespace ASMC6.Client.Pages
 {
@@ -46,11 +47,13 @@ namespace ASMC6.Client.Pages
 
             if (isSuccsess != null)
             {
+                
                 if (isSuccsess.IsDelete == true)
                 {
                     return Task.FromResult("Block");
                 }
-                if(role != null)
+                SUser.User = isSuccsess;
+                if (role != null)
                 {
                     if (role.Name.ToLower().Equals("admin"))
                     {

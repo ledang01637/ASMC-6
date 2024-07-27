@@ -13,6 +13,29 @@ namespace ASMC6.Client.Pages
         protected override async Task OnInitializedAsync()
         {
             cartItems = await CartService.GetCartAsync();
+            CalculateTotal();
+        }
+
+        private async Task RemoveFromCart(ASMC6.Shared.Product product)
+        {
+            if(product != null)
+            {
+                await CartService.RemoveItemFromCartAsync(product);
+                cartItems = await CartService.GetCartAsync();
+                CalculateTotal();
+            }
+        }
+        private void Thanhtoan()
+        {
+            Navigation.NavigateTo("/payment");
+        }
+        private void CalculateTotal()
+        {
+            Total = 0;
+            foreach (var item in cartItems)
+            {
+                Total += item.Price;
+            }
         }
     }
 }

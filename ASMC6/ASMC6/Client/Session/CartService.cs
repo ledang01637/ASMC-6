@@ -22,7 +22,16 @@ namespace ASMC6.Server.Service
             cart.Add(item);
             await SaveCartAsync(cart);
         }
-
+        public async Task RemoveItemFromCartAsync(Product item)
+        {
+            var cart = await GetCartAsync();
+            var itemToRemove = cart.Find(i => i.ProductId == item.ProductId);
+            if (itemToRemove != null)
+            {
+                cart.Remove(itemToRemove);
+            }
+            await SaveCartAsync(cart);
+        }
         public async Task<List<Product>> GetCartAsync()
         {
             var cartJson = await _jsRuntime.InvokeAsync<string>("sessionStorage.getItem", CartKey);
