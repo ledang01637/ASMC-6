@@ -19,29 +19,12 @@
             </div>
             <!---->
             <div class="col-md-12">
-                <label for="">Đường / địa chỉ thường trú</label>
+                <label for="">Địa chỉ</label>
                 <div class="col-md-12">
-                    <input type="text" name="" id="" class="form-control" />
+                    <input type="text" value="@SUser.User.Address" name="" id="" class="form-control" />
                 </div>
             </div>
             <!---->
-            <div class="col-md-12">
-                <label for="">Quận/Huyện</label>
-                <div class="col-md-12">
-                    <input type="text" name="" id="" class="form-control" />
-                </div>
-            </div>
-            <!---->
-            <div class="col-md-12">
-                <label for="">Thành phố</label>
-                <div class="col-md-12">
-                    <select name="" id="" class="col-md-12 form-control">
-                        <option value="">--Thành phố--</option>
-                        <option value="">Cần thơ</option>
-                        <option value="">Hồ Chí Minh</option>
-                    </select>
-                </div>
-            </div>
             <!---->
             <div class="col-md-12">
                 <label for="">Mã giảm giá ( nếu có)</label>
@@ -94,15 +77,19 @@
             }
             else
             {
+
                 @foreach (var item in cartItems)
                 {
-                    <div class="col-md-12 row">
-                        <p class="col-md-6">@item.Name</p>
-                    </div>
-                    <hr />
-                    <div class="col-md-12 row">
-                        <p class="col-md-6">Thành tiền <span>x 1</span></p>
-                        <p class="col-md-6 text-end">@item.Price.ToString("#,##0") VND</p>
+                    <div class="row mb-3">
+                        <input type="hidden" class="prodId" value="@item.ProductId" />
+                        <div class="col-4">
+                            <img src="./image/product/@item.Image" alt="Sản Phẩm" width="50px" height="50px" />
+                        </div>
+                        <div class="col-4">
+                            <span class="prodName">@item.Name</span>
+                            <span class="sl">(x1)</span>
+                        </div>
+                        <div class="col-4 text-end"><span class="prodPrice">@item.Price.ToString("#,###")</span> VNĐ</div>
                     </div>
                     <hr />
                 }
@@ -111,7 +98,7 @@
             <div class="col-md-12 row">
                 <p class="col-md-6">Giao hàng</p>
                 <p class="col-md-6 text-end">
-                    Giao hỏa tốc : @Fee.ToString("#,##0") VND <input type="checkbox" checked />
+                    Giao hỏa tốc : @Fee.ToString("#,##0") VND <input type="checkbox" @onchange="UpdateFee" checked />
                 </p>
             </div>
             <hr />
@@ -129,10 +116,10 @@
                 </p>
             </div>
             <div class="col-md-12">
-                <input type="checkbox" /> Tôi đồng ý với các điều khoản
+                <input type="checkbox" @onchange="Pay" /> Tôi đồng ý với các điều khoản
             </div>
             <div class="col-md-12 row m-auto mb-3 mt-3">
-                <button class="btn btn-danger rounded">Đặt hàng</button>
+                <button class="btn btn-danger rounded" disabled="@(isRuleChecked ? null : true)">Đặt hàng</button>
             </div>
         </div>
     </div>

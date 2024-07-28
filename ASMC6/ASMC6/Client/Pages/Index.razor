@@ -1,4 +1,9 @@
 ﻿@page "/"
+@using ASMC6.Shared
+@using ASMC6.Server.Service
+@inject HttpClient httpClient
+@inject CartService CartService
+@inject NavigationManager Navigation
 
 <!--Carosel-->
 <div id="carouselExampleDark"
@@ -101,275 +106,64 @@
     </div>
     <div class="col-md-12 row">
         <!--SP1-->
-        <div class="border border-1 col-md-2">
-            <div class="d-flex flex-row align-items-flex-start justify-content-flex-start spanbadge45 bg-crimson rounded-start rounded-xxl">
-                <div class="product-card-two fw-bold d-flex align-items-center justify-content-center">
-                    11%
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient">
-                    <img class="svg-icon8"
-                         alt=""
-                         src="./public/divpostgallery@2x.png"
-                         width="100%" />
-                </div>
-                <div class="add-button-three">
-                    <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
-                        <div class="link-great-container18">
-                            <b class="great-value-rising9 fw-500">Great Value Rising Crust Frozen</b>
-                            <p class="pizza-supreme3">Pizza, Supreme</p>
-                        </div>
-                        <div class="product-badge-four d-flex flex-row align-items-end justify-content-start gap-2">
-                            <img class="img-rated-400-out-of-511"
-                                 loading="lazy"
-                                 alt=""
-                                 src="./public/img--rated-400-out-of-52.svg" />
-                            <div class="product-name-four">3</div>
-                            <img class="link-icon42"
-                                 loading="lazy"
-                                 alt=""
-                                 src="./public/link6.svg" />
+        @if (listProd == null)
+        {
+            <p>Loading...</p>
+        }
+        else if (!listProd.Any())
+        {
+            <p>Your cart is empty.</p>
+        }
+        else
+        {
+            @foreach (var item in listProd)
+            {
+                <div class="border border-1 col-md-2">
+                    <div class="d-flex flex-row align-items-flex-start justify-content-flex-start spanbadge45 bg-crimson rounded-start rounded-xxl">
+                        <div class="product-card-two fw-bold d-flex align-items-center justify-content-center">
+                            11%
                         </div>
                     </div>
-                    <b class="ins-wrapper text-danger fs-4">120.000 VND</b>
-                    <div class="del37 text-gray-200 text-decoration-line-through">
-                        150.000 VND
-                    </div>
-                    <a href="">
-                        <img class="link-add-to-cart-great-val9 mb-3"
-                             loading="lazy"
-                             alt=""
-                             src="./public/link--add-to-cart-great-value-rising-crust-frozen-pizza-supreme.svg" />
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!--SP2-->
-        <div class="border border-1 col-md-2">
-            <div class="d-flex flex-row align-items-flex-start justify-content-flex-start spanbadge45 bg-crimson rounded-start rounded-xxl">
-                <div class="product-card-two fw-bold d-flex align-items-center justify-content-center">
-                    11%
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient">
-                    <img class="svg-icon8"
-                         alt=""
-                         src="./public/divpostgallery@2x.png"
-                         width="100%" />
-                </div>
-                <div class="add-button-three">
-                    <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
-                        <div class="link-great-container18">
-                            <b class="great-value-rising9 fw-500">Great Value Rising Crust Frozen</b>
-                            <p class="pizza-supreme3">Pizza, Supreme</p>
+                    <div class="col-md-12">
+                        <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient">
+                            <img class="svg-icon8"
+                                 alt=""
+                                 src="./image/product/@item.Image"
+                                 width="100%" />
                         </div>
-                        <div class="product-badge-four d-flex flex-row align-items-end justify-content-start gap-2">
-                            <img class="img-rated-400-out-of-511"
-                                 loading="lazy"
-                                 alt=""
-                                 src="./public/img--rated-400-out-of-52.svg" />
-                            <div class="product-name-four">3</div>
-                            <img class="link-icon42"
-                                 loading="lazy"
-                                 alt=""
-                                 src="./public/link6.svg" />
+                        <div class="add-button-three">
+                            <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
+                                <div class="link-great-container18">
+                                    <b class="great-value-rising9 fw-500">Great Value Rising Crust Frozen</b>
+                                    <p class="pizza-supreme3">Pizza, Supreme</p>
+                                </div>
+                                <div class="product-badge-four d-flex flex-row align-items-end justify-content-start gap-2">
+                                    <img class="img-rated-400-out-of-511"
+                                         loading="lazy"
+                                         alt=""
+                                         src="./public/img--rated-400-out-of-52.svg" />
+                                    <div class="product-name-four">3</div>
+                                    <img class="link-icon42"
+                                         loading="lazy"
+                                         alt=""
+                                         src="./public/link6.svg" />
+                                </div>
+                            </div>
+                            <b class="ins-wrapper text-danger fs-5">@item.Price.ToString("#,##0") VND</b>
+                            <div class="del37 text-gray-200 text-decoration-line-through">
+                                150.000 VND
+                            </div>
+                            <button class="btn" @onclick="() => AddToCart(item)">
+                                <i style="color: forestgreen" class="fa-solid fa-cart-plus"></i>
+                            </button>
                         </div>
                     </div>
-                    <b class="ins-wrapper text-danger fs-4">120.000 VND</b>
-                    <div class="del37 text-gray-200 text-decoration-line-through">
-                        150.000 VND
-                    </div>
-                    <a href="">
-                        <img class="link-add-to-cart-great-val9 mb-3"
-                             loading="lazy"
-                             alt=""
-                             src="./public/link--add-to-cart-great-value-rising-crust-frozen-pizza-supreme.svg" />
-                    </a>
                 </div>
-            </div>
-        </div>
-        <!--SP3-->
-        <div class="border border-1 col-md-2">
-            <div class="d-flex flex-row align-items-flex-start justify-content-flex-start spanbadge45 bg-crimson rounded-start rounded-xxl">
-                <div class="product-card-two fw-bold d-flex align-items-center justify-content-center">
-                    11%
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient">
-                    <img class="svg-icon8"
-                         alt=""
-                         src="./public/divpostgallery@2x.png"
-                         width="100%" />
-                </div>
-                <div class="add-button-three">
-                    <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
-                        <div class="link-great-container18">
-                            <b class="great-value-rising9 fw-500">Great Value Rising Crust Frozen</b>
-                            <p class="pizza-supreme3">Pizza, Supreme</p>
-                        </div>
-                        <div class="product-badge-four d-flex flex-row align-items-end justify-content-start gap-2">
-                            <img class="img-rated-400-out-of-511"
-                                 loading="lazy"
-                                 alt=""
-                                 src="./public/img--rated-400-out-of-52.svg" />
-                            <div class="product-name-four">3</div>
-                            <img class="link-icon42"
-                                 loading="lazy"
-                                 alt=""
-                                 src="./public/link6.svg" />
-                        </div>
-                    </div>
-                    <b class="ins-wrapper text-danger fs-4">120.000 VND</b>
-                    <div class="del37 text-gray-200 text-decoration-line-through">
-                        150.000 VND
-                    </div>
-                    <a href="">
-                        <img class="link-add-to-cart-great-val9 mb-3"
-                             loading="lazy"
-                             alt=""
-                             src="./public/link--add-to-cart-great-value-rising-crust-frozen-pizza-supreme.svg" />
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!--SP4-->
-        <div class="border border-1 col-md-2">
-            <div class="d-flex flex-row align-items-flex-start justify-content-flex-start spanbadge45 bg-crimson rounded-start rounded-xxl">
-                <div class="product-card-two fw-bold d-flex align-items-center justify-content-center">
-                    11%
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient">
-                    <img class="svg-icon8"
-                         alt=""
-                         src="./public/divpostgallery@2x.png"
-                         width="100%" />
-                </div>
-                <div class="add-button-three">
-                    <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
-                        <div class="link-great-container18">
-                            <b class="great-value-rising9 fw-500">Great Value Rising Crust Frozen</b>
-                            <p class="pizza-supreme3">Pizza, Supreme</p>
-                        </div>
-                        <div class="product-badge-four d-flex flex-row align-items-end justify-content-start gap-2">
-                            <img class="img-rated-400-out-of-511"
-                                 loading="lazy"
-                                 alt=""
-                                 src="./public/img--rated-400-out-of-52.svg" />
-                            <div class="product-name-four">3</div>
-                            <img class="link-icon42"
-                                 loading="lazy"
-                                 alt=""
-                                 src="./public/link6.svg" />
-                        </div>
-                    </div>
-                    <b class="ins-wrapper text-danger fs-4">120.000 VND</b>
-                    <div class="del37 text-gray-200 text-decoration-line-through">
-                        150.000 VND
-                    </div>
-                    <a href="">
-                        <img class="link-add-to-cart-great-val9 mb-3"
-                             loading="lazy"
-                             alt=""
-                             src="./public/link--add-to-cart-great-value-rising-crust-frozen-pizza-supreme.svg" />
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!--SP5-->
-        <div class="border border-1 col-md-2">
-            <div class="d-flex flex-row align-items-flex-start justify-content-flex-start spanbadge45 bg-crimson rounded-start rounded-xxl">
-                <div class="product-card-two fw-bold d-flex align-items-center justify-content-center">
-                    11%
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient">
-                    <img class="svg-icon8"
-                         alt=""
-                         src="./public/divpostgallery@2x.png"
-                         width="100%" />
-                </div>
-                <div class="add-button-three">
-                    <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
-                        <div class="link-great-container18">
-                            <b class="great-value-rising9 fw-500">Great Value Rising Crust Frozen</b>
-                            <p class="pizza-supreme3">Pizza, Supreme</p>
-                        </div>
-                        <div class="product-badge-four d-flex flex-row align-items-end justify-content-start gap-2">
-                            <img class="img-rated-400-out-of-511"
-                                 loading="lazy"
-                                 alt=""
-                                 src="./public/img--rated-400-out-of-52.svg" />
-                            <div class="product-name-four">3</div>
-                            <img class="link-icon42"
-                                 loading="lazy"
-                                 alt=""
-                                 src="./public/link6.svg" />
-                        </div>
-                    </div>
-                    <b class="ins-wrapper text-danger fs-4">120.000 VND</b>
-                    <div class="del37 text-gray-200 text-decoration-line-through">
-                        150.000 VND
-                    </div>
-                    <a href="">
-                        <img class="link-add-to-cart-great-val9 mb-3"
-                             loading="lazy"
-                             alt=""
-                             src="./public/link--add-to-cart-great-value-rising-crust-frozen-pizza-supreme.svg" />
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!--SP6-->
-        <div class="border border-1 col-md-2">
-            <div class="d-flex flex-row align-items-flex-start justify-content-flex-start spanbadge45 bg-crimson rounded-start rounded-xxl">
-                <div class="product-card-two fw-bold d-flex align-items-center justify-content-center">
-                    11%
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient">
-                    <img class="svg-icon8"
-                         alt=""
-                         src="./public/divpostgallery@2x.png"
-                         width="100%" />
-                </div>
-                <div class="add-button-three">
-                    <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
-                        <div class="link-great-container18">
-                            <b class="great-value-rising9 fw-500">Great Value Rising Crust Frozen</b>
-                            <p class="pizza-supreme3">Pizza, Supreme</p>
-                        </div>
-                        <div class="product-badge-four d-flex flex-row align-items-end justify-content-start gap-2">
-                            <img class="img-rated-400-out-of-511"
-                                 loading="lazy"
-                                 alt=""
-                                 src="./public/img--rated-400-out-of-52.svg" />
-                            <div class="product-name-four">3</div>
-                            <img class="link-icon42"
-                                 loading="lazy"
-                                 alt=""
-                                 src="./public/link6.svg" />
-                        </div>
-                    </div>
-                    <b class="ins-wrapper text-danger fs-4">120.000 VND</b>
-                    <div class="del37 text-gray-200 text-decoration-line-through">
-                        150.000 VND
-                    </div>
-                    <a href="">
-                        <img class="link-add-to-cart-great-val9 mb-3"
-                             loading="lazy"
-                             alt=""
-                             src="./public/link--add-to-cart-great-value-rising-crust-frozen-pizza-supreme.svg" />
-                    </a>
-                </div>
-            </div>
-        </div>
+            }
+
+        }
+        
+        
     </div>
 </section>
 

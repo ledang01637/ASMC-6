@@ -18,6 +18,8 @@ namespace ASMC6.Client.Pages
         private string textCode;
         private string voucher = "";
         private decimal Fee = 25000;
+        private bool isExpressChecked;
+        private bool isRuleChecked;
 
         protected override async Task OnInitializedAsync()
         {
@@ -39,6 +41,7 @@ namespace ASMC6.Client.Pages
                     Total -= 15000;
                 }
             }
+            Total += Fee;
 
         }
 
@@ -55,6 +58,16 @@ namespace ASMC6.Client.Pages
             
             await JSRuntime.InvokeVoidAsync("clearQrCode");
             await JSRuntime.InvokeVoidAsync("generateQrCode", textCode);
+        }
+        private void UpdateFee(ChangeEventArgs e)
+        {
+            isExpressChecked = (bool)e.Value;
+            Fee = isExpressChecked ? 25000 : 0;
+            CalculateTotal();
+        }
+        private void Pay(ChangeEventArgs e)
+        {
+            isRuleChecked = (bool)e.Value;
         }
 
     }

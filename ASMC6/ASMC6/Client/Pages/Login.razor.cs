@@ -43,11 +43,10 @@ namespace ASMC6.Client.Pages
 
             var isSuccsess = listUser.FirstOrDefault(u => u.Email.Equals(Username) && u.Password.Equals(Password));
 
-            var role = listRole.FirstOrDefault(r => r.RoleId.Equals(isSuccsess.RoleId));
-
             if (isSuccsess != null)
             {
-                
+                var role = listRole.FirstOrDefault(r => r.RoleId.Equals(isSuccsess.RoleId));
+
                 if (isSuccsess.IsDelete == true)
                 {
                     return Task.FromResult("Block");
