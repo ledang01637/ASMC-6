@@ -10,6 +10,9 @@ namespace ASMC6.Client.Pages
     {
         private List<ASMC6.Shared.Product> cartItems;
         private decimal Total;
+        private decimal Fee = 25000;
+        private decimal Pay;
+
         protected override async Task OnInitializedAsync()
         {
             cartItems = await CartService.GetCartAsync();
@@ -36,6 +39,7 @@ namespace ASMC6.Client.Pages
             {
                 Total += item.Price;
             }
+            Pay = Total + Fee;
         }
     }
 }

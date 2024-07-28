@@ -23,25 +23,40 @@
             }
             else
             {
-                @foreach (var item in cartItems)
-                {
-                    <div class="col-md-12 row border border-1 rounded">
-                        <div class="col-md-2">
-                            <img src="./image/@item.Image" alt="" width="100%" />
-                        </div>
-                        <div class="col-md-4 m-auto">
-                            <b class="col-md-12">@item.Name</b>
-                        </div>
-                        <input type="number" class="col-md-1 m-auto" value="1" />
-                        <div class="col-md-3 m-auto">
-                            <b>@item.Price VND</b>
-                        </div>
-                        <div class="col-md-2 text-end m-auto">
-                            <button class="btn btn-danger" @onclick="() => RemoveFromCart(item)">Xóa</button>
-                        </div>
-                    </div>
-                }
-
+                <div class="cart-content" style="overflow-x:auto;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="col-2 center aligned align-middle">Ảnh</th>
+                                <th class="col-3 center aligned">Sản phẩm</th>
+                                <th class="col-2 center aligned">Số lượng</th>
+                                <th class="col-3 center aligned">Giá</th>
+                                <th class="col-4 center aligned">Thành tiền</th>
+                                <th class="col-1 center aligned">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var prod in cartItems)
+                            {
+                                <tr>
+                                    <td class="align-middle">
+                                        <img class="img-fluid rounded d-block" width="70px" height="auto" src="./image/@prod.Image" alt="image">
+                                    </td>
+                                    <td class="align-middle fw-bold">@prod.Name</td>
+                                    <td class="align-middle">
+                                        <div class="input-group" style="width: 70%;">
+                                            <input class="form-control txt-qty" type="number" min="1" max="1" value="1">
+                                        </div>
+                                    </td>
+                                    <td class="right aligned align-middle price">@prod.Price.ToString("#,##0") VNĐ</td>
+                                    <td class="center aligned align-middle">
+                                        <button class="btn btn-danger btn-trash-cart" @onclick="() => RemoveFromCart(prod)"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>  
             }
         </div>
 
@@ -101,15 +116,15 @@
             <hr />
             <div class="col-md-12 row">
                 <p class="col-md-6">Thành tiền</p>
-                <p class="col-md-6 text-end">@Total VND</p>
+                <p class="col-md-6 text-end">@Total.ToString("#,##0") VND</p>
             </div>
             <div class="col-md-12 row">
                 <p class="col-md-6">Giao hàng</p>
-                <p class="col-md-6 text-end">25.000 VND</p>
+                <p class="col-md-6 text-end">@Fee.ToString("#,##0") VND</p>
             </div>
             <div class="col-md-12 row">
                 <p class="col-md-6">Tổng</p>
-                <p class="col-md-6 text-end">@Total + 25000 VND</p>
+                <p class="col-md-6 text-end">@Pay.ToString("#,##0") VND</p>
             </div>
             <div class="col-md-12 mb-3">
                 <button class="col-md-12 btn btn-danger" @onclick="Thanhtoan">Thanh toán</button>
@@ -117,3 +132,4 @@
         </div>
     </div>
 </div>
+

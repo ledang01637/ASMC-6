@@ -101,8 +101,8 @@
                     </div>
                     <hr />
                     <div class="col-md-12 row">
-                        <p class="col-md-6">Thành tiền <span>x 2</span></p>
-                        <p class="col-md-6 text-end">@item.Price VND</p>
+                        <p class="col-md-6">Thành tiền <span>x 1</span></p>
+                        <p class="col-md-6 text-end">@item.Price.ToString("#,##0") VND</p>
                     </div>
                     <hr />
                 }
@@ -111,13 +111,13 @@
             <div class="col-md-12 row">
                 <p class="col-md-6">Giao hàng</p>
                 <p class="col-md-6 text-end">
-                    Giao hỏa tốc : 25.000 VND <input type="checkbox" checked />
+                    Giao hỏa tốc : @Fee.ToString("#,##0") VND <input type="checkbox" checked />
                 </p>
             </div>
             <hr />
             <div class="col-md-12 row">
                 <p class="col-md-6">Tổng tiền</p>
-                <b class="col-md-6 text-end">@Total VND</b>
+                <b class="col-md-6 text-end">@Total.ToString("#,##0") VND</b>
             </div>
             <hr />
             <div class="col-md-12 row">

@@ -17,6 +17,7 @@ namespace ASMC6.Client.Pages
         private decimal Total;
         private string textCode;
         private string voucher = "";
+        private decimal Fee = 25000;
 
         protected override async Task OnInitializedAsync()
         {
