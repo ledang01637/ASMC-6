@@ -1,0 +1,39 @@
+﻿@page "/register"
+@using ASMC6.Shared
+@inject HttpClient httpClient
+@inject IJSRuntime JS
+
+
+<article class="container">
+    <div class="mt-4 mb-4 register mx-auto">
+        <h1 class="text-center fw-bold pt-4">
+            Đăng Ký Tài Khoản
+        </h1>
+
+        <EditForm class="register-form" Model="@user" OnValidSubmit="AddUser">
+            <div class="form-group">
+                <label class="control-label">Tên</label>
+                <input type="text" @bind="user.Name" class="form-control" title="Vui lòng nhập lại tên" required />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Email</label>
+                <input type="email" @bind="user.Email" class="form-control" title="Vui lòng nhập lại email" required />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Mật khẩu</label>
+                <input type="password" @bind="user.Password" class="form-control" title="vui lòng nhập lại mật khẩu" required />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Số điện thoại</label>
+                <input type="number" @bind="user.Phone" class="form-control" title="Số điện thoại phải có đúng 10 chữ số" required />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Địa chỉ</label>
+                <input type="text" @bind="user.Address" class="form-control" title="Vui lòng nhập lại địa chỉ" required />
+            </div>
+            <div class="form-group text-center">
+                <input type="submit" value="Đăng ký" class="register-submit-btn btn btn-primary " />
+            </div>
+        </EditForm>
+    </div>
+</article>

@@ -30,6 +30,17 @@
         });
     }
 }
+
+function showRegisterAlert(status) {
+    if (status === "InputExits") {
+        Swal.fire({
+            title: "Đăng ký thất bại",
+            text: "Email đã tồn tại",
+            icon: "error",
+        });
+    } 
+}
+
 window.cartFunctions = {
     getCart: function () {
         return sessionStorage.getItem('cart');
