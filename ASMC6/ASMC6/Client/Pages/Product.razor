@@ -6,34 +6,233 @@
 @inject NavigationManager Navigation
 
 <h3>Product</h3>
-
 @if (listProd != null)
 {
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <td>Id</td>
-                <td>Name</td>
-                <td>Price</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in listProd)
-            {
-                <tr>
-                    
-                    <td>
-                        <a href="inforproduct/@item.ProductId">
-                            @item.ProductId
-                        </a>
-                    </td>
-                    <td>@item.Name</td>
-                    <td>@item.Price</td>
-                </tr>
-                <button @onclick="() => AddToCart(item)">Mua</button>
-            }
-        </tbody>
-    </table>
+    <div class="container-fluid col-md-12 mt-5">
+        <div class="col-md-12 row">
+            <!--Filter-->
+            <div class="col-md-3 p-4 mb-3">
+                <h4 class="fw-bold">Lọc sản phẩm</h4>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="min-price" class="form-label">Thấp</label>
+                        <input type="number"
+                               class="form-control"
+                               id="min-price"
+                               placeholder="0"
+                               @bind="minPrice"
+                               @bind:event="oninput" />
+                    </div>
+                    <div class="col-6">
+                        <label for="max-price" class="form-label">Cao</label>
+                        <input type="number"
+                               class="form-control"
+                               id="max-price"
+                               placeholder="Không giới hạn"
+                               @bind="maxPrice"
+                               @bind:event="oninput" />
+                    </div>
+                </div>
+                <button class="form-button btn btn-secondary border border-rill mt-3 col-md-12"
+                        @onclick="FilterByPrice">
+                    Lọc theo giá
+                </button>
+                <button class="form-button btn btn-secondary border border-rill mt-3 col-md-12"
+                        @onclick="ResetPriceFilter">
+                    Reset giá
+                </button>
+
+                <!-- Add other filters here -->
+
+
+
+                <hr />
+
+                <div class="col-md-12">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="heading-4">Nhà hàng</h4>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> Ăn vặt &
+                                    đường phố
+                                </div>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> Sang
+                                    trọng & thanh lịch
+                                </div>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> Sức khỏe
+                                </div>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> Buổi sáng
+                                </div>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> Sinh viên
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <!---->
+                <div class="col-md-12">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="heading-4">Ưu đãi</h4>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> Combo
+                                    tặng kèm
+                                </div>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> Giảm giá
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <!---->
+                <div class="col-md-12">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="heading-4">Thành phố</h4>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> Cần Thơ
+                                </div>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> Hồ Chí
+                                    Minh
+                                </div>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> An Giang
+                                </div>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> Hà Nội
+                                </div>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> Đà Nẵng
+                                </div>
+                                <div class="icon-list">
+                                    <input class="form-check-input" type="checkbox" /> Sóc Trăng
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Product-->
+            <div class="col-md-9">
+                <div class="col-md-12 bg-primary"
+                     style="
+              background: url(./public/banner17jpg@2x.png) no-repeat;
+              background-size: cover;
+                    ">
+                    <div class="col-md-10" style="min-height: 18rem; margin-left: 10%">
+                        <br />
+                        <h3 style="margin-top: 10%">Cửa hàng snack khoai tây chiên</h3>
+                        <p class="mt-5">140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
+                        <button class="btn btn-light border border-2 rounded-pill mb-3">
+                            Cửa hàng
+                        </button>
+                    </div>
+                </div>
+
+                <div id="carouselexamplecaptions" class="carousel col-md-12 row">
+                    <div class="carousel-inner row">
+                        @if (pagedProducts != null)
+                        {
+                            @foreach (var item in pagedProducts.Select((p, index) => new { p, index }).GroupBy(x => x.index / 8))
+                            {
+                                <div class="carousel-item @(item.First().index == 0 ? "active" : "")">
+                                    <div class="col-md-12 row">
+                                        @foreach (var product in item.Select(x => x.p))
+                                        {
+                                            <a class="col-md-3 text-decoration-none mt-3" href="#">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="badge bg-danger text-white">75% Off</div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <img src="@product.Image"
+                                                                     class="img-fluid"
+                                                                     alt="Product Image" width="100%" style="max-height: 15rem;" />
+                                                            </div>
+                                                            <b>@product.Name</b>
+                                                            <div class="col-md-12">
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <div>
+                                                                        <img src="./public/img--rated-433-out-of-5.svg"
+                                                                             class="img-fluid"
+                                                                             alt="Rating" />
+                                                                        <span class="empty-rating">3</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <b class="text-danger ins">@product.Price 0 VND</b>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="del">@product.Price 0 VND</span>
+                                                                </div>
+                                                                <div>
+                                                                    <p></p>
+                                                                </div>
+                                                                <div>
+                                                                    <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <div class="carousel col-md-12 mt-3">
+                        <button class="carousel-control-prev bg-secondary rounded-pill"
+                                type="button"
+                                data-bs-target="#carouselexamplecaptions"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"
+                                  aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <div class="m-auto text-center">
+                            @foreach (var i in Enumerable.Range(0, (int)Math.Ceiling(pagedProducts.Count / 8.0)))
+                            {
+                                <button type="button"
+                                        data-bs-target="#carouselexamplecaptions"
+                                        data-bs-slide-to="@i"
+                                        class="@(i == 0 ? "active" : "")"
+                                        aria-current="@(i == 0 ? "true" : "")"
+                                        aria-label="slide @(i + 1)">
+                                    @(@i + 1)
+                                </button>
+                            }
+                        </div>
+                        <button class="carousel-control-next bg-secondary rounded-pill"
+                                type="button"
+                                data-bs-target="#carouselexamplecaptions"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon"
+                                aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 else
 {
@@ -60,13 +259,6 @@ else
 </form>
 
 @code {
-    private List<ASMC6.Shared.Product> listProd;
-    private ASMC6.Shared.Product prod = new ASMC6.Shared.Product();
-
-    protected override async Task OnInitializedAsync()
-    {
-        await LoadProducts();
-    }
 
     private async Task LoadProducts()
     {
@@ -90,5 +282,37 @@ else
     {
         await CartService.AddItemToCartAsync(product);
         Navigation.NavigateTo("/cart");
+    }
+
+    private List<ASMC6.Shared.Product> listProd;
+    private List<ASMC6.Shared.Product> pagedProducts;
+    private decimal minPrice;
+    private decimal maxPrice = 100000;
+
+
+    private void ApplyFilter()
+    {
+        if (listProd != null)
+        {
+            pagedProducts = listProd
+                .Where(p => p.Price >= minPrice && p.Price <= maxPrice)
+                .ToList();
+        }
+    }
+
+    private void FilterByPrice()
+    {
+        if (minPrice < 0) minPrice = 0; // Ensure minPrice is not negative
+        if (maxPrice < 0) maxPrice = 100000; // Handle cases where maxPrice is not set
+        ApplyFilter();
+        StateHasChanged();
+    }
+
+    private void ResetPriceFilter()
+    {
+        minPrice = 0;
+        maxPrice = decimal.MaxValue;
+        ApplyFilter();
+        StateHasChanged();
     }
 }
