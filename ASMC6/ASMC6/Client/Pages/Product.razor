@@ -154,13 +154,13 @@
                                     <div class="col-md-12 row">
                                         @foreach (var product in item.Select(x => x.p))
                                         {
-                                            <a class="col-md-3 text-decoration-none mt-3" href="#">
+                                            <a class="col-md-3 text-decoration-none mt-3">
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <div class="badge bg-danger text-white">75% Off</div>
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <img src="@product.Image"
+                                                                <img src="./image/product/@product.Image"
                                                                      class="img-fluid"
                                                                      alt="Product Image" width="100%" style="max-height: 15rem;" />
                                                             </div>
@@ -187,6 +187,7 @@
                                                                     <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
                                                                 </div>
                                                             </div>
+                                                            <button class="btn btn-success" @onclick="() => AddToCart(product)"><img src="./image/icon/empty-cart.png" width="25px" height="25px" alt="Alternate Text" /></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -240,7 +241,7 @@ else
 }
 
 <h3>Form</h3>
-<form>
+@* <form>
     <label>Name</label>
     <input @bind="prod.Name" />
     <label>MenuId</label>
@@ -256,63 +257,5 @@ else
     <label>Image</label>
     <input @bind="prod.Image" />
     <button type="button" @onclick="AddProd">Add Product</button>
-</form>
+</form> *@
 
-@code {
-
-    private async Task LoadProducts()
-    {
-        try
-        {
-            listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-    }
-
-    private async Task AddProd()
-    {
-        await httpClient.PostAsJsonAsync("api/Product/AddProduct", prod);
-        await LoadProducts();
-        StateHasChanged();
-    }
-    private async Task AddToCart(ASMC6.Shared.Product product)
-    {
-        await CartService.AddItemToCartAsync(product);
-        Navigation.NavigateTo("/cart");
-    }
-
-    private List<ASMC6.Shared.Product> listProd;
-    private List<ASMC6.Shared.Product> pagedProducts;
-    private decimal minPrice;
-    private decimal maxPrice = 100000;
-
-
-    private void ApplyFilter()
-    {
-        if (listProd != null)
-        {
-            pagedProducts = listProd
-                .Where(p => p.Price >= minPrice && p.Price <= maxPrice)
-                .ToList();
-        }
-    }
-
-    private void FilterByPrice()
-    {
-        if (minPrice < 0) minPrice = 0; // Ensure minPrice is not negative
-        if (maxPrice < 0) maxPrice = 100000; // Handle cases where maxPrice is not set
-        ApplyFilter();
-        StateHasChanged();
-    }
-
-    private void ResetPriceFilter()
-    {
-        minPrice = 0;
-        maxPrice = decimal.MaxValue;
-        ApplyFilter();
-        StateHasChanged();
-    }
-}

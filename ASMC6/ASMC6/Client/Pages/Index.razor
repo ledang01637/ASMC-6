@@ -389,7 +389,17 @@
 
 <section class="container">
         <div class="col-md-12 row p-3">
-            @foreach (var item in listProd)
+        @if (listRest == null)
+        {
+            <p>Loading...</p>
+        }
+        else if (!listRest.Any())
+        {
+            <p>Your cart is empty.</p>
+        }
+        else
+        {
+            @foreach (var rest in listRest)
             {
                 <div class="col-md-4 border border-1 mt-2">
                     <div class="divcolumn-inner">
@@ -398,13 +408,13 @@
                                 <div class="product-links col-md-6">
                                     <div class="offer-links">
                                         <img alt=""
-                                             src="@item.Image"
+                                             src="./image/restaurant/@rest.Image"
                                              width="100%" />
                                     </div>
                                 </div>
                                 <div class="rating-content-parent col-md-6">
                                     <div class="rating-content">
-                                        <b class="great-value-rising11">@item.Name</b>
+                                        <b class="great-value-rising11">@rest.Name</b>
                                         <div class="rating-image">
                                             <img class="img-rated-400-out-of-513"
                                                  loading="lazy"
@@ -415,7 +425,7 @@
                                     </div>
                                     <a class="col-md-12 btn btn-danger text-white mb-3">Đến cửa hàng</a>
                                     <div class="col-md-12 mt-3">
-                                        <b class="btn btn-outline-success">@item.OpeningHours.TimeOfDay</b>
+                                        <b class="btn btn-outline-success">@rest.OpeningHours.TimeOfDay</b>
                                     </div>
                                 </div>
                             </div>
@@ -424,6 +434,8 @@
                 </div>
 
             }
+        }
+        
         </div>
         <!---->
         <div class="container rounded-start rounded-end">

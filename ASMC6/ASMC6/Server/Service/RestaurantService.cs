@@ -12,7 +12,8 @@ namespace ASMC6.Server.Service
         {
             _context = context;
         }
-        public List<Restaurant> GetRestaurant()
+
+        public List<Restaurant> GetRestaurants()
         {
             return _context.Restaurant.ToList();
         }

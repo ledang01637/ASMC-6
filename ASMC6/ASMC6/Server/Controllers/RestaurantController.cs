@@ -10,17 +10,68 @@ namespace ASMC6.Server.Controllers
     [ApiController]
     public class RestaurantController : ControllerBase
     {
-        private readonly RestaurantService _resService;
+        private readonly RestaurantService _RestaurantService;
 
-        public RestaurantController(RestaurantService _restaurant)
+        public RestaurantController(RestaurantService _Restaurant)
         {
-            _resService = _restaurant;
+            _RestaurantService = _Restaurant;
         }
 
-        [HttpGet("GetRestaurant")]
-        public List<Restaurant> GetRestaurant()
+        [HttpGet("GetRestaurants")]
+        public List<Restaurant> GetRestaurants()
         {
-            return _resService.GetRestaurant();
+            return _RestaurantService.GetRestaurants();
+        }
+
+        [HttpPost("AddRestaurant")]
+        public Restaurant AddRestaurant(Restaurant Restaurant)
+        {
+            return _RestaurantService.AddRestaurant(new Restaurant
+            {
+                UserId = Restaurant.UserId,
+                Address = Restaurant.Address,
+                Name = Restaurant.Name,
+                Image = Restaurant.Image,
+                OpeningHours = Restaurant.OpeningHours,
+                IsDelete = Restaurant.IsDelete,
+
+            });
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<Restaurant> GetId(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest("Value must be...");
+
+            }
+            return Ok(_RestaurantService.GetIdRestaurant(id));
+        }
+
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var deletedCategory = _RestaurantService.DeleteRestaurant(id);
+            if (deletedCategory == null)
+            {
+                return NotFound("Category not found");
+            }
+
+            return Ok(deletedCategory);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody] Restaurant updatedRestaurant)
+        {
+            var updatedLoai = _RestaurantService.UpdateRestaurant(id, updatedRestaurant);
+            if (updatedLoai == null)
+            {
+                return NotFound("Category not found");
+            }
+
+            return Ok(updatedLoai);
         }
     }
 }
