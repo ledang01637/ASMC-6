@@ -8,16 +8,14 @@
                     <a class="nav-link active text-white"
                        aria-current="page"
                        ng-show="isRestaurant"
-                       asp-action="AdminProduct"
-                       asp-controller="Product">
+                       href="/kenhnguoiban">
                         Kênh Người Bán
                     </a>
                     <span class="m-1 text-white"> - </span>
                     <a class="nav-link active text-white"
                        aria-current="page"
                        ng-show="!isRestaurant"
-                       asp-controller="Restaurant"
-                       asp-action="Add">
+                       href="/trothanhnguoiban">
                         Trở Thành Người Bán
                     </a>
                     <span class="m-1 text-white"> - </span>
@@ -81,26 +79,17 @@
                 <div class="col-md-3">
                     <div class="row">
                         <!--Icon Cart-->
-                        <div class="row d-flex justify-content-center align-items-center m-3 mt-2">
+                        <div class="row text-center m-3 mt-3">
                             <div class="col-md-5">
-                                <a asp-controller="Cart"
-                                   asp-action="getProductId"
-                                   asp-route-id="0"
-                                   class="text-white">
-                                    <i class="fa-solid fa-cart-plus"
-                                       style="font-size: 50px"></i>
+                                <a class="text-white">
+                                    <i class="fa-solid fa-cart-plus" style="font-size: 50px"></i>
                                 </a>
                             </div>
                             <div class="col-md-5">
-                                <a asp-controller="User"
-                                   asp-action="Thongtin"
-                                   class="text-white m-3">
+                                <a class="text-white m-3">
                                     <i class="fa-solid fa-user" style="font-size: 50px"></i>
                                 </a>
-                                <a class="nav-link text-white overflow-ellipsis"
-                                   ng-show="showIsLogin"
-                                   asp-controller="User"
-                                   asp-action="Thongtin"></a>
+                                <a class="nav-link text-white overflow-ellipsis" ng-show="showIsLogin"></a>
                             </div>
                         </div>
                         <!--Icon Cart-->
@@ -125,21 +114,18 @@
                             <li class="nav-item">
                                 <a class="nav-link active text-white mx-4"
                                    aria-current="page"
-                                   asp-controller="Home"
-                                   asp-action="Index">Trang Chủ</a>
+                                   href="/">Trang Chủ</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white mx-4"
-                                   asp-controller="Home"
-                                   asp-action="Gioithieu">Giới Thiệu</a>
+                                   href="/gioithieu">Giới Thiệu</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white mx-4" href="product" >Sản Phẩm</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white mx-4"
-                                   asp-controller="Home"
-                                   asp-action="Lienhe">Liên Hệ</a>
+                                   href="/lienhe">Liên Hệ</a>
                             </li>
                         </ul>
                     </div>

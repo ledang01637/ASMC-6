@@ -5,7 +5,6 @@
 @inject CartService CartService
 @inject NavigationManager Navigation
 
-<h3>Product</h3>
 @if (listProd != null)
 {
     <div class="container-fluid col-md-12 mt-5">
@@ -175,10 +174,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div>
-                                                                    <b class="text-danger ins">@product.Price 0 VND</b>
+                                                                    <b class="text-danger ins">@product.Price VND</b>
                                                                 </div>
                                                                 <div>
-                                                                    <span class="del">@product.Price 0 VND</span>
+                                                                    <span class="del">@product.Price VND</span>
                                                                 </div>
                                                                 <div>
                                                                     <p></p>
@@ -240,7 +239,6 @@ else
     <p>Loading...</p>
 }
 
-<h3>Form</h3>
 @* <form>
     <label>Name</label>
     <input @bind="prod.Name" />

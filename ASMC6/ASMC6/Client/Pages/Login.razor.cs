@@ -56,15 +56,15 @@ namespace ASMC6.Client.Pages
                 {
                     if (role.Name.ToLower().Equals("admin"))
                     {
-                        Navigation.NavigateTo("/product");
+                        Navigation.NavigateTo("/");
                     }
                     else if (role.Name.ToLower().Equals("restaurant"))
                     {
-                        Navigation.NavigateTo("/product");
+                        Navigation.NavigateTo("/");
                     }
                     else if (role.Name.ToLower().Equals("user"))
                     {
-                        Navigation.NavigateTo("/product");
+                        Navigation.NavigateTo("/");
                     }
                 }
                 return Task.FromResult("True");

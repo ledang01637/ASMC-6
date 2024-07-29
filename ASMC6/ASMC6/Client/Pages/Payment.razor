@@ -43,11 +43,8 @@
             <div class="col-md-12">
                 <label for="">Địa chỉ email</label>
                 <div class="col-md-12">
-                    <input type="email" value="@SUser.User.Email" class="form-control" />
+                    <input type="email" value="@SUser.User.Email" class="form-control" readonly />
                 </div>
-            </div>
-            <div class="col-md-12">
-                <input type="checkbox" /> Thông tin địa chỉ là thật
             </div>
             <div class="col-md-12">
                 <label for="">Ghi chú</label>
@@ -56,7 +53,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <label for="">Quet de nhan ma giam gia 15k</label>
+                <label class="font-weight-bold">Quet de nhan ma giam gia 15k</label>
                 <div id="qrcode"></div>
             </div>
 
@@ -98,7 +95,7 @@
             <div class="col-md-12 row">
                 <p class="col-md-6">Giao hàng</p>
                 <p class="col-md-6 text-end">
-                    Giao hỏa tốc : @Fee.ToString("#,##0") VND <input type="checkbox" @onchange="UpdateFee" checked />
+                    Giao hỏa tốc : 25,000 VND <input type="checkbox" @onchange="UpdateFee" checked />
                 </p>
             </div>
             <hr />
