@@ -1,4 +1,5 @@
 ﻿@page "/restaurant"
+@using ASMC6.Client.Session
 @using ASMC6.Shared
 @inject HttpClient httpClient
 <div class="row justify-content-center">
@@ -9,30 +10,29 @@
             </div>
             <div class="card-body">
 
-
-                <EditForm method="post" Model="@prod" OnValidSubmit="AddProd">
+                <EditForm method="post" Model="@rest" OnValidSubmit="AddProd">
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"><strong>Tên Cửa Hàng</strong></label>
-                        <input @bind="prod.Name" class="form-control" placeholder="Nhập Tên" />
+                        <input @bind="rest.Name" class="form-control" placeholder="Nhập Tên" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label"><strong>Ảnh Cửa Hàng</strong></label>
-                        <input type="file" @bind="prod.Image" class="form-control-file" />
+                        <input type="file" @bind="rest.Image" class="form-control-file" />
                         <small class="form-text text-muted">Chọn một tệp hình ảnh để tải lên.</small>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="Address" class="control-label"><strong>Địa Chỉ</strong></label>
-                        <input @bind="prod.Address" class="form-control" placeholder="Nhập Địa Chỉ" />
+                        <input @bind="rest.Address" class="form-control" placeholder="Nhập Địa Chỉ" />
                         <span asp-validation-for="Address" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="OpeningHours" class="control-label"><strong>Giờ Mở Cửa</strong></label>
-                        <input @bind="prod.OpeningHours" class="form-control" placeholder="Nhập Giờ Mở Cửa" />
+                        <input @bind="rest.OpeningHours" class="form-control" placeholder="Nhập Giờ Mở Cửa" />
                         <span asp-validation-for="OpeningHours" class="text-danger"></span>
                     </div>
 
@@ -47,13 +47,12 @@
         </div>
     </div>
 </div>
-@* <button class="btn btn-danger mx-2" @onclick="AddProd">Đăng ký</button> *@
 
 
 
 @code {
     private List<Restaurant> listProd = new List<Restaurant>();
-    private Restaurant prod = new Restaurant();
+    private Restaurant rest = new Restaurant();
 
     protected override async Task OnInitializedAsync()
     {
@@ -74,9 +73,10 @@
 
     private async Task AddProd()
     {
-        await httpClient.PostAsJsonAsync("api/Restaurant/AddRestaurant", prod);
+        rest.UserId = SUser.User.UserId;
+        await httpClient.PostAsJsonAsync("api/Restaurant/AddRestaurant", rest);
         await LoadProducts();
-        prod = new Restaurant(); // Reset form
+        rest = new Restaurant();
         StateHasChanged();
     }
 }

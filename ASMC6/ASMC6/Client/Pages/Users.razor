@@ -1,4 +1,5 @@
 ﻿@page "/user"
+@using ASMC6.Client.Session
 @using ASMC6.Shared
 @inject HttpClient httpClient
 
@@ -35,7 +36,7 @@
                 <div class="user-name">
                     <img class="link-icon" alt="" src="./public/link.svg" />
                     <a class="welcome-back">Welcome back,</a>
-                    <b class="namegmailcom">name@gmail.com</b>
+                    <b class="namegmailcom">@SUser.User.Email</b>
                 </div>
             </div>
         </div>
@@ -75,13 +76,13 @@
                 <div>
                     <label for="Name" class="mt-2"><p>Họ và tên</p></label>
                     <div>
-                        <input type="text" value="@user.Name" class="form-control" />
+                        <input type="text" value="@SUser.User.Name" class="form-control" />
                     </div>
                 </div>
                 <div>
                     <label for="Name" class="mt-2"><p>Địa chỉ</p></label>
                     <div>
-                        <input type="text" value="@user.Address" class="form-control" />
+                        <input type="text" value="@SUser.User.Address" class="form-control" />
                     </div>
                 </div>
                 <div>
@@ -93,35 +94,16 @@
                 <div>
                     <label for="Name" class="mt-2"><p>Email</p></label>
                     <div>
-                        <input type="text" value="@user.Email" class="form-control" />
+                        <input type="text" value="@SUser.User.Email" class="form-control" />
                     </div>
                 </div>
                 <div>
                     <label for="Name" class="mt-2"><p>Số điện thoại</p></label>
                     <div>
-                        <input type="text" value="@user.Phone" class="form-control" />
+                        <input type="text" value="@SUser.User.Phone" class="form-control" />
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
-
-
-@code {
-    private User user = new User();
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            int id = 1;
-            user = await httpClient.GetFromJsonAsync<User>("api/User/GetIdUser/" + id);
-        }
-        catch (Exception ex)
-        {
-            // Handle error
-            Console.WriteLine("Error fetching user: " + ex.Message);
-        }
-    }
-}
