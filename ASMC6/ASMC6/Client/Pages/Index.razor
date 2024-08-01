@@ -118,261 +118,36 @@
         {
             @foreach (var item in listProd)
             {
-                <div class="border border-1 col-md-2">
-                    <div class="d-flex flex-row align-items-flex-start justify-content-flex-start spanbadge45 bg-crimson rounded-start rounded-xxl">
-                        <div class="product-card-two fw-bold d-flex align-items-center justify-content-center">
-                            11%
-                        </div>
-                    </div>
+                <div class="border border-1 col-md-3 mt-3">
                     <div class="col-md-12">
-                        <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient">
+                        <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient mt-3">
                             <img class="svg-icon8"
                                  alt=""
                                  src="./image/product/@item.Image"
                                  width="100%" />
                         </div>
-                        <div class="add-button-three">
+                        <div class="add-button-three position-relative mt-1">
                             <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
                                 <div class="link-great-container18">
-                                    <b class="great-value-rising9 fw-500">Great Value Rising Crust Frozen</b>
-                                    <p class="pizza-supreme3">Pizza, Supreme</p>
+                                    <a class="great-value-rising9 fs-5">@item.Name</a>
                                 </div>
-                                <div class="product-badge-four d-flex flex-row align-items-end justify-content-start gap-2">
+                                @* <div class="product-badge-four d-flex flex-row align-items-end justify-content-start gap-2">
                                     <img class="img-rated-400-out-of-511"
                                          loading="lazy"
                                          alt=""
                                          src="./public/img--rated-400-out-of-52.svg" />
-                                    <div class="product-name-four">3</div>
-                                    <img class="link-icon42"
-                                         loading="lazy"
-                                         alt=""
-                                         src="./public/link6.svg" />
-                                </div>
+                                </div> *@
                             </div>
-                            <b class="ins-wrapper text-danger fs-5">@item.Price.ToString("#,##0") VND</b>
-                            <div class="del37 text-gray-200 text-decoration-line-through">
-                                150.000 VND
-                            </div>
-                            <button class="btn" @onclick="() => AddToCart(item)">
-                                <i style="color: forestgreen" class="fa-solid fa-cart-plus"></i>
-                            </button>
+                            <b class="ins-wrapper fs-5 mt-3">@item.Price.ToString("#,##0") VND</b>
+                            <a class="position-absolute top-0 end-0 mt-3" style="cursor: pointer" @onclick="() => AddToCart(item)">
+                                <i class="fa-solid fa-cart-plus text-danger fs-4"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
             }
 
         }
-        
-        
-    </div>
-</section>
-
-<div class="container mt-3 mb-3 border rounded-start rounded-end bg-danger">
-    <div class="col-md-12 row p-2">
-        <div class="col-md-10">
-            <b class="fs-2">Danh mục cửa hàng</b>
-        </div>
-        <div class="col-md-2">
-            <button class="btn btn-light col-md-12 m-auto">Xem thêm</button>
-        </div>
-    </div>
-</div>
-
-<section class="container">
-    <div class="col-md-12 row p-3">
-        <div class="border border-1 col-md-2">
-            <div class="spanbadge-container position-relative">
-                <div class="spanbadge52 position-absolute top-0 start-0 bg-crimson rounded-start rounded-3xl">
-                    <div class="div132 fw-800 text-uppercase d-inline-block min-width-21">
-                        75%
-                    </div>
-                </div>
-                <img alt="" src="./public/divpostgallery3@2x.png" width="100%" />
-            </div>
-            <div class="product-containers">
-                <div class="frame-parent1 d-flex flex-column align-items-start justify-content-start gap-2">
-                    <div class="img-rated-400-out-of-5-parent d-flex flex-row align-items-end justify-content-start gap-2">
-                        <img class="img-rated-400-out-of-512"
-                             loading="lazy"
-                             alt=""
-                             src="./public/img--rated-400-out-of-5.svg" />
-                        <div class="empty">3</div>
-                    </div>
-                    <div class="link-100-container8 position-relative">
-                        <p class="percent-apple-juice4">
-                            100 Percent Apple Juice – 64 fl oz
-                        </p>
-                        <p class="bottle3">Bottle</p>
-                    </div>
-                </div>
-                <b class="del43 position-relative">150.000 VNĐ</b>
-                <div class="ins43 position-relative">120.000 VNĐ</div>
-                <button class="col-md-10 m-2">
-                    <div class="add-to-cart17">Add to cart</div>
-                </button>
-            </div>
-        </div>
-
-        <div class="col-md-4 border border-1">
-            <div class="divcolumn-inner">
-                <div class="frame-parent2">
-                    <div class="image-links col-md-12 row">
-                        <div class="product-links col-md-6">
-                            <div class="offer-links">
-                                <img alt=""
-                                     src="./public/divpostgallery3@2x.png"
-                                     width="100%" />
-                            </div>
-                        </div>
-                        <div class="rating-content-parent col-md-6">
-                            <div class="rating-content">
-                                <b class="great-value-rising11">Great Value Rising Crust</b>
-                                <div class="rating-image">
-                                    <img class="img-rated-400-out-of-513"
-                                        loading="lazy"
-                                        alt=""
-                                        src="./public/img--rated-400-out-of-51.svg" />
-                                    <span class="empty2">3</span>
-                                </div>
-                                <b class="del44">120.000 VNĐ</b>
-                                <div class="ins44">150.000 VNĐ</div>
-                            </div>
-                            <button class="link-add-to-cart-great-val11">
-                                <div class="col-md-12">Add to cart</div>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="divcolumn-inner mt-5">
-                <div class="frame-parent2">
-                    <div class="image-links col-md-12 row">
-                        <div class="product-links col-md-6">
-                            <div class="offer-links">
-                                <img alt=""
-                                    src="./public/divpostgallery3@2x.png"
-                                    width="100%" />
-                            </div>
-                        </div>
-                        <div class="rating-content-parent col-md-6">
-                            <div class="rating-content">
-                                <b class="great-value-rising11">Great Value Rising Crust</b>
-                                <div class="rating-image">
-                                    <img class="img-rated-400-out-of-513"
-                                        loading="lazy"
-                                        alt=""
-                                        src="./public/img--rated-400-out-of-51.svg" />
-                                    <span class="empty2">3</span>
-                                </div>
-                                <b class="del44">120.000 VNĐ</b>
-                                <div class="ins44">150.000 VNĐ</div>
-                            </div>
-                            <button class="link-add-to-cart-great-val11">
-                                <div class="col-md-12">Add to cart</div>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="border border-1 col-md-2">
-            <div class="spanbadge-container position-relative">
-                <div class="spanbadge52 position-absolute top-0 start-0 bg-crimson rounded-start rounded-3xl">
-                    <div class="div132 fw-800 text-uppercase d-inline-block min-width-21">
-                        75%
-                    </div>
-                </div>
-                <img alt="" src="./public/divpostgallery3@2x.png" width="100%" />
-            </div>
-            <div class="product-containers">
-                <div class="frame-parent1 d-flex flex-column align-items-start justify-content-start gap-2">
-                    <div class="img-rated-400-out-of-5-parent d-flex flex-row align-items-end justify-content-start gap-2">
-                        <img class="img-rated-400-out-of-512"
-                            loading="lazy"
-                            alt=""
-                            src="./public/img--rated-400-out-of-5.svg" />
-                        <div class="empty">3</div>
-                    </div>
-                    <div class="link-100-container8 position-relative">
-                        <p class="percent-apple-juice4">
-                            100 Percent Apple Juice – 64 fl oz
-                        </p>
-                        <p class="bottle3">Bottle</p>
-                    </div>
-                </div>
-                <b class="del43 position-relative">150.000 VNĐ</b>
-                <div class="ins43 position-relative">120.000 VNĐ</div>
-                <button class="col-md-10 m-2">
-                    <div class="add-to-cart17">Add to cart</div>
-                </button>
-            </div>
-        </div>
-
-        <div class="col-md-4 border border-1">
-            <div class="divcolumn-inner">
-                <div class="frame-parent2">
-                    <div class="image-links col-md-12 row">
-                        <div class="product-links col-md-6">
-                            <div class="offer-links">
-                                <img alt=""
-                                    src="./public/divpostgallery3@2x.png"
-                                    width="100%" />
-                            </div>
-                        </div>
-                        <div class="rating-content-parent col-md-6">
-                            <div class="rating-content">
-                                <b class="great-value-rising11">Great Value Rising Crust</b>
-                                <div class="rating-image">
-                                    <img class="img-rated-400-out-of-513"
-                                        loading="lazy"
-                                        alt=""
-                                        src="./public/img--rated-400-out-of-51.svg" />
-                                    <span class="empty2">3</span>
-                                </div>
-                                <b class="del44">120.000 VNĐ</b>
-                                <div class="ins44">150.000 VNĐ</div>
-                            </div>
-                            <button class="link-add-to-cart-great-val11">
-                                <div class="col-md-12">Add to cart</div>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="divcolumn-inner mt-5">
-                <div class="frame-parent2">
-                    <div class="image-links col-md-12 row">
-                        <div class="product-links col-md-6">
-                            <div class="offer-links">
-                                <img alt=""
-                                    src="./public/divpostgallery3@2x.png"
-                                    width="100%" />
-                            </div>
-                        </div>
-                        <div class="rating-content-parent col-md-6">
-                            <div class="rating-content">
-                                <b class="great-value-rising11">Great Value Rising Crust</b>
-                                <div class="rating-image">
-                                    <img class="img-rated-400-out-of-513"
-                                        loading="lazy"
-                                        alt=""
-                                        src="./public/img--rated-400-out-of-51.svg" />
-                                    <span class="empty2">3</span>
-                                </div>
-                                <b class="del44">120.000 VNĐ</b>
-                                <div class="ins44">150.000 VNĐ</div>
-                            </div>
-                            <button class="link-add-to-cart-great-val11">
-                                <div class="col-md-12">Add to cart</div>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
@@ -401,7 +176,7 @@
         {
             @foreach (var rest in listRest)
             {
-                <div class="col-md-4 border border-1 mt-2">
+                <div class="col-3 border border-1 mt-2">
                     <div class="divcolumn-inner">
                         <div class="frame-parent2">
                             <div class="image-links col-md-12 row">
@@ -432,7 +207,6 @@
                         </div>
                     </div>
                 </div>
-
             }
         }
         

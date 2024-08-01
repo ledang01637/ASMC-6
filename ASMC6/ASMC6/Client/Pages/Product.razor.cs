@@ -24,7 +24,7 @@ namespace ASMC6.Client.Pages
         {
             try
             {
-                listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
+                listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/product/GetProducts");
             }
             catch (Exception ex)
             {
