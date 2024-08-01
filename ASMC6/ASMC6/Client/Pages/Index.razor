@@ -176,37 +176,33 @@
         {
             @foreach (var rest in listRest)
             {
-                <div class="col-3 border border-1 mt-2">
-                    <div class="divcolumn-inner">
-                        <div class="frame-parent2">
-                            <div class="image-links col-md-12 row">
-                                <div class="product-links col-md-6">
-                                    <div class="offer-links">
-                                        <img alt=""
-                                             src="./image/restaurant/@rest.Image"
-                                             width="100%" />
-                                    </div>
+                <a class="col-3 border rounded m-2 nav-link" href="/product">
+                    <div class="image-links col-md-12 row">
+                        <div class="product-links col-md-6">
+                            <div class="offer-links">
+                                <img alt="Img"
+                                     class="rounded-circle"
+                                     src="./image/restaurant/@rest.Image"
+                                     width="100%" />
+                            </div>
+                        </div>
+                        <div class="rating-content-parent col-md-6">
+                            <div class="rating-content">
+                                <b class="great-value-rising11">@rest.Name</b>
+                                <div class="rating-image">
+                                    <img class="img-rated-400-out-of-513"
+                                         loading="lazy"
+                                         alt=""
+                                         src="./public/img--rated-400-out-of-51.svg" />
+                                    <span class="empty2">3</span>
                                 </div>
-                                <div class="rating-content-parent col-md-6">
-                                    <div class="rating-content">
-                                        <b class="great-value-rising11">@rest.Name</b>
-                                        <div class="rating-image">
-                                            <img class="img-rated-400-out-of-513"
-                                                 loading="lazy"
-                                                 alt=""
-                                                 src="./public/img--rated-400-out-of-51.svg" />
-                                            <span class="empty2">3</span>
-                                        </div>
-                                    </div>
-                                    <a class="col-md-12 btn btn-danger text-white mb-3">Đến cửa hàng</a>
-                                    <div class="col-md-12 mt-3">
-                                        <b class="btn btn-outline-success">@rest.OpeningHours.TimeOfDay</b>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <span>@rest.OpeningHours.TimeOfDay</span>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             }
         }
         
@@ -219,110 +215,3 @@
         </div>
 
     </section>
-
-<div class="container mt-3 mb-3 border rounded-start rounded-end bg-danger">
-    <div class="col-md-12 row p-2">
-        <div class="col-md-10">
-            <b class="fs-2">Thông tin </b>
-        </div>
-        <div class="col-md-2">
-            <button class="btn btn-light col-md-12 m-auto">Xem thêm</button>
-        </div>
-    </div>
-</div>
-
-<section class="container">
-    <div class="col-md-12 row">
-        <div class="col-md-3">
-            <div class="post row">
-                <img class="divpost-gallery-icon12 col-lg-6"
-                     loading="lazy"
-                     alt=""
-                     src="./public/divpostgallery2@2x.png"
-                     width="100px" />
-            </div>
-            <div class="gallery-item-titles row">
-                <div class="gallery-item-headings col-lg-8">
-                    <h3 class="heading-3-container24">
-                        <b class="delivery-as-the3">delivery as the market evolves</b>
-                    </h3>
-                    <div class="bilmlvakt-treskade-i-container24">
-                        <p class="jyn-nning-osk12">
-                            jyn nöning osk heterostik i rel ultran. Fälass
-                        </p>
-                    </div>
-                </div>
-                <div class="link-sinan12">by sinan 3 Nov 2023</div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="post row">
-                <img class="divpost-gallery-icon12 col-lg-6"
-                     loading="lazy"
-                     alt=""
-                     src="./public/divpostgallery2@2x.png"
-                     width="100px" />
-            </div>
-            <div class="gallery-item-titles row">
-                <div class="gallery-item-headings col-lg-8">
-                    <h3 class="heading-3-container24">
-                        <b class="delivery-as-the3">delivery as the market evolves</b>
-                    </h3>
-                    <div class="bilmlvakt-treskade-i-container24">
-                        <p class="jyn-nning-osk12">
-                            jyn nöning osk heterostik i rel ultran. Fälass
-                        </p>
-                    </div>
-                </div>
-                <div class="link-sinan12">by sinan 3 Nov 2023</div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="post row">
-                <img class="divpost-gallery-icon12 col-lg-6"
-                     loading="lazy"
-                     alt=""
-                     src="./public/divpostgallery2@2x.png"
-                     width="100px" />
-            </div>
-            <div class="gallery-item-titles row">
-                <div class="gallery-item-headings col-lg-8">
-                    <h3 class="heading-3-container24">
-                        <b class="delivery-as-the3">delivery as the market evolves</b>
-                    </h3>
-                    <div class="bilmlvakt-treskade-i-container24">
-                        <p class="jyn-nning-osk12">
-                            jyn nöning osk heterostik i rel ultran. Fälass
-                        </p>
-                    </div>
-                </div>
-                <div class="link-sinan12">by sinan 3 Nov 2023</div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="post row">
-                <img class="divpost-gallery-icon12 col-lg-6"
-                     loading="lazy"
-                     alt=""
-                     src="./public/divpostgallery2@2x.png"
-                     width="100px" />
-            </div>
-            <div class="gallery-item-titles row">
-                <div class="gallery-item-headings col-lg-8">
-                    <h3 class="heading-3-container24">
-                        <b class="delivery-as-the3">delivery as the market evolves</b>
-                    </h3>
-                    <div class="bilmlvakt-treskade-i-container24">
-                        <p class="jyn-nning-osk12">
-                            jyn nöning osk heterostik i rel ultran. Fälass
-                        </p>
-                    </div>
-                </div>
-                <div class="link-sinan12">by sinan 3 Nov 2023</div>
-            </div>
-        </div>
-    </div>
-</section>
