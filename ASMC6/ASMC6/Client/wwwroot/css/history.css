@@ -1,0 +1,12 @@
+﻿.order-item {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+    .order-item .order-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }

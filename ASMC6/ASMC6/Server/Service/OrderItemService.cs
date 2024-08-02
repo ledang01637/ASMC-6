@@ -12,7 +12,7 @@ namespace ASMC6.Server.Service
         {
             _context = context;
         }
-        public IEnumerable<OrderItem> GetOrderItem()
+        public List<OrderItem> GetOrderItem()
         {
             return _context.OrderItem.ToList();
         }

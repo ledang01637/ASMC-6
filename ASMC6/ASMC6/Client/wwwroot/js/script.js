@@ -28,6 +28,15 @@
             text: "Tài khoản không có quyền truy cập",
             icon: "error",
         });
+    } 
+}
+
+function showAddOrder(status) {
+    if (status === "AddOrder") {
+        Swal.fire({
+            title: "Đặt hàng thành công",
+            icon: "success",
+        });
     }
 }
 

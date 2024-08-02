@@ -1,5 +1,58 @@
-﻿<h3>PurchaseHistory</h3>
+﻿@page "/history"
+@inject HttpClient httpClient;
 
-@code {
+<div class="container mt-3">
+    <h2 class="mb-4">Lịch sử mua hàng</h2>
+    @if (orderUs == null)
+    {
+        <p>Đang tải...</p>
+    }
+    else if (!orderUs.Any())
+    {
+        <p>Bạn chưa có đơn hàng nào.</p>
+    }
+    else
+    {
+        @foreach (var order in orderUs)
+        {
+            <div class="order-item position-relative">
+                <div class="order-details">
+                    <div>
+                        <strong>Order Date:</strong> @order.OrderDate.ToShortDateString()
+                    </div>
+                    <div>
+                        <strong>Total Amount:</strong> @order.TotalAmount.ToString("#,##0")
+                    </div>
+                    <div>
+                        <strong>Status:</strong> @order.Status
+                    </div>
+                </div>
+                <hr>
+                @foreach (var item in orderItems.Where(oi => oi.OrderId == order.OrderId))
+                {
+                    var product = products.FirstOrDefault(p => p.ProductId == item.ProductId);
+                    if (product != null)
+                    {
+                        <div class="order-products">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img src="./image/product/@product.Image" width="100px" alt="Product Image" class="img-fluid">
+                                </div>
+                                <div class="col-md-9">
+                                    <h5>@product.Name</h5>
+                                    <p>Quantity: @item.Quantity</p>
+                                    <p>Price: @product.Price.ToString("#,##0")</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="position-absolute bottom-0 end-0 mb-2 me-2">
+                    <button class="btn btn-success" @onclick="() => UpdateStatus(order.OrderId)">Xác nhận đã nhận hàng</button>
+                </div>
+            </div>
+        }
 
-}
+    }
+
+</div>

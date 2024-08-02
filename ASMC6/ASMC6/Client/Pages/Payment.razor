@@ -5,6 +5,7 @@
 @inject HttpClient httpClient
 @inject CartService CartService
 @inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
 
 <div class="container mt-5">
     <div class="col-md-12 row">
@@ -116,7 +117,7 @@
                 <input type="checkbox" @onchange="Pay" /> Tôi đồng ý với các điều khoản
             </div>
             <div class="col-md-12 row m-auto mb-3 mt-3">
-                <button class="btn btn-danger rounded" disabled="@(isRuleChecked ? null : true)">Đặt hàng</button>
+                <button class="btn btn-danger rounded" @onclick="History" disabled="@(isRuleChecked ? null : true)">Đặt hàng</button>
             </div>
         </div>
     </div>

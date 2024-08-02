@@ -2,14 +2,13 @@
 @using ASMC6.Client.Session
 @using ASMC6.Shared
 @inject HttpClient httpClient
-<div class="row justify-content-center">
+<div class="row justify-content-center mt-3">
     <div class="col-md-6">
         <div class="card shadow-sm">
             <div class="card-header bg-danger text-white">
                 <h5 class="text-center mb-0">TRỞ THÀNH NGƯỜI BÁN</h5>
             </div>
             <div class="card-body">
-
                 <EditForm method="post" Model="@rest" OnValidSubmit="AddProd">
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                     <div class="form-group">

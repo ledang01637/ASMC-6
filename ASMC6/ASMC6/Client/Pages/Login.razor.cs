@@ -29,8 +29,6 @@ namespace ASMC6.Client.Pages
             var loginSuccess = await ThucHienDangNhap(Username, Password);
 
             await JS.InvokeVoidAsync("showLoginAlert", loginSuccess);
-
-
         }
 
         private Task<string> ThucHienDangNhap(string username, string password)
