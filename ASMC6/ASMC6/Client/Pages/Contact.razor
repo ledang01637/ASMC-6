@@ -1,0 +1,43 @@
+﻿@page "/contact"
+
+<div class="mt-4 mb-4 contact">
+    <h2 class="text-center fw-bold pt-4">
+        BẠN CẦN HỖ TRỢ ?
+    </h2>
+    <h4 class="introduce text-center mt-5 mb-5">
+        VFood rất hân hạnh được hỗ trợ bạn. Hãy để lại thông tin cho chúng tôi
+        yêu cầu của ban sẽ được xử lý và phản hồi sớm nhất.
+    </h4>
+    <form class="contact-form needs-validation">
+        <div class="mb-3">
+            <label for="hoten" class="form-label">Họ tên:</label>
+            <input type="text" class="form-control" id="hoten" placeholder="Trần Văn A" required>
+            <div class="invalid-feedback">Vui lòng nhập lại họ tên.</div>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Địa chỉ Email:</label>
+            <input type="email" class="form-control" id="email" placeholder="TranVanA@gmail.com" required>
+            <div class="invalid-feedback">Vui lòng nhập lại email.</div>
+        </div>
+        <div class="mb-3">
+            <label for="noidung" class="form-label">Nội dung</label>
+            <textarea class="form-control" id="noidung" rows="3" required></textarea>
+            <div class="invalid-feedback">Vui lòng nhập lại nội dung.</div>
+        </div>
+        <div class="mb-3 text-center">
+            <button class="contact-submit-btn btn btn-primary" type="submit">Gửi</button>
+        </div>
+    </form>
+    <h2 class="fw-bold text-center mt-5 mb-5">
+        Hoặc đến trực tiếp trụ sở của chúng tôi tại <br />
+        <p class="introduce text-center">410K2 Đ. Nguyễn Văn Linh, Hưng Lợi, Ninh Kiều, Cần Thơ</p>
+
+    </h2>
+    <div class="text-center" style="border-radius:25px;">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d472.558501606729!2d105.75811379512359!3d10.02624452966353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0891f5d60249b%3A0xf74672c97e62526b!2zxJDDrG5oIE5naMSpYTogUGjhu58gLSBCw7puIELDsiAtTOG6qXUgQsOyIC0gTOG6qXUgRMOq!5e0!3m2!1sen!2s!4v1718106147611!5m2!1sen!2s" width="1000" height="800" style="border:0; border-radius:50px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</div>
+
+@code {
+
+}

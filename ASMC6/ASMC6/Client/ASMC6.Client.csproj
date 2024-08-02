@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Shared\ASMC6.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\image\restaurant\" />
-  </ItemGroup>
-
 </Project>

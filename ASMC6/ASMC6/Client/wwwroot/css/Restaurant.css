@@ -1,0 +1,53 @@
+﻿
+
+.info-restaurant {
+    height: 300px;
+    background-color: #C56D6D;
+}
+
+    .info-restaurant .logo-res {
+        position: relative;
+    }
+
+        .info-restaurant .logo-res img {
+            width: 250px;
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            left: 50px;
+        }
+
+        .info-restaurant .logo-res hr {
+            color: white;
+        }
+
+    .info-restaurant .info-res h1 {
+        margin-top: 60px;
+    }
+
+    .info-restaurant .info-res span {
+        font-size: 25px;
+    }
+
+.label-banner {
+    background-color: #DB3737;
+    height: 90px;
+    margin-bottom: 90px;
+}
+
+    .label-banner span {
+        color: white;
+        font-size: 60px;
+    }
+
+    .food span {
+        font-size: 30px;
+        color: gray;
+        height: 50px;
+    }
+
+.inner-food {
+    height: 300px;
+    width: 300px !important;
+}
+
