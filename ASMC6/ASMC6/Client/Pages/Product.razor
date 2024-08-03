@@ -154,7 +154,7 @@
                                         @foreach (var product in item.Select(x => x.p))
                                         {
                                             <a class="col-md-3 text-decoration-none mt-3">
-                                                <div class="card">
+                                                <div class="card position-relative">
                                                     <div class="card-body">
                                                         <div class="badge bg-danger text-white">75% Off</div>
                                                         <div class="row">
@@ -176,17 +176,10 @@
                                                                 <div>
                                                                     <b class="text-danger ins">@product.Price VND</b>
                                                                 </div>
-                                                                <div>
-                                                                    <span class="del">@product.Price VND</span>
-                                                                </div>
-                                                                <div>
-                                                                    <p></p>
-                                                                </div>
-                                                                <div>
-                                                                    <p>140E Lý Chính Thắng, P. 7, Quận 3, TP. HCM</p>
-                                                                </div>
                                                             </div>
-                                                            <button class="btn btn-success" @onclick="() => AddToCart(product)"><img src="./image/icon/empty-cart.png" width="25px" height="25px" alt="Alternate Text" /></button>
+                                                            <a class="nav-link" style="cursor: pointer" @onclick="() => AddToCart(product)">
+                                                                <i class="fa-solid fa-cart-plus text-danger fs-4 position-absolute bottom-0 end-0 me-3 mb-3"></i>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -213,7 +206,7 @@
                                 <button type="button"
                                         data-bs-target="#carouselexamplecaptions"
                                         data-bs-slide-to="@i"
-                                        class="@(i == 0 ? "active" : "")"
+                                        class="@(i == 0 ? "active" : "") ms-1 btn"
                                         aria-current="@(i == 0 ? "true" : "")"
                                         aria-label="slide @(i + 1)">
                                     @(@i + 1)

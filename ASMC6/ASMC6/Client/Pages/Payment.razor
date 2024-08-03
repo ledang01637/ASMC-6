@@ -7,119 +7,113 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager Navigation
 
-<div class="container mt-5">
-    <div class="col-md-12 row">
-        <div class="col-md-9">
-            <h4>Hóa đơn đặt hàng</h4>
-            <hr />
-            <div class="col-md-12">
-                <label for="">Họ và tên</label>
-                <div class="col-md-12">
-                    <input type="text" value="@SUser.User.Name" class="form-control" />
-                </div>
+
+<div class="container mt-2 mb-3">
+    <h1 class="text-center fw-bold mb-3">Hóa đơn đặt hàng</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md-7">
+            <h2 class="mb-4">Thông tin giao hàng</h2>
+            <hr>
+            <div class="mb-3">
+                <label for="fullname" class="form-label">Họ và tên</label>
+                <input type="text" class="form-control" value="@SUser.User.Name" id="fullname" name="fullname">
             </div>
-            <!---->
-            <div class="col-md-12">
-                <label for="">Địa chỉ</label>
-                <div class="col-md-12">
-                    <input type="text" value="@SUser.User.Address" name="" id="" class="form-control" />
-                </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">Số điện thoại</label>
+                <input type="text" class="form-control" value="@SUser.User.Phone" id="phone" name="phone">
             </div>
-            <!---->
-            <!---->
-            <div class="col-md-12">
-                <label for="">Mã giảm giá ( nếu có)</label>
-                <div class="col-md-12">
-                    <input type="text" @bind="@voucher" @oninput="ApplyVoucher" class="form-control" minlength="5" />
-                </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" value="@SUser.User.Email" id="email" name="email">
             </div>
-            <!---->
-            <div class="col-md-12">
-                <label for="">Số điên thoại</label>
-                <div class="col-md-12">
-                    <input type="text" value="@SUser.User.Phone" maxlength="11" class="form-control" />
-                </div>
+
+            <div class="mb-3">
+                <label for="address" class="form-label">Địa chỉ</label>
+                <input type="text" class="form-control" value="@SUser.User.Address" id="address" name="address">
             </div>
-            <!---->
-            <div class="col-md-12">
-                <label for="">Địa chỉ email</label>
-                <div class="col-md-12">
-                    <input type="email" value="@SUser.User.Email" class="form-control" readonly />
-                </div>
+            <div class="mb-3">
+                <label for="voucher">Mã giảm giá ( nếu có)</label>
+                <input type="text" @bind="@voucher" @oninput="ApplyVoucher" id="voucher" class="form-control" minlength="5" />
             </div>
-            <div class="col-md-12">
-                <label for="">Ghi chú</label>
-                <div class="col-md-12">
-                    <textarea name="" id="" rows="3" class="form-control"></textarea>
-                </div>
+
+            <div class="mb-3">
+                <label for="note" class="form-label">Ghi chú</label>
+                <textarea class="form-control" id="note" name="note" rows="3"></textarea>
             </div>
-            <div class="col-md-12">
+            <div class="mb-3">
                 <label class="font-weight-bold">Quet de nhan ma giam gia 15k</label>
                 <div id="qrcode"></div>
             </div>
-
         </div>
-        <div class="col-md-3 border border-1">
-            <div class="col-md-12">
-                <b>Hóa đơn</b>
-                <p>Món ăn</p>
-            </div>
+        <div class="col-md-5">
+            <h2 class="mb-4">Đơn hàng</h2>
             <hr />
-            @if (cartItems == null)
-            {
-                <p>Loading...</p>
-            }
-            else if (!cartItems.Any())
-            {
-                <p>Your cart is empty.</p>
-            }
-            else
-            {
-
-                @foreach (var item in cartItems)
-                {
+            <div class="card mb-4">
+                <div class="card-body">
+                    @if (cartItems == null)
+                    {
+                        <p>Loading...</p>
+                    }
+                    else if (!cartItems.Any())
+                    {
+                        <p>Your cart is empty.</p>
+                    }
+                    else
+                    {
+                        @foreach (var item in cartItems)
+                        {
+                            <div class="row mb-3">
+                                <div class="col-4">
+                                    <img src="./image/product/@item.Image" alt="Sản Phẩm" width="50px" height="50px" />
+                                </div>
+                                <div class="col-4">
+                                    @item.Name <span class="sl">(x1)</span>
+                                    <div class="thuoc-tinh"></div>
+                                </div>
+                                <div class="col-4 text-end"><span class="prodPrice">@item.Price.ToString("#,###")</span> VNĐ</div>
+                            </div>
+                        }
+                    }
+                    
                     <div class="row mb-3">
-                        <input type="hidden" class="prodId" value="@item.ProductId" />
-                        <div class="col-4">
-                            <img src="./image/product/@item.Image" alt="Sản Phẩm" width="50px" height="50px" />
-                        </div>
-                        <div class="col-4">
-                            <span class="prodName">@item.Name</span>
-                            <span class="sl">(x1)</span>
-                        </div>
-                        <div class="col-4 text-end"><span class="prodPrice">@item.Price.ToString("#,###")</span> VNĐ</div>
+                        <div class="col-8"><strong>Tạm tính</strong></div>
+                        <div class="col-4 text-end"><strong>@TotalAmount.ToString("#,###") Đ</strong></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-8">Phí vận chuyển</div>
+                        <div class="col-4 text-end lbl-shipfee" data-shipping-fee="0">25,000 VNĐ</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-8"><input type="checkbox" @onchange="UpdateFee" checked /> Giao hỏa tốc</div>
+                        <div class="col-4 text-end lbl-shipfee" data-shipping-fee="0">25,000 VNĐ</div>
                     </div>
                     <hr />
-                }
-
-            }
-            <div class="col-md-12 row">
-                <p class="col-md-6">Giao hàng</p>
-                <p class="col-md-6 text-end">
-                    Giao hỏa tốc : 25,000 VND <input type="checkbox" @onchange="UpdateFee" checked />
-                </p>
-            </div>
-            <hr />
-            <div class="col-md-12 row">
-                <p class="col-md-6">Tổng tiền</p>
-                <b class="col-md-6 text-end">@Total.ToString("#,##0") VND</b>
-            </div>
-            <hr />
-            <div class="col-md-12 row">
-                <p class="col-md-12">
-                    Thực hiện thanh toán trực tiếp vào tài khoản ngân hàng của chúng
-                    tôi. Vui lòng sử dụng ID đơn hàng của bạn làm tài liệu tham khảo
-                    thanh toán. Đơn hàng của bạn sẽ không được vận chuyển cho đến khi
-                    tiền đã được thanh toán hết trong tài khoản.
-                </p>
-            </div>
-            <div class="col-md-12">
-                <input type="checkbox" @onchange="Pay" /> Tôi đồng ý với các điều khoản
-            </div>
-            <div class="col-md-12 row m-auto mb-3 mt-3">
-                <button class="btn btn-danger rounded" @onclick="History" disabled="@(isRuleChecked ? null : true)">Đặt hàng</button>
+                    <div class="row mb-3">
+                        <div class="col-8"><strong>Tổng tiền</strong></div>
+                        <div class="col-4 text-end"><strong>@Total.ToString("#,###") Đ</strong></div>
+                    </div>
+                    <hr />
+                    <div class="mb-3">
+                        <p>
+                            Thực hiện thanh toán trực tiếp vào tài khoản ngân hàng của chúng
+                            tôi. Vui lòng sử dụng ID đơn hàng của bạn làm tài liệu tham khảo
+                            thanh toán. Đơn hàng của bạn sẽ không được vận chuyển cho đến khi
+                            tiền đã được thanh toán hết trong tài khoản.
+                        </p>
+                    </div>
+                    <div class="row mb-3">
+                        <div>
+                            <input type="checkbox" @onchange="Pay" /> Tôi đồng ý với các điều khoản
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <button class="btn btn-danger rounded" @onclick="History" disabled="@(isRuleChecked ? null : true)">Đặt hàng</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-

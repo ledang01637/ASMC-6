@@ -20,9 +20,11 @@ namespace ASMC6.Client.Pages
         private Order order = new Order();
         private OrderItem orderItem = new OrderItem();
         private decimal Total;
+        private decimal TotalAmount;
         private string textCode;
         private string voucher = "";
         private decimal Fee = 25000;
+        private decimal expressDelivery = 25000;
         private bool isExpressChecked;
         private bool isRuleChecked;
 
@@ -35,18 +37,20 @@ namespace ASMC6.Client.Pages
         private void CalculateTotal()
         {
             Total = 0;
+            TotalAmount = 0;
             if (cartItems != null)
             {
                 foreach (var item in cartItems)
                 {
                     Total += item.Price;
+                    TotalAmount += item.Price;
                 }
                 if (!string.IsNullOrEmpty(textCode) && textCode.Equals(voucher))
                 {
                     Total -= 15000;
                 }
             }
-            Total += Fee;
+            Total += (Fee + expressDelivery);
 
         }
 
@@ -67,7 +71,7 @@ namespace ASMC6.Client.Pages
         private void UpdateFee(ChangeEventArgs e)
         {
             isExpressChecked = (bool)e.Value;
-            Fee = isExpressChecked ? 25000 : 0;
+            expressDelivery = isExpressChecked ? 25000 : 0;
             CalculateTotal();
         }
         private void Pay(ChangeEventArgs e)

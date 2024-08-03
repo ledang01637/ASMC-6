@@ -62,7 +62,7 @@
                             <td>Đổi tải khoản</td>
                         </tr>
                         <tr>
-                            <td>Đăng xuất</td>
+                            <td><a class="nav-link" @onclick="Logout" href="/login">Đăng xuất</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -103,3 +103,9 @@
         </div>
     </div>
 </body>
+@code{
+
+    public void Logout(){
+        SUser.User = null;
+    }
+}
