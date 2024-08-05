@@ -1,0 +1,19 @@
+﻿@page "/admin"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using ASMC6.Shared
+@attribute [Authorize(Roles = "1")]
+
+<h3>@login.Token</h3>
+<AuthorizeView Roles="1">
+    <Authorized>
+        <h3>Welcome, Admin!</h3>
+        <h3>@login.Token</h3>
+    </Authorized>
+    <NotAuthorized>
+        <h3>Không có quyền truy cập</h3>
+    </NotAuthorized>
+</AuthorizeView>
+@code{
+    private LoginRespone login;
+}

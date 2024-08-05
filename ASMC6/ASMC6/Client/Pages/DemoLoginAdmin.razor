@@ -1,0 +1,24 @@
+﻿@page "/demologin"
+@using ASMC6.Shared
+@using ASMC6.Server.Service
+@inject HttpClient httpClient
+@inject NavigationManager Navigation
+
+<EditForm Model="@user" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="email">Email:</label>
+        <InputText id="email" @bind-Value="user.Email" />
+    </div>
+
+    <div>
+        <label for="password">Password:</label>
+        <InputText id="password" @bind-Value="user.Password" type="password" />
+    </div>
+
+    <button type="submit">Login</button>
+</EditForm>
+
+

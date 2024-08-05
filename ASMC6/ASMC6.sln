@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASMC6.Client", "ASMC6\Clien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASMC6.Shared", "ASMC6\Shared\ASMC6.Shared.csproj", "{F4EDBF7B-A9EF-480B-B2D6-50A2810DFF9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASM6.Admin", "ASM6Admin\ASM6.Admin.csproj", "{803ADE52-3BFD-4BAC-BDAD-4119A8D54F91}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{F4EDBF7B-A9EF-480B-B2D6-50A2810DFF9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4EDBF7B-A9EF-480B-B2D6-50A2810DFF9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4EDBF7B-A9EF-480B-B2D6-50A2810DFF9E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{803ADE52-3BFD-4BAC-BDAD-4119A8D54F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{803ADE52-3BFD-4BAC-BDAD-4119A8D54F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{803ADE52-3BFD-4BAC-BDAD-4119A8D54F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{803ADE52-3BFD-4BAC-BDAD-4119A8D54F91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

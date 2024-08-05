@@ -1,19 +1,13 @@
-﻿using System.Collections.Generic;
-using System;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-using System.Linq;
-using ASMC6.Shared;
-using Microsoft.JSInterop;
-using ASMC6.Client.Session;
+﻿using ASMC6.Shared;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace ASMC6.Client.Pages
 {
-    public partial class Login
+    public partial class DemoLoginAdmin
     {
-
         private User user = new User();
         private string Token = "";
 
@@ -28,11 +22,10 @@ namespace ASMC6.Client.Pages
                     if (loginResponse != null && loginResponse.SuccsessFull)
                     {
                         Token = loginResponse.Token;
-                        await JS.InvokeVoidAsync("showLoginAlert", "True");
                     }
                     else
                     {
-                        await JS.InvokeVoidAsync("showLoginAlert", "False");
+                        Token = loginResponse?.Error ?? "Login failed.";
                     }
                 }
                 catch (JsonException ex)
@@ -45,14 +38,6 @@ namespace ASMC6.Client.Pages
                 Token = "Server error or invalid request.";
             }
         }
-
-        private Task<string> ThucHienDangNhap(string username, string password)
-        {
-
-            
-            return Task.FromResult("False");
-        }
-        
 
     }
 }

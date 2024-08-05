@@ -7,17 +7,19 @@
     <div class="card-body row main-card">
         <div class="col-md-6 bg-left" style="background-image: url('https://i.pinimg.com/564x/06/ab/18/06ab18bbf61d13cc1ea3f57f4f855754.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
         <div class="col-md-6 bg-right">
-            <form method="post">
+            <EditForm Model="@user" OnValidSubmit="HandleLogin">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
                 <div class="text-center ms-5 me-5">
                     <span class="text-title">Đăng nhập</span>
                 </div>
                 <div class="form-group pb-2 ms-5 me-5">
                     <label class="form-label text-label pb-2" for="Username">Tên tài khoản</label>
-                    <input class="form-control input-brd" @bind="@Username">
+                    <InputText class="form-control input-brd" id="email" @bind-Value="user.Email"/>
                 </div>
                 <div class="form-group pb-2 ms-5 me-5">
                     <label class="form-label text-label pb-2" for="Password">Mật khẩu</label>
-                    <input class="form-control input-brd" type="password" @bind="@Password">
+                    <InputText class="form-control input-brd" id="password" @bind-Value="user.Password" type="password" />
                 </div>
                 <div class="ms-5 me-5">
                     <ul class="gr-icon">
@@ -26,10 +28,10 @@
                     </ul>
                 </div>
                 <div class="ms-5 me-5 mb-3">
-                    <a class="btn btn-success" href="/register">Đăng kí</a>
-                    <button type="button" id="btnLogin" class="btn btn-primary" @onclick="DangNhap">Đăng nhập</button>
+                    <a class="btn btn-success" href="/demologin">Đăng kí</a>
+                    <button type="submit" id="btnLogin" class="btn btn-primary">Đăng nhập</button>
                 </div>
-            </form>
+            </EditForm>
         </div>
     </div>
 </div>
