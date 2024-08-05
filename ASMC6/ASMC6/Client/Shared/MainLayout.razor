@@ -19,7 +19,7 @@
                                     Kênh Người Bán
                                 </a>
                             </li>
-                            <li class="list-group-item header-group">
+                            <li class="list-group-item header-group" style="display:@(IsRestaurant ? "none" : "block")">
                                 <span class="m-1">|</span>
                             </li>
                             <li class="list-group-item header-group">
@@ -56,6 +56,9 @@
                             <li class="list-group-item header-group" style="display:@(!IsLoggedIn ? "none" : "block")">
                                 <a class="nav-link"
                                    href="/logout">Logout</a>
+                            </li>
+                            <li class="list-group-item header-group" style="display:@(!IsLoggedIn ? "none" : "block")">
+                                <span class="m-1">|</span>
                             </li>
                             <li class="list-group-item header-group" style="display:@(!IsLoggedIn ? "none" : "block")">
                                 <a class="nav-link"
@@ -112,7 +115,6 @@
                                     <a class="text-white m-3" href="/user">
                                         <i class="fa-solid fa-user" style="font-size: 35px"></i>
                                     </a>
-                                    <a class="nav-link text-white overflow-ellipsis" ng-show="showIsLogin"></a>
                                 </div>
                             </div>
                             <!--Icon Cart-->

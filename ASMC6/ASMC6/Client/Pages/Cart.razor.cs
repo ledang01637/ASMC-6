@@ -15,6 +15,13 @@ namespace ASMC6.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            var email = await _localStorageService.GetItemAsync("userName");
+
+            if (email is null)
+            {
+                Navigation.NavigateTo("/login");
+            }
+
             cartItems = await CartService.GetCartAsync();
             CalculateTotal();
         }

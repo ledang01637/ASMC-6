@@ -2,6 +2,8 @@
 @using ASMC6.Client.Session
 @using ASMC6.Shared
 @inject HttpClient httpClient
+@inject LocalStorageService _localStorageService
+@inject NavigationManager Navigation
 
 <head>
     <meta charset="utf-8" />
@@ -21,91 +23,118 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="profile mb-5">
-            <img class="avatar-icon"
-                 loading="lazy"
-                 alt=""
-                 src="./public/avatar.svg" />
+    @if(user is null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <div class="container">
+            <div class="profile mb-5">
+                <img class="avatar-icon"
+                     loading="lazy"
+                     alt=""
+                     src="./public/avatar.svg" />
 
-            <div class="greeting">
-                <div class="user-name">
-                    <img class="link-icon" alt="" src="./public/link.svg" />
-                    <a class="welcome-back">Welcome back,</a>
-                    <b class="namegmailcom">@SUser.User.Email</b>
+                <div class="greeting">
+                    <div class="user-name">
+                        <img class="link-icon" alt="" src="./public/link.svg" />
+                        <a class="welcome-back">Welcome back,</a>
+                        <b class="namegmailcom">@user.Email</b>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 row">
+                <div class="col-md-3">
+                    <table class="table border border-1">
+                        <thead>
+                            <tr>
+                                <td>Thông tin người dùng</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a class="nav-link" href="/history">Lịch sử mua hàng</a></td>
+                            </tr>
+                            <tr>
+                                <td>Chỉnh sửa tài khoản</td>
+                            </tr>
+                            <tr>
+                                <td>Đổi mật khẩu</td>
+                            </tr>
+                            <tr>
+                                <td>Ví mua sắm</td>
+                            </tr>
+                            <tr>
+                                <td>Đổi tải khoản</td>
+                            </tr>
+                            <tr>
+                                <td><a class="nav-link" @onclick="Logout" href="/login">Đăng xuất</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-9">
+                    <h3>Tài khoản của tôi</h3>
+                    <div>
+                        <label for="Name" class="mt-2"><p>Họ và tên</p></label>
+                        <div>
+                            <input type="text" value="@user.Name" class="form-control" />
+                        </div>
+                    </div>
+                    <div>
+                        <label for="Name" class="mt-2"><p>Địa chỉ</p></label>
+                        <div>
+                            <input type="text" value="@user.Address" class="form-control" />
+                        </div>
+                    </div>
+                    <div>
+                        <label for="Name" class="mt-2"><p>Tên cửa hàng (nếu đã đăng ký)</p></label>
+                        <div>
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div>
+                        <label for="Name" class="mt-2"><p>Email</p></label>
+                        <div>
+                            <input type="text" value="@user.Email" class="form-control" />
+                        </div>
+                    </div>
+                    <div>
+                        <label for="Name" class="mt-2"><p>Số điện thoại</p></label>
+                        <div>
+                            <input type="text" value="@user.Phone" class="form-control" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    }
 
-        <div class="col-md-12 row">
-            <div class="col-md-3">
-                <table class="table border border-1">
-                    <thead>
-                        <tr>
-                            <td>Thông tin người dùng</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><a class="nav-link" href="/history">Lịch sử mua hàng</a></td>
-                        </tr>
-                        <tr>
-                            <td>Chỉnh sửa tài khoản</td>
-                        </tr>
-                        <tr>
-                            <td>Đổi mật khẩu</td>
-                        </tr>
-                        <tr>
-                            <td>Ví mua sắm</td>
-                        </tr>
-                        <tr>
-                            <td>Đổi tải khoản</td>
-                        </tr>
-                        <tr>
-                            <td><a class="nav-link" @onclick="Logout" href="/login">Đăng xuất</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-9">
-                <h3>Tài khoản của tôi</h3>
-                <div>
-                    <label for="Name" class="mt-2"><p>Họ và tên</p></label>
-                    <div>
-                        <input type="text" value="@SUser.User.Name" class="form-control" />
-                    </div>
-                </div>
-                <div>
-                    <label for="Name" class="mt-2"><p>Địa chỉ</p></label>
-                    <div>
-                        <input type="text" value="@SUser.User.Address" class="form-control" />
-                    </div>
-                </div>
-                <div>
-                    <label for="Name" class="mt-2"><p>Tên cửa hàng (nếu đã đăng ký)</p></label>
-                    <div>
-                        <input type="text" class="form-control" />
-                    </div>
-                </div>
-                <div>
-                    <label for="Name" class="mt-2"><p>Email</p></label>
-                    <div>
-                        <input type="text" value="@SUser.User.Email" class="form-control" />
-                    </div>
-                </div>
-                <div>
-                    <label for="Name" class="mt-2"><p>Số điện thoại</p></label>
-                    <div>
-                        <input type="text" value="@SUser.User.Phone" class="form-control" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
-@code{
 
-    public void Logout(){
-        SUser.User = null;
+@code{
+    private List<User> listUser;
+    private User user = new User();
+    protected override async Task OnInitializedAsync()
+    {
+        var email = await _localStorageService.GetItemAsync("userName");
+
+        if (email is null)
+        {
+            Navigation.NavigateTo("/login");
+        }
+
+        listUser = await httpClient.GetFromJsonAsync<List<User>>("api/User/GetUsers");
+
+        if (listUser != null)
+        {
+            user = listUser.FirstOrDefault(u => u.Email.Equals(email));
+        }
+        
+    }
+    private void Logout(){
+        Navigation.NavigateTo("/logout");
     }
 }
