@@ -6,6 +6,7 @@
 @inject CartService CartService
 @inject IJSRuntime JSRuntime
 @inject NavigationManager Navigation
+@inject LocalStorageService _localStorageService
 
 
 <div class="container mt-2 mb-3">
@@ -17,22 +18,22 @@
             <hr>
             <div class="mb-3">
                 <label for="fullname" class="form-label">Họ và tên</label>
-                <input type="text" class="form-control" value="@SUser.User.Name" id="fullname" name="fullname">
+                <input type="text" class="form-control" value="@user.Name" id="fullname" name="fullname">
             </div>
 
             <div class="mb-3">
                 <label for="phone" class="form-label">Số điện thoại</label>
-                <input type="text" class="form-control" value="@SUser.User.Phone" id="phone" name="phone">
+                <input type="text" class="form-control" value="@user.Phone" id="phone" name="phone">
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="text" class="form-control" value="@SUser.User.Email" id="email" name="email">
+                <input type="text" class="form-control" value="@user.Email" id="email" name="email">
             </div>
 
             <div class="mb-3">
                 <label for="address" class="form-label">Địa chỉ</label>
-                <input type="text" class="form-control" value="@SUser.User.Address" id="address" name="address">
+                <input type="text" class="form-control" value="@user.Address" id="address" name="address">
             </div>
             <div class="mb-3">
                 <label for="voucher">Mã giảm giá ( nếu có)</label>

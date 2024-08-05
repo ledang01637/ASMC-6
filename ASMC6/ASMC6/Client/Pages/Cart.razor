@@ -5,6 +5,7 @@
 @inject CartService CartService
 @inject NavigationManager Navigation
 @inject LocalStorageService _localStorageService
+@inject IJSRuntime JS
 
 <div class="container mt-5">
     <div class="col-md-12 row">
@@ -102,7 +103,7 @@
                 <p class="col-md-6 text-end">@Pay.ToString("#,##0") VND</p>
             </div>
             <div class="col-md-12 mb-3">
-                <button class="col-md-12 btn btn-danger" @onclick="Thanhtoan">Thanh toán</button>
+                <button class="col-md-12 btn btn-danger" @onclick="ThanhtoanAsync">Thanh toán</button>
             </div>
         </div>
     </div>

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using ASMC6.Shared;
 using Microsoft.JSInterop;
-using ASMC6.Client.Session;
 using System.Text.Json;
 using System;
 
@@ -11,7 +10,7 @@ namespace ASMC6.Client.Pages
     public partial class Login
     {
 
-        private User user = new User();
+        private LoginRequest user = new LoginRequest();
         private string Token = "";
 
         private async Task HandleLogin()
@@ -31,9 +30,9 @@ namespace ASMC6.Client.Pages
                         await _localStorageService.SetItemAsync("authToken", Token);
                         await _localStorageService.SetItemAsync("userName", name);
                         await _localStorageService.SetItemAsync("expiryTime", expiryTime);
-
                         await JS.InvokeVoidAsync("showLoginAlert", "True");
-                        Navigation.NavigateTo("/", true);
+                        await Task.Delay(500);
+                        Navigation.NavigateTo("/",true);
                     }
                     else
                     {

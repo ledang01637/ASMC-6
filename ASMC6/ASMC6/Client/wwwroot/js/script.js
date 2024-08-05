@@ -28,7 +28,13 @@
             text: "Tài khoản không có quyền truy cập",
             icon: "error",
         });
-    } 
+    } else if (status === "EmptyPro") {
+        Swal.fire({
+            title: "Bạn không có sản phẩm nào",
+            text: "Vui lòng thêm sản phẩm vào giỏ hàng",
+            icon: "warning",
+        });
+    }
 }
 
 function showAddOrder(status) {

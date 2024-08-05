@@ -3,6 +3,8 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using Microsoft.JSInterop;
+using System.Linq;
 
 namespace ASMC6.Client.Pages
 {
@@ -35,9 +37,16 @@ namespace ASMC6.Client.Pages
                 CalculateTotal();
             }
         }
-        private void Thanhtoan()
+        private async Task ThanhtoanAsync()
         {
-            Navigation.NavigateTo("/payment");
+            if(cartItems.Count() > 0)
+            {
+                Navigation.NavigateTo("/payment");
+            }
+            else
+            {
+                await JS.InvokeVoidAsync("showLoginAlert", "EmptyPro");
+            }
         }
         private void CalculateTotal()
         {

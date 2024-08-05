@@ -1,4 +1,4 @@
-﻿@page "/restaurant"
+﻿@page "/registRestaurant"
 @using ASMC6.Client.Session
 @using ASMC6.Shared
 @inject LocalStorageService _localStorageService
@@ -53,7 +53,7 @@
 
 @code {
     private List<Restaurant> listProd = new List<Restaurant>();
-    private Restaurant rest = new Restaurant();
+    private ASMC6.Shared.Restaurant rest = new ASMC6.Shared.Restaurant();
 
     protected override async Task OnInitializedAsync()
     {
@@ -83,7 +83,7 @@
         rest.UserId = SUser.User.UserId;
         await httpClient.PostAsJsonAsync("api/Restaurant/AddRestaurant", rest);
         await LoadProducts();
-        rest = new Restaurant();
+        rest = new ASMC6.Shared.Restaurant();
         StateHasChanged();
     }
 }

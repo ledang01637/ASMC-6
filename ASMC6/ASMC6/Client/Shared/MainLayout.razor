@@ -25,8 +25,7 @@
                             <li class="list-group-item header-group">
                                 <a class="nav-link active"
                                    aria-current="page"
-                                   ng-show="!isRestaurant"
-                                   href="/restaurant">
+                                   href="/registRestaurant">
                                     Trở Thành Người Bán
                                 </a>
                             </li>
@@ -61,7 +60,7 @@
                                 <span class="m-1">|</span>
                             </li>
                             <li class="list-group-item header-group" style="display:@(!IsLoggedIn ? "none" : "block")">
-                                <a class="nav-link"
+                                <a class="nav-link text-truncate"
                                    href="/user">Hello! @UserName</a>
                             </li>
                         </ul>

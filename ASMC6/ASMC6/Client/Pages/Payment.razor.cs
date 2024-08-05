@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
@@ -28,8 +29,23 @@ namespace ASMC6.Client.Pages
         private bool isExpressChecked;
         private bool isRuleChecked;
 
+        private List<User> listUser;
+        private User user = new User();
         protected override async Task OnInitializedAsync()
         {
+            var email = await _localStorageService.GetItemAsync("userName");
+
+            if (email is null)
+            {
+                Navigation.NavigateTo("/login");
+            }
+
+            listUser = await httpClient.GetFromJsonAsync<List<User>>("api/User/GetUsers");
+
+            if (listUser != null)
+            {
+                user = listUser.FirstOrDefault(u => u.Email.Equals(email));
+            }
             cartItems = await CartService.GetCartAsync();
             CalculateTotal();
             await GenerateQrCode();
