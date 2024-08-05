@@ -1,6 +1,6 @@
 using System;
 
-namespace ASM6Admin.Data
+namespace Admin.Data
 {
     public class WeatherForecast
     {

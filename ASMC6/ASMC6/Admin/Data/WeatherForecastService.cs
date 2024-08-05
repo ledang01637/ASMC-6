@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ASM6Admin.Data
+namespace Admin.Data
 {
     public class WeatherForecastService
     {

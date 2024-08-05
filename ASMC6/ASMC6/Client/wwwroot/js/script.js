@@ -50,6 +50,22 @@ function showRegisterAlert(status) {
     } 
 }
 
+function checkTokenExpiry() {
+    const token = localStorage.getItem('authToken');
+    const expiryTime = localStorage.getItem('expiryTime');
+
+    if (!token || !expiryTime) {
+        return; 
+    }
+
+    const currentTime = new Date().toISOString();
+    if (new Date(currentTime) > new Date(expiryTime)) {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('expiryTime');
+    }
+}
+
 window.cartFunctions = {
     getCart: function () {
         return sessionStorage.getItem('cart');

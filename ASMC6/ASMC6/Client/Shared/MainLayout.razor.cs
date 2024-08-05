@@ -1,48 +1,24 @@
 ﻿using ASMC6.Client.Session;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.JSInterop;
 using System.Threading.Tasks;
+
 
 namespace ASMC6.Client.Shared
 {
     public partial class MainLayout
     {
-        private bool IsLoggedIn;
-        private string UserName;
+        private bool IsLoggedIn { get; set; }
+        private bool IsRestaurant = true;
+        private string UserName { get; set; }
 
-        //protected override async Task OnInitializedAsync()
-        //{
-        //    // Đăng ký sự kiện StateChanged để cập nhật giao diện khi trạng thái thay đổi
-        //    AuthenticationStateProvider.AuthenticationStateChanged += OnAuthenticationStateChanged;
-
-        //    await CheckAuthenticationState();
-        //}
-
-        //private async Task CheckAuthenticationState()
-        //{
-        //    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        //    IsLoggedIn = authState.User.Identity.IsAuthenticated;
-
-        //    if (IsLoggedIn)
-        //    {
-        //        UserName = authState.User.Identity.Name;
-        //    }
-        //    else
-        //    {
-        //        UserName = string.Empty;
-        //    }
-
-        //    StateHasChanged();
-        //}
-
-        //private async void OnAuthenticationStateChanged(Task<AuthenticationState> task)
-        //{
-        //    await CheckAuthenticationState();
-        //}
-
-        //public void Dispose()
-        //{
-        //    // Hủy đăng ký sự kiện khi component bị hủy
-        //    AuthenticationStateProvider.AuthenticationStateChanged -= OnAuthenticationStateChanged;
-        //}
+        protected override async Task OnInitializedAsync()
+        {
+            await JS.InvokeVoidAsync("checkTokenExpiry");
+            var token = await _localStorageService.GetItemAsync("authToken");
+            UserName = await _localStorageService.GetItemAsync("userName");
+            IsLoggedIn = !string.IsNullOrEmpty(token);
+            StateHasChanged();
+        }
     }
 }
