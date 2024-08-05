@@ -60,7 +60,6 @@ namespace ASMC6.Server.Service
             existingUser.Address = updateUser.Address;
             existingUser.IsDelete = updateUser.IsDelete;
 
-
             _context.Update(existingUser);
             _context.SaveChanges();
             return existingUser;

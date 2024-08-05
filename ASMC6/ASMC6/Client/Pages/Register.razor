@@ -1,52 +1,70 @@
 ﻿@page "/register"
 @using ASMC6.Shared
+@using ASMC6.Server.Service
 @inject HttpClient httpClient
+@inject NavigationManager Navigation
 @inject IJSRuntime JS
 
-
+@* <form method="post">
+            <input @bind="Username" class="form-control" />
+            <button type="button" onclick="AddUser" class="register-submit-btn btn btn-primary">Đăng ký</button>
+        </form> *@
 <article class="container">
-    <div class="mt-4 mb-4 register mx-auto" style="height: 800px !important;">
+    <div class="mt-4 mb-4 register mx-auto" style="height: 750px !important;">
         <h1 class="text-center fw-bold pt-4">
             Đăng Ký Tài Khoản
         </h1>
 
-        <EditForm class="register-form" Model="@user" OnValidSubmit="AddUser" novalidate>
-            <DataAnnotationsValidator />
+        <EditForm Model="@user" OnValidSubmit="AddUser" class="register-form">
+            <DataAnnotationsValidator/>
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success" role="alert">
+                    @successMessage
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(exitsMessage))
+            {
+                <div class="alert alert-warning" role="alert">
+                    Email đã tồn tại! vui lòng chọn email khác
+                </div>
+            }
             <div class="form-group position-relative" style="margin-bottom:30px">
                 <label class="control-label">Tên</label>
-                <InputText @bind-Value="user.Name" class="form-control" />
-                <ValidationMessage For="@(() => user.Name)" style="margin-left:10px; position:absolute; left:0; bottom:-25px; font-size:15px !important;" />
+                <InputText @bind-Value="user.Name" class="form-control"/>
+                <ValidationMessage For="@(() => user.Name)" class="error-message" style="position: absolute; bottom:-25px; font-size:15px; left:10px;"/>
             </div>
             <div class="form-group position-relative" style="margin-bottom:30px">
                 <label class="control-label">Email</label>
-                <InputText @bind-Value="user.Email" class="form-control" type="email" />
-                <ValidationMessage For="@(() => user.Email)" style="margin-left:10px; position:absolute; left:0; bottom:-25px; font-size:15px !important;" />
+                <InputText @bind-Value="user.Email" class="form-control" />
+                <ValidationMessage For="@(() => user.Email)" class="error-message" style="position: absolute; bottom:-25px; font-size:15px; left:10px;" />
             </div>
             <div class="form-group position-relative" style="margin-bottom:30px">
                 <label class="control-label">Mật khẩu</label>
                 <InputText @bind-Value="user.Password" class="form-control" type="password" />
-                <ValidationMessage For="@(() => user.Password)" style="margin-left:10px; position:absolute; left:0; bottom:-25px; font-size:15px !important;"/>
+                <ValidationMessage For="@(() => user.Password)" class="error-message" style="position: absolute; bottom:-25px; font-size:15px; left:10px;" />
             </div>
             <div class="form-group position-relative" style="margin-bottom:30px">
                 <label class="control-label">Số điện thoại</label>
-                <InputText @bind-Value="user.Phone" class="form-control" type="number" />
-                <ValidationMessage For="@(() => user.Phone)" style="margin-left:10px; position:absolute; left:0; bottom:-25px; font-size:15px !important;" />
+                <InputText @bind-Value="user.Phone" class="form-control" />
+                <ValidationMessage For="@(() => user.Phone)" class="error-message" style="position: absolute; bottom:-25px; font-size:15px; left:10px;" />
             </div>
-            <div class="form-group position-relative" style="margin-bottom:30px">
+            <div class="form-group position-relative" style="margin-bottom:45px">
                 <label class="control-label">Địa chỉ</label>
                 <InputText @bind-Value="user.Address" class="form-control" />
-                <ValidationMessage For="@(() => user.Address)" style="margin-left:10px; position:absolute; left:0; bottom:-25px; font-size:15px !important;" />
+                <ValidationMessage For="@(() => user.Address)" class="error-message" style="position: absolute; bottom:-25px; font-size:15px; left:10px;" />
             </div>  
             <div class="form-group text-center" style="margin-bottom:20px">
                 <button type="submit" class="register-submit-btn btn btn-primary">Đăng ký</button>
             </div>
         </EditForm>
-
         @if (!string.IsNullOrEmpty(errorMessage))
         {
             <div class="alert alert-danger mt-3">
                 @errorMessage
             </div>
         }
+        
+
     </div>
 </article>

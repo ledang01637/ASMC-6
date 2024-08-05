@@ -46,6 +46,15 @@ namespace ASMC6.Server.Service
             }
             return prod;
         }
+        public Restaurant GetRestaurantByIdUser(int id)
+        {
+            var prod = _context.Restaurant.Find(id);
+            if (prod == null)
+            {
+                return null;
+            }
+            return prod;
+        }
         public Restaurant UpdateRestaurant(int id, Restaurant updateRestaurant)
         {
             var existingRes = _context.Restaurant.Find(id);

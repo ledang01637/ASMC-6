@@ -34,8 +34,7 @@ namespace ASMC6.Server.Controllers
                 Password = User.Password,
                 Phone = User.Phone,
                 Address = User.Address,
-                IsDelete = User.IsDelete,
-
+                IsDelete = User.IsDelete
             });
         }
 

@@ -1,7 +1,10 @@
-﻿@page "/restaurant"
+﻿@page "/restaurant/{userId:int}"
+@using ASMC6.Shared
+@inject HttpClient httpClient
+@inject IJSRuntime JS
 
 <article class="container" style="margin-bottom:100px !important; ">
-    <div class="info-restaurant mt-5 mb-5 row">
+    <div class="info-restaurant mt-5 mb-5 row">2
         <div class="logo-res col-md-4">
             <img src="/image/restaurant/logo-1.jpg" alt="">
         </div>
@@ -329,7 +332,7 @@
                     <div class="col-md-4 text-center inner-food">
                         <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
                         <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
+                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
                         </div>
                         <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
                             <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>

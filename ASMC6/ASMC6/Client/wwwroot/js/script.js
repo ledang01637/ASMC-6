@@ -51,7 +51,13 @@ function showRegisterAlert(status) {
         Swal.fire({
             title: "Đăng ký thất bại",
             text: "Email đã tồn tại",
-            icon: "error",
+            icon: "warning",
+        });
+    } else {
+        Swal.fire({
+            title: "Đăng ký thành công",
+            text: "Đăng ký tài khoản thành công",
+            icon: "success",
         });
     } 
 }
