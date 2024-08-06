@@ -1,0 +1,40 @@
+﻿@page "/adminordermanage"
+@layout AdminMainLayout
+@using ASMC6.Shared
+@using ASMC6.Server.Service
+@inject HttpClient httpClient
+@inject NavigationManager Navigation
+
+@if (listOrder != null)
+{
+    <hr />
+    <h4>Restaurants</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Opening Hours</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in listOrder)
+            {
+                <tr>
+                    <td>@order.OrderItems</td>
+                    <td>@order.OrderDate</td>
+                    <td>@order.UserId</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => EditOrder(order.OrderId)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteOrder(order.OrderId)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Loading...</p>
+}

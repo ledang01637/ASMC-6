@@ -4,6 +4,7 @@ using ASMC6.Shared;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System;
+using System.Diagnostics;
 
 namespace ASMC6.Client.Pages
 {
@@ -33,6 +34,7 @@ namespace ASMC6.Client.Pages
                         await JS.InvokeVoidAsync("showLoginAlert", "True");
                         await Task.Delay(500);
                         Navigation.NavigateTo("/",true);
+
                     }
                     else
                     {

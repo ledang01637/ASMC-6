@@ -1,12 +1,16 @@
 ﻿@page "/admin"
+@layout AdminMainLayout
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @* @attribute [Authorize(Roles = "1")] *@
 
 
+
+
 <AuthorizeView Roles="1">
     <Authorized>
         <h3>Chào mừng, Quản trị viên!</h3>
+
     </Authorized>
     <NotAuthorized>
         <h3>Không có quyền truy cập</h3>

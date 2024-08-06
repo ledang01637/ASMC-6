@@ -1,0 +1,64 @@
+﻿@page "/adminproductmanage"
+@layout AdminMainLayout
+@using ASMC6.Shared
+@using ASMC6.Server.Service
+@inject HttpClient httpClient
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@* @attribute [Authorize(Roles = "1")] *@
+
+
+<AuthorizeView Roles="1">
+    <Authorized>
+        @if (isLoaded)
+        {
+            <hr />
+
+            <h4>Quản lý sản phẩm</h4>
+            <table class="table table-striped cardz">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>MenuID</th>
+                        <th>CategoryID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>IsDelete</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var prod in listProd)
+                    {
+                        <tr>
+                            <td><img src="./image/product/@prod.Image" alt="Product Image" width="100px" height="100px" /></td>
+                            <td>@prod.MenuId</td>
+                            <td>@prod.CategoryId</td>
+                            <td>@prod.Name</td>
+                            <td>@prod.Description</td>
+                            <td>@prod.Price</td>
+                            <td>@(prod.IsDelete)</td>
+                            <td>
+                                <button class="btn btn-primary" @onclick="() => EditProd(prod.ProductId)">Sửa</button>
+                                @if (!prod.IsDelete)
+                                {
+                                    <button class="btn btn-danger" @onclick="() => DeleteProd(prod.ProductId)">Ẩn</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>Loading...</p>
+        }
+
+    </Authorized>
+    <NotAuthorized>
+        <h3>Không có quyền truy cập</h3>
+    </NotAuthorized>
+</AuthorizeView>
