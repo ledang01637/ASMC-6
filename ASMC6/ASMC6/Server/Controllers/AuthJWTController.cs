@@ -11,6 +11,12 @@ using System;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using ASMC6.Server.Data;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Net.Http;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASMC6.Server.Controllers
 {
@@ -21,6 +27,7 @@ namespace ASMC6.Server.Controllers
         private readonly IConfiguration _configuration;
         private readonly AppDBContext _appDBContext;
         private readonly ILogger<AuthJWTController> _logger;
+        private User userLogin = new User();
 
         public AuthJWTController(IConfiguration configuration, AppDBContext appDBContext, ILogger<AuthJWTController> logger)
         {
@@ -57,6 +64,107 @@ namespace ASMC6.Server.Controllers
                     Error = "Tài khoản hoặc mật khẩu không chính xác."
                 });
             }
+        }
+
+        [HttpGet("signin-google")]
+        public IActionResult SignInWithGoogle()
+        {
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            };
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        [HttpGet("google-response")]
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (!result.Succeeded)
+            {
+                return Ok(new LoginRespone
+                {
+                    SuccsessFull = false,
+                    Error = "Đăng nhập thất bại"
+                });
+            }
+            var emailClaim = result.Principal.FindFirst(ClaimTypes.Email);
+
+            userLogin = _appDBContext.User
+            .FirstOrDefault(x => x.Email == emailClaim.Value);
+
+            if (userLogin is null)
+            {
+                var newUser = new User
+                {
+                    Name = result.Principal.FindFirst(ClaimTypes.Name)?.Value,
+                    Email = emailClaim.Value,
+                    Password = new Random().Next(100000, 999999).ToString(),
+                    RoleId = 3,
+                    Address = "",
+                    Phone = "",
+                    IsDelete = false
+
+                };
+                _appDBContext.User.Add(newUser);
+                _appDBContext.SaveChanges();
+
+                userLogin = newUser;
+            }
+
+            var token = GenerateJwtToken(userLogin);
+          
+            return LocalRedirectPreserveMethod($"/ggfb-response?token={token}");
+
+        }
+
+        [HttpGet("signin-facebook")]
+        public IActionResult SignInWithFacebook()
+        {
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("FacebookResponse")
+            };
+            return Challenge(properties, FacebookDefaults.AuthenticationScheme);
+        }
+
+        [HttpGet("facebook-response")]
+        public async Task<IActionResult> FacebookResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (!result.Succeeded)
+            {
+                return Ok(new LoginRespone
+                {
+                    SuccsessFull = false,
+                    Error = "Đăng nhập thất bại"
+                });
+            }
+            var emailClaim = result.Principal.FindFirst(ClaimTypes.Email);
+
+            userLogin = _appDBContext.User
+                .FirstOrDefault(x => x.Email == emailClaim.Value);
+
+            if (userLogin is null)
+            {
+                var newUser = new User
+                {
+                    Name = result.Principal.FindFirst(ClaimTypes.Name)?.Value,
+                    Email = emailClaim.Value,
+                    Password = new Random().Next(100000, 999999).ToString(),
+                    RoleId = 3,
+                    Address = "",
+                    Phone = "",
+                    IsDelete = false
+
+                };
+                _appDBContext.User.Add(newUser);
+                _appDBContext.SaveChanges();
+                userLogin = newUser;
+            }
+
+            var token = GenerateJwtToken(userLogin);
+            return LocalRedirectPreserveMethod($"/ggfb-response?token={token}");
         }
 
         private string GenerateJwtToken(User user)

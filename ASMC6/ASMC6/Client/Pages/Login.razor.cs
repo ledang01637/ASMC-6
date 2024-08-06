@@ -4,13 +4,16 @@ using ASMC6.Shared;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System;
+using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Http;
+using System.Security.Policy;
 
 namespace ASMC6.Client.Pages
 {
     public partial class Login
     {
 
-        private LoginRequest user = new LoginRequest();
+        private User user = new User()  ;
         private string Token = "";
 
         private async Task HandleLogin()
@@ -30,9 +33,9 @@ namespace ASMC6.Client.Pages
                         await _localStorageService.SetItemAsync("authToken", Token);
                         await _localStorageService.SetItemAsync("userName", name);
                         await _localStorageService.SetItemAsync("expiryTime", expiryTime);
+
                         await JS.InvokeVoidAsync("showLoginAlert", "True");
-                        await Task.Delay(500);
-                        Navigation.NavigateTo("/",true);
+                        Navigation.NavigateTo("/", true);
                     }
                     else
                     {
@@ -48,6 +51,19 @@ namespace ASMC6.Client.Pages
             {
                 Token = "Server error or invalid request.";
             }
+        }
+
+        private void LoginWithGoogle()
+        {
+            var googleAuthUrl = "https://localhost:5001/api/AuthJWT/signin-google";
+            Navigation.NavigateTo(googleAuthUrl, true);
+        }
+        
+
+        private void LoginWithFacebook()
+        {
+            var facebookAuthUrl = "https://localhost:5001/api/AuthJWT/signin-facebook";
+            Navigation.NavigateTo(facebookAuthUrl, true);
         }
     }
 }

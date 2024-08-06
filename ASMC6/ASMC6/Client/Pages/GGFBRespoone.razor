@@ -1,0 +1,56 @@
+﻿@page "/ggfb-response"
+@inject HttpClient HttpClient
+@inject LocalStorageService _localStorageService
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@using System.IdentityModel.Tokens.Jwt
+@using ASMC6.Shared
+@using Microsoft.AspNetCore.WebUtilities
+
+
+@code {
+    private async Task ProcessResponse()
+    {
+        var uri = new Uri(Navigation.Uri);
+        var queryParams = QueryHelpers.ParseQuery(uri.Query);
+        var token = queryParams.ContainsKey("token") ? queryParams["token"].ToString() : null;
+
+        if (!string.IsNullOrEmpty(token))
+        {
+            try
+            {
+                var expiryTime = DateTime.Now.AddMinutes(30).ToString("o");
+
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+
+                if (jsonToken != null)
+                {
+                    var name = jsonToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
+
+                    await _localStorageService.SetItemAsync("authToken", token);
+                    await _localStorageService.SetItemAsync("expiryTime", expiryTime);
+                    await _localStorageService.SetItemAsync("userName", name);
+                    Navigation.NavigateTo("/", true);
+                }
+                else
+                {
+                    await JS.InvokeVoidAsync("showLoginAlert", "False");
+                }
+            }
+            catch
+            {
+                await JS.InvokeVoidAsync("showLoginAlert", "False");
+            }
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("showLoginAlert", "False");
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ProcessResponse();
+    }
+}
