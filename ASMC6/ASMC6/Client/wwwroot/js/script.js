@@ -47,7 +47,7 @@ function showAddOrder(status) {
 }
 
 function showRegisterAlert(status) {
-    if (status === "InputExits") {
+    if (status === "InputEmailExits") {
         Swal.fire({
             title: "Đăng ký thất bại",
             text: "Email đã tồn tại",
@@ -58,6 +58,23 @@ function showRegisterAlert(status) {
             title: "Đăng ký thành công",
             text: "Đăng ký tài khoản thành công",
             icon: "success",
+        });
+    } else if (status === "success") {
+        Swal.fire({
+            title: "Đăng ký thành công",
+            icon: "success",
+        });
+    } else if (status === "InputPhoneExits") {
+        Swal.fire({
+            title: "Đăng ký thất bại ",
+            text: "Số điện thoại đã tồn tại",
+            icon: "error",
+        });
+    } else if (status === "Error") {
+        Swal.fire({
+            title: "Đăng ký thất bại ",
+            text: "Đã có lỗi xảy ra vui lòng đăng ký lại sau ít phút",
+            icon: "error",
         });
     } 
 }

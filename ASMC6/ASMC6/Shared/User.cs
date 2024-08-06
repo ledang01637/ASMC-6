@@ -11,7 +11,7 @@ namespace ASMC6.Shared
     {
         [Key]
         public int UserId { get; set; }
-        public int RoleId {  get; set; }
+        public int RoleId { get; set; }
 
         [Required(ErrorMessage = "Tên là bắt buộc")]
         public string Name { get; set; }
@@ -29,6 +29,7 @@ namespace ASMC6.Shared
 
         [Required(ErrorMessage = "Address là bắt buộc")]
         public string Address { get; set; }
+
         public bool IsDelete { get; set; }
 
         public Role Role { get; set; }

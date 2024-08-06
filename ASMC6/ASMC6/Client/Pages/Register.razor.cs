@@ -12,57 +12,63 @@ namespace ASMC6.Client.Pages
 	public partial class Register
 	{
         private string errorMessage;
-        private string successMessage;
-        private string exitsMessage;
         private User user = new User();
-        private List<User> listUser;
-        protected override async void OnInitialized()
+        private List<User> listUser = new List<User>();
+        protected override async Task OnInitializedAsync()
         {
-            //await LoadUser();
+            await LoadUser();
             user.RoleId = 3;
         }
         private async Task AddUser()
         {
-            //var checkEmail = listUser.FirstOrDefault(x => x.Email.Equals(user.Email));
             try
             {
-                //if(checkEmail != null)
-                //{
-                await httpClient.PostAsJsonAsync("api/User/AddUser", user);
-                user = new User(); // Reset form
-                user.RoleId = 3;
-                errorMessage = string.Empty;
+                var exitsEmail = listUser.FirstOrDefault(x => x.Email.Equals(user.Email));
+                var exitsPhone = listUser.FirstOrDefault(x => x.Phone.Equals(user.Phone));
 
-                //successMessage = $"Đăng ký thành công";
-                //exitsMessage = string.Empty;
+                if (exitsEmail != null)
+                {
+                    await JS.InvokeVoidAsync("showRegisterAlert", "InputEmailExits");
+                }
+                else if (exitsPhone != null)
+                {
+                    await JS.InvokeVoidAsync("showRegisterAlert", "InputPhoneExits");
+                }
+                else
+                {
+                    var success =  await httpClient.PostAsJsonAsync("api/User/AddUser", user);
+                    if (success.IsSuccessStatusCode)
+                    {
+                        user = new User();
+                        errorMessage = string.Empty;
+                        await JS.InvokeVoidAsync("showRegisterAlert", "success");
+                    }
+                    else
+                    {
+                        await JS.InvokeVoidAsync("showRegisterAlert", "Error");
+                    }
 
-                //}
-                //else
-                //{
-                //    errorMessage = string.Empty;
-                //    successMessage = string.Empty;
-                //}
-                //successMessage = string.Empty;
-                //errorMessage = string.Empty;
-                //exitsMessage = string.Empty;
+                }
             }
             catch (Exception ex)
             {
                 errorMessage = $"Đã xảy ra lỗi: {ex.Message}";
             }
+
             StateHasChanged();
         }
-        //private async Task LoadUser()
-        //{
-        //    try
-        //    {
-        //        listUser = await httpClient.GetFromJsonAsync<List<User>>("api/User/GetUsers");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Lỗi khi tải dữ liệu người dùng: {ex.Message}");
-        //    }
-        //}
+        private async Task LoadUser()
+        {
+            try
+            {
+                listUser = await httpClient.GetFromJsonAsync<List<User>>("api/User/GetUsers");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
 
     }
 }
