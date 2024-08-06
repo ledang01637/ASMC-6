@@ -5,26 +5,27 @@ using System.Threading.Tasks;
 using System;
 using System.Net.Http.Json;
 using System.Linq;
-using ASMC6.Shared;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.AspNetCore.Components;
 
 namespace ASMC6.Client.Pages
 {
-    public partial class AdminManageOrder
+    public partial class AdminManageUser
     {
-        private List<ASMC6.Shared.Order> listOrder = new List<ASMC6.Shared.Order>();
+        private List<ASMC6.Shared.User> listUser = new List<ASMC6.Shared.User>();
         private bool isLoaded = false;
 
         protected override async Task OnInitializedAsync()
         {
-            await LoadOrder();
+            await LoadUser();
             isLoaded = true;
         }
 
-        private async Task LoadOrder()
+        private async Task LoadUser()
         {
             try
             {
-                listOrder = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Order>>("api/Order/GetOrder");
+                listUser = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.User>>("api/User/GetUsers");
             }
             catch (Exception ex)
             {
@@ -32,17 +33,18 @@ namespace ASMC6.Client.Pages
             }
         }
 
-        private async Task HideProd(int orderId)
+        private async Task HideProd(int userId)
         {
             try
             {
-                var order = listOrder.FirstOrDefault(p => p.OrderId == orderId);
-                if (order != null)
+                var user = listUser.FirstOrDefault(p => p.UserId == userId);
+                if (user != null)
                 {
-                    await httpClient.PutAsJsonAsync($"api/Order/UpdateOrder/{orderId}", order);
+                    user.IsDelete = true; // Mark the product as deleted
+                    await httpClient.PutAsJsonAsync($"api/Product/UpdateProduct/{userId}", user);
                     // Optionally update the UI to reflect the hidden status
                     // No need to remove the product from the list
-                    await LoadOrder();
+                    await LoadUser();
                     StateHasChanged();
                 }
             }
@@ -52,19 +54,19 @@ namespace ASMC6.Client.Pages
             }
         }
 
-        private async Task DeleteOrder(int orderId)
+        private async Task DeleteProd(int userId)
         {
             try
             {
-                var response = await httpClient.DeleteAsync($"api/Order/DeleteOrder/{orderId}");
+                var response = await httpClient.DeleteAsync($"api/User/DeleteUser/{userId}");
                 if (response.IsSuccessStatusCode)
                 {
-                    listOrder = listOrder.Where(p => p.OrderId != orderId).ToList();
+                    listUser = listUser.Where(p => p.UserId != userId).ToList();
                     StateHasChanged();
                 }
                 else
                 {
-                    Console.WriteLine("Error deleting Order");
+                    Console.WriteLine("Error deleting product");
                 }
             }
             catch (Exception ex)
@@ -73,10 +75,9 @@ namespace ASMC6.Client.Pages
             }
         }
 
-        private void EditOrder(int orderId)
+        private void EditProd(int userId)
         {
-            Navigation.NavigateTo("/editorder/" + orderId);
+            Navigation.NavigateTo("/edituser/" + userId);
         }
-
     }
 }
