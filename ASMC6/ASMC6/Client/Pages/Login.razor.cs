@@ -7,15 +7,19 @@ using System;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Http;
 using System.Security.Policy;
+using Newtonsoft.Json.Linq;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace ASMC6.Client.Pages
 {
     public partial class Login
     {
 
-        private User user = new User()  ;
+        private User user = new User();
+        private List<User> users = new List<User>();
         private string Token = "";
-
         private async Task HandleLogin()
         {
             var response = await httpClient.PostAsJsonAsync("api/AuthJWT/AuthUser", user);
@@ -27,16 +31,25 @@ namespace ASMC6.Client.Pages
                     if (loginResponse != null && loginResponse.SuccsessFull)
                     {
                         Token = loginResponse.Token;
+                        var handler = new JwtSecurityTokenHandler();
+                        var jsonToken = handler.ReadToken(Token) as JwtSecurityToken;
+                        var emailUser = jsonToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
 
+                        await GetUsers(emailUser);
+
+                        if(user.IsDelete)
+                        {
+                            await JS.InvokeVoidAsync("showLoginAlert", "Block");
+                            return;
+                        }
                         var name = user.Email;
                         var expiryTime = DateTime.Now.AddMinutes(30).ToString("o");
                         await _localStorageService.SetItemAsync("authToken", Token);
                         await _localStorageService.SetItemAsync("userName", name);
                         await _localStorageService.SetItemAsync("expiryTime", expiryTime);
-
-                        await Task.Delay(800);
-
                         await JS.InvokeVoidAsync("showLoginAlert", "True");
+
+                        await Task.Delay(1000);
                         Navigation.NavigateTo("/", true);
                     }
                     else
@@ -66,6 +79,23 @@ namespace ASMC6.Client.Pages
         {
             var facebookAuthUrl = "https://localhost:5001/api/AuthJWT/signin-facebook";
             Navigation.NavigateTo(facebookAuthUrl, true);
+        }
+
+        private async Task GetUsers(string email)
+        {
+            try
+            {
+                users = await httpClient.GetFromJsonAsync<List<User>>("api/User/GetUsers");
+
+                if (users!= null)
+                {
+                    user = users.FirstOrDefault(a => a.Email.Equals(email));
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Erorr:: " + ex.Message);
+            }
         }
     }
 }

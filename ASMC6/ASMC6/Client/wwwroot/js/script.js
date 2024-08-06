@@ -17,7 +17,7 @@
             text: "Tài khoản đã bị khóa",
             icon: "warning",
         });
-    } else if (status === "True") {
+    } else if (status == "True") {
         Swal.fire({
             title: "Đăng nhập thành công",
             icon: "success",

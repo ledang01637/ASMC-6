@@ -38,7 +38,7 @@ namespace ASMC6.Server.Controllers
             });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetUser/{id}")]
         public ActionResult<User> GetId(int id)
         {
             if (id == 0)
