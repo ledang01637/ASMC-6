@@ -178,6 +178,8 @@ namespace ASMC6.Server.Controllers
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                 new Claim("Id", user.UserId.ToString()),
                 new Claim("Email", user.Email),
+                new Claim("Name", user.Name),
+                new Claim("RoleId", user.RoleId.ToString()),
                 new Claim(ClaimTypes.Role, user.RoleId.ToString())
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key));

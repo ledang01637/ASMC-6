@@ -3,365 +3,366 @@
 @inject HttpClient httpClient
 @inject IJSRuntime JS
 
-<article class="container" style="margin-bottom:100px !important; ">
-    <div class="info-restaurant mt-5 mb-5 row">2
-        <div class="logo-res col-md-4">
-            <img src="/image/restaurant/logo-1.jpg" alt="">
-        </div>
-        <div class="info-res col-md-8">
-            <h1>Phúc Long</h1>
-            <hr>
-            <span>Thời gian mở cửa: 07:00 AM</span><br>
-            <span>Địa chỉ: Phong Điền, Cần Thơ</span><br>
-            <span>Đánh giá: 4.8/5</span>
-        </div>
-    </div>
-    <div class="label-banner row">
-        <span class="text-center">Thực đơn</span>
-    </div>
 
-    <div id="carouselExampleCaptions1" class="carousel slide" style="margin-bottom:70px;">
-        <div class="carousel-inner">
-            <span style="color: gray; font-size: 30px;">Đồ ăn khô</span>
-            <hr class="mb-3">
-            <div class="carousel-item active">
-                <div class="col-md-12 row mx-auto justify-content-center p-0">
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
+<AuthorizeView Roles="2">
+    <Authorized>
+        @if (listProMenu is null)
+        {
+            <p>Loading...</p>
+        }
+        else
+        {
+            <article class="container" style="margin-bottom:100px !important; ">
+                <div class="info-restaurant mt-5 mb-5 row">
+                    2
+                    <div class="logo-res col-md-4">
+                        <img src="/image/restaurant/@restaurant.Image" alt="">
                     </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
+                    <div class="info-res col-md-8">
+                        <h1>Phúc Long</h1>
+                        <hr>
+                        <span>Thời gian mở cửa: @restaurant.OpeningHours AM</span><br>
+                        <span>Địa chỉ: @restaurant.Address</span><br>
+                        <span>Đánh giá: 4.8/5</span>
                     </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                </div>
+                <div class="label-banner row">
+                    <span class="text-center">Thực đơn</span>
+                </div>
+
+                <div id="carouselExampleCaptions1" class="carousel slide" style="margin-bottom:70px;">
+                    <div class="carousel-inner">
+                        <span style="color: gray; font-size: 30px;">Đồ ăn khô</span>
+                        <hr class="mb-3">
+                        <div class="carousel-item active">
+                            <div class="col-md-12 row mx-auto justify-content-center p-0">
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều sfgdfgdfgd</span>
+
+                        <div class="carousel-item">
+                            <div class="col-md-12 row mx-auto justify-content-center p-0">
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center justify-content-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center justify-content-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <div class="col-md-12 row mx-auto justify-content-center p-0">
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center justify-content-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center justify-content-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="carousel col-md-4 mx-auto mt-3">
+                        <div class="m-0  position-relative">
+                            <button class="carousel-control-prev bg-danger" type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide="prev" style="height: 50px; border-radius:25px; width:120px;">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">previous</span>
+                            </button>
+                            <button class="carousel-control-next bg-danger" type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide="next" style="height: 50px; border-radius:25px; width:120px;">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">next</span>
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="carousel-item">
-                <div class="col-md-12 row mx-auto justify-content-center p-0">
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                <div id="carouselExampleCaptions2" class="carousel slide" style="margin-bottom:70px;">
+                    <div class="carousel-inner">
+                        <span style="color: gray; font-size: 30px;">Đồ ăn nước</span>
+                        <hr class="mb-3">
+                        <div class="carousel-item active inner">
+                            <div class="col-md-12 row mx-auto justify-content-center p-0">
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều sfgdfgdfgd</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+
+                        <div class="carousel-item">
+                            <div class="col-md-12 row mx-auto justify-content-center p-0">
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="carousel-item">
+                            <div class="col-md-12 row mx-auto justify-content-center p-0">
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="col-md-4 text-center justify-content-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center justify-content-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                    <div class="carousel col-md-4 mx-auto mt-3">
+                        <div class="m-0  position-relative">
+                            <button class="carousel-control-prev bg-danger" type="button" data-bs-target="#carouselExampleCaptions2" data-bs-slide="prev" style="height: 50px; border-radius:25px; width:120px;">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">previous</span>
+                            </button>
+                            <button class="carousel-control-next bg-danger" type="button" data-bs-target="#carouselExampleCaptions2" data-bs-slide="next" style="height: 50px; border-radius:25px; width:120px;">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">next</span>
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="carousel-item">
-                <div class="col-md-12 row mx-auto justify-content-center p-0">
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                <div id="carouselExampleCaptions3" class="carousel slide">
+                    <div class="carousel-inner">
+                        <span style="color: gray; font-size: 30px;">Đồ uống</span>
+                        <hr class="mb-3">
+                        <div class="carousel-item active inner">
+                            <div class="col-md-12 row mx-auto justify-content-center p-0">
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều sfgdfgdfgd</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+
+                        <div class="carousel-item">
+                            <div class="col-md-12 row mx-auto justify-content-center p-0">
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="carousel-item">
+                            <div class="col-md-12 row mx-auto justify-content-center p-0">
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center inner-food">
+                                    <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
+                                    <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
+                                        <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
+                                    </div>
+                                    <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
+                                        <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="col-md-4 text-center justify-content-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center justify-content-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
+                    <div class="carousel col-md-4 mx-auto mt-3">
+                        <div class="m-0  position-relative">
+                            <button class="carousel-control-prev bg-danger" type="button" data-bs-target="#carouselExampleCaptions3" data-bs-slide="prev" style="height: 50px; border-radius:25px; width:120px;">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">previous</span>
+                            </button>
+                            <button class="carousel-control-next bg-danger" type="button" data-bs-target="#carouselExampleCaptions3" data-bs-slide="next" style="height: 50px; border-radius:25px; width:120px;">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">next</span>
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </article>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <h3>Bạn không có quyền truy cập cút đi</h3>
+        <img src="/image/meme-cut-14.jpg" width="100%" height="auto" alt="Alternate Text" />
+    </NotAuthorized>
+</AuthorizeView>
 
-        </div>
-        <div class="carousel col-md-4 mx-auto mt-3">
-            <div class="m-0  position-relative">
-                <button class="carousel-control-prev bg-danger" type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide="prev" style="height: 50px; border-radius:25px; width:120px;">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">previous</span>
-                </button>
-                <button class="carousel-control-next bg-danger" type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide="next" style="height: 50px; border-radius:25px; width:120px;">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">next</span>
-                </button>
-            </div>
-        </div>
-    </div>
 
-    <div id="carouselExampleCaptions2" class="carousel slide" style="margin-bottom:70px;">
-        <div class="carousel-inner">
-            <span style="color: gray; font-size: 30px;">Đồ ăn nước</span>
-            <hr class="mb-3">
-            <div class="carousel-item active inner">
-                <div class="col-md-12 row mx-auto justify-content-center p-0">
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều sfgdfgdfgd</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="col-md-12 row mx-auto justify-content-center p-0">
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="col-md-12 row mx-auto justify-content-center p-0">
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="carousel col-md-4 mx-auto mt-3">
-            <div class="m-0  position-relative">
-                <button class="carousel-control-prev bg-danger" type="button" data-bs-target="#carouselExampleCaptions2" data-bs-slide="prev" style="height: 50px; border-radius:25px; width:120px;">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">previous</span>
-                </button>
-                <button class="carousel-control-next bg-danger" type="button" data-bs-target="#carouselExampleCaptions2" data-bs-slide="next" style="height: 50px; border-radius:25px; width:120px;">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">next</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div id="carouselExampleCaptions3" class="carousel slide">
-        <div class="carousel-inner">
-            <span style="color: gray; font-size: 30px;">Đồ uống</span>
-            <hr class="mb-3">
-            <div class="carousel-item active inner">
-                <div class="col-md-12 row mx-auto justify-content-center p-0">
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều sfgdfgdfgd</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="col-md-12 row mx-auto justify-content-center p-0">
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style=";">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-item">
-                <div class="col-md-12 row mx-auto justify-content-center p-0">
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white; ">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center inner-food">
-                        <img src="/image/restaurant/com-2.jpg" alt="" width="100%" height="70%">
-                        <div class="name-food row m-0" style="height:46px; font-size:25px; color:white;background-color: #DB3737 ">
-                            <span class="text-name-food text-truncate" style="">Cơm sườn bì chả</span>
-                        </div>
-                        <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                            <span class="text-addres-food text-truncate">142 - An khánh - Ninh kiều</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="carousel col-md-4 mx-auto mt-3">
-            <div class="m-0  position-relative">
-                <button class="carousel-control-prev bg-danger" type="button" data-bs-target="#carouselExampleCaptions3" data-bs-slide="prev" style="height: 50px; border-radius:25px; width:120px;">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">previous</span>
-                </button>
-                <button class="carousel-control-next bg-danger" type="button" data-bs-target="#carouselExampleCaptions3" data-bs-slide="next" style="height: 50px; border-radius:25px; width:120px;">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">next</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</article>

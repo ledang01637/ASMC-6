@@ -27,10 +27,13 @@
                 if (jsonToken != null)
                 {
                     var name = jsonToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
+                    var roleId = jsonToken.Claims.FirstOrDefault(c => c.Type == "RoleId")?.Value;
 
                     await _localStorageService.SetItemAsync("authToken", token);
                     await _localStorageService.SetItemAsync("expiryTime", expiryTime);
                     await _localStorageService.SetItemAsync("userName", name);
+                    await _localStorageService.SetItemAsync("userRoleId", roleId);
+
                     Navigation.NavigateTo("/", true);
                 }
                 else

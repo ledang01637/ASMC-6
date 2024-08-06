@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Collections.Generic;
+using ASMC6.Client.Session;
 
 namespace ASMC6.Client.Pages
 {
@@ -47,6 +48,7 @@ namespace ASMC6.Client.Pages
                         await _localStorageService.SetItemAsync("authToken", Token);
                         await _localStorageService.SetItemAsync("userName", name);
                         await _localStorageService.SetItemAsync("expiryTime", expiryTime);
+                        await _localStorageService.SetItemAsync("userRoleId", user.RoleId.ToString());
                         await JS.InvokeVoidAsync("showLoginAlert", "True");
 
                         await Task.Delay(1000);
@@ -90,6 +92,7 @@ namespace ASMC6.Client.Pages
                 if (users!= null)
                 {
                     user = users.FirstOrDefault(a => a.Email.Equals(email));
+                    SUser.User = user;
                 }
             }
             catch(Exception ex)

@@ -13,6 +13,7 @@
         await _localStorageService.RemoveItemAsync("authToken");
         await _localStorageService.RemoveItemAsync("expiryTime");
         await _localStorageService.RemoveItemAsync("userName");
+        await _localStorageService.RemoveItemAsync("userRoleId");
 
         Navigation.NavigateTo("/login", true);
     }

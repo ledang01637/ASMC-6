@@ -12,7 +12,7 @@ namespace ASMC6.Server.Service
         {
             _context = context;
         }
-        public IEnumerable<Menu> GetMenu()
+        public List<Menu> GetMenus()
         {
             return _context.Menu.ToList();
         }
