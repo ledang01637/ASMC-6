@@ -1,0 +1,64 @@
+﻿@page "/adminusermanage"
+@layout AdminMainLayout
+@using ASMC6.Shared
+@using ASMC6.Server.Service
+@inject HttpClient httpClient
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@* @attribute [Authorize(Roles = "1")] *@
+
+
+<AuthorizeView Roles="1">
+    <Authorized>
+        @if (isLoaded)
+        {
+            <hr />
+
+            <h4>Quản lý sản phẩm</h4>
+            <table class="table table-striped cardz">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>MenuID</th>
+                        <th>CategoryID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>IsDelete</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in listUser)
+                    {
+                        <tr>
+                            <td>@user.Name</td>
+                            <td>@user.Password</td>
+                            <td>@user.Address</td>
+                            <td>@user.Email</td>
+                            <td>@user.Phone</td>
+                            <td>@user.Role</td>
+                            <td>@(user.IsDelete)</td>
+                            <td>
+                                <button class="btn btn-primary" @onclick="() => EditProd(user.UserId)">Sửa</button>
+                                @if (!user.IsDelete)
+                                {
+                                    <button class="btn btn-danger" @onclick="() => DeleteProd(user.UserId)">Ẩn</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>Loading...</p>
+        }
+
+    </Authorized>
+    <NotAuthorized>
+        <h3>Không có quyền truy cập</h3>
+    </NotAuthorized>
+</AuthorizeView>
