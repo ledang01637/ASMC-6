@@ -1,45 +1,48 @@
-﻿@page "/restaurants"
-@using ASMC6.Client.Session
+﻿@page "/editrestaurant/{RestaurantId:int}"
+@layout AdminMainLayout
 @using ASMC6.Shared
+@using ASMC6.Server.Service
 @inject HttpClient httpClient
+@inject NavigationManager Navigation
+
 <div class="row justify-content-center mt-3">
     <div class="col-md-6">
         <div class="card shadow-sm">
             <div class="card-header bg-danger text-white">
-                <h5 class="text-center mb-0">TRỞ THÀNH NGƯỜI BÁN</h5>
+                <h5 class="text-center mb-0">CHỈNH SỬA CỬA HÀNG</h5>
             </div>
             <div class="card-body">
-                <EditForm method="post" Model="@rest" OnValidSubmit="AddProd">
+                <EditForm Model="@rest" OnValidSubmit="EditProd">
                     <DataAnnotationsValidator />
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"><strong>Tên Cửa Hàng</strong></label>
                         <input @bind="rest.Name" class="form-control" placeholder="Nhập Tên" />
-                        <ValidationMessage For="@(()=>rest.Name)" />
+                        <ValidationMessage For="@(() => rest.Name)" />
                     </div>
 
                     <div class="form-group">
                         <label class="control-label"><strong>Ảnh Cửa Hàng</strong></label>
                         <input type="file" @bind="rest.Image" class="form-control-file" />
                         <small class="form-text text-muted">Chọn một tệp hình ảnh để tải lên.</small>
-                        <ValidationMessage For="@(()=>rest.Image)" />
+                        <ValidationMessage For="@(() => rest.Image)" />
                     </div>
 
                     <div class="form-group">
                         <label asp-for="Address" class="control-label"><strong>Địa Chỉ</strong></label>
                         <input @bind="rest.Address" class="form-control" placeholder="Nhập Địa Chỉ" />
-                        <ValidationMessage For="@(()=>rest.Address)" />
+                        <ValidationMessage For="@(() => rest.Address)" />
                     </div>
 
                     <div class="form-group">
                         <label asp-for="OpeningHours" class="control-label"><strong>Giờ Mở Cửa</strong></label>
                         <input type="datetime-local" @bind="rest.OpeningHours" class="form-control" />
-                        <ValidationMessage For="@(()=>rest.OpeningHours)" />
+                        <ValidationMessage For="@(() => rest.OpeningHours)" />
                     </div>
 
                     <div class="form-group text-center">
                         <div class="d-flex justify-content-center">
-                            <button class="btn btn-danger mx-2">Đăng ký</button>
+                            <button class="btn btn-danger mx-2">Cập Nhật</button>
                             <a asp-controller="Home" aria-current="page" href="/" class="btn btn-secondary mx-2">Quay Về</a>
                         </div>
                     </div>
@@ -56,27 +59,32 @@
                         @ero
                     </div>
                 }
-</div>
+            </div>
         </div>
     </div>
 </div>
 
 @code {
+    [Parameter]
+    public int RestaurantId { get; set; }
+
     private string ero;
     private string successMessage;
-    private List<ASMC6.Shared.Restaurant> listProd = new List<ASMC6.Shared.Restaurant>();
     private ASMC6.Shared.Restaurant rest = new ASMC6.Shared.Restaurant();
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadProducts();
+        if (RestaurantId > 0)
+        {
+            await LoadRestaurant(RestaurantId);
+        }
     }
 
-    private async Task LoadProducts()
+    private async Task LoadRestaurant(int id)
     {
         try
         {
-            listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
+            rest = await httpClient.GetFromJsonAsync<ASMC6.Shared.Restaurant>($"api/Restaurant/GetRestaurant/{id}");
         }
         catch (Exception ex)
         {
@@ -84,15 +92,13 @@
         }
     }
 
-    private async Task AddProd()
+    private async Task EditProd()
     {
         try
         {
-            await httpClient.PostAsJsonAsync("api/Restaurant/AddRestaurant", rest);
-            await LoadProducts();
-            rest = new ASMC6.Shared.Restaurant(); // Reset form
+            await httpClient.PutAsJsonAsync($"api/Restaurant/UpdateRestaurant/{rest.RestaurantId}", rest);
+            successMessage = "Cập nhật thành công!";
             ero = string.Empty;
-            successMessage = "Đăng ký thành công!";
         }
         catch (Exception ex)
         {

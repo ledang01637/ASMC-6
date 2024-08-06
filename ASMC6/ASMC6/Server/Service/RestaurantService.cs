@@ -17,6 +17,8 @@ namespace ASMC6.Server.Service
         {
             return _context.Restaurant.ToList();
         }
+
+
         public Restaurant AddRestaurant(Restaurant Restaurant)
         {
             _context.Add(Restaurant);
@@ -74,5 +76,6 @@ namespace ASMC6.Server.Service
             _context.SaveChanges();
             return existingRes;
         }
+
     }
 }

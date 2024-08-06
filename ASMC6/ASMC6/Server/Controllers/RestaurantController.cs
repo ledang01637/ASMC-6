@@ -65,13 +65,13 @@ namespace ASMC6.Server.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] Restaurant updatedRestaurant)
         {
-            var updatedLoai = _RestaurantService.UpdateRestaurant(id, updatedRestaurant);
-            if (updatedLoai == null)
+            var updated = _RestaurantService.UpdateRestaurant(id, updatedRestaurant);
+            if (updated == null)
             {
-                return NotFound("Category not found");
+                return NotFound("Restaurant not found");
             }
 
-            return Ok(updatedLoai);
+            return Ok(updated);
         }
     }
 }
