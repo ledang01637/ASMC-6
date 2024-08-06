@@ -34,6 +34,8 @@ namespace ASMC6.Client.Pages
                         await _localStorageService.SetItemAsync("userName", name);
                         await _localStorageService.SetItemAsync("expiryTime", expiryTime);
 
+                        await Task.Delay(800);
+
                         await JS.InvokeVoidAsync("showLoginAlert", "True");
                         Navigation.NavigateTo("/", true);
                     }

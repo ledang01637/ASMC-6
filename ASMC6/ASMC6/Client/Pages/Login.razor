@@ -8,7 +8,7 @@
     <div class="card-body row main-card">
         <div class="col-md-6 bg-left" style="background-image: url('https://i.pinimg.com/564x/06/ab/18/06ab18bbf61d13cc1ea3f57f4f855754.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
         <div class="col-md-6 bg-right">
-            <EditForm Model="@user" OnValidSubmit="HandleLogin">
+            <EditForm Model="@user" method="post" OnValidSubmit="HandleLogin">
                 <DataAnnotationsValidator />
                 <div class="text-center ms-5 me-5">
                     <span class="text-title">Đăng nhập</span>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="ms-5 me-5 mb-3">
                     <a class="btn btn-success" href="/register">Đăng kí</a>
-                    <button type="submit" id="btnLogin" class="btn btn-primary">Đăng nhập</button>
+                    <button type="submit" @onclick="HandleLogin" id="btnLogin" class="btn btn-primary">Đăng nhập</button>
                 </div>
             </EditForm>
         </div>

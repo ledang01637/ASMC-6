@@ -21,7 +21,7 @@ namespace ASMC6.Client.Pages
 
         private async Task LoadRestaurants()
         {
-            restaurant = await httpClient.GetFromJsonAsync<Restaurant>("api/Restaurant/")
+            restaurant = await httpClient.GetFromJsonAsync<Restaurant>("api/Restaurant/");
         }
     }
 }
