@@ -1,7 +1,10 @@
-﻿@page "/restaurants"
+﻿@page "/registRestaurant"
 @using ASMC6.Client.Session
 @using ASMC6.Shared
+@inject LocalStorageService _localStorageService
+@inject NavigationManager Navigation
 @inject HttpClient httpClient
+
 <div class="row justify-content-center mt-3">
     <div class="col-md-6">
         <div class="card shadow-sm">
@@ -56,7 +59,7 @@
                         @ero
                     </div>
                 }
-</div>
+            </div>
         </div>
     </div>
 </div>
@@ -69,6 +72,12 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var email = await _localStorageService.GetItemAsync("userName");
+
+        if (email is null)
+        {
+            Navigation.NavigateTo("/login");
+        }
         await LoadProducts();
     }
 

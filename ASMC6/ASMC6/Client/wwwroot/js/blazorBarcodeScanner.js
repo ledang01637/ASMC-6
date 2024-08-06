@@ -11,3 +11,4 @@
 function clearQrCode() {
     document.getElementById("qrcode").innerHTML = "";
 }
+

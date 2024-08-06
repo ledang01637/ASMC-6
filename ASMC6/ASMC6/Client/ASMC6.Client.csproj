@@ -30,4 +30,8 @@
     <ProjectReference Include="..\Shared\ASMC6.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Admin\" />
+  </ItemGroup>
+
 </Project>
