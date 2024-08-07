@@ -24,7 +24,7 @@ namespace ASMC6.Client.Pages
         {
             try
             {
-                listOrder = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Order>>("api/Order/GetOrder");
+                listOrder = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Order>>("api/Order/GetOrders");
             }
             catch (Exception ex)
             {

@@ -7,10 +7,9 @@
 @inject NavigationManager Navigation
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
-@* @attribute [Authorize(Roles = "1")] *@
 
-<AuthorizeView Roles="1">
-    <Authorized>
+<AuthorizeView Roles="1" Context="authorizedContext">
+    <Authorized Context="authorizedChildContext">
         <div class="row justify-content-center mt-3">
             <div class="col-md-6">
                 <div class="card shadow-sm">
@@ -18,7 +17,7 @@
                         <h5 class="text-center mb-0">CHỈNH SỬA SẢN PHẨM</h5>
                     </div>
                     <div class="card-body">
-@*                         <EditForm Model="@prod" OnValidSubmit="EditProd">
+                        <EditForm Model="@prod" OnValidSubmit="EditProd" Context="editFormContext">
                             <DataAnnotationsValidator />
                             <div class="text-danger mb-3">
                                 <ValidationSummary />
@@ -44,7 +43,7 @@
 
                             <div class="form-group">
                                 <label for="Image" class="control-label"><strong>Ảnh sản phẩm</strong></label>
-                                <input id="Image" type="file" class="form-control-file" @onchange="HandleFileSelected" />
+                                <input id="Image" type="file" class="form-control-file"/>
                                 <small class="form-text text-muted">Chọn một tệp hình ảnh để tải lên.</small>
                                 <ValidationMessage For="@(() => prod.Image)" />
                             </div>
@@ -63,7 +62,7 @@
 
                             <div class="form-group">
                                 <label for="IsDelete" class="control-label"><strong>Is Delete</strong></label>
-                                <input id="IsDelete" type="text" value="False" class="form-control" readonly />
+                                <input id="IsDelete" type="checkbox" @bind="prod.IsDelete" class="form-control" />
                                 <ValidationMessage For="@(() => prod.IsDelete)" />
                             </div>
 
@@ -73,109 +72,117 @@
                                     <a href="/adminproductmanage" class="btn btn-secondary mx-2">Quay Về</a>
                                 </div>
                             </div>
-                        </EditForm> *@
+                        </EditForm>
                         @if (!string.IsNullOrEmpty(successMessage))
                         {
                             <div class="alert alert-success mt-3">
                                 @successMessage
                             </div>
                         }
-                        @if (!string.IsNullOrEmpty(ero))
+                        @if (!string.IsNullOrEmpty(errorMessage))
                         {
                             <div class="alert alert-danger mt-3">
-                                @ero
+                                @errorMessage
                             </div>
                         }
                     </div>
                 </div>
             </div>
         </div>
-
-        @code {
-        [Parameter]
-        public int ProductId { get; set; }
-
-        private string ero;
-        private string successMessage;
-        private ASMC6.Shared.Product prod = new ASMC6.Shared.Product();
-        private IBrowserFile selectedFile;
-
-        protected override async Task OnInitializedAsync()
-        {
-            if (ProductId > 0)
-            {
-                await LoadEditProduct(ProductId);
-            }
-        }
-
-        private async Task LoadEditProduct(int id)
-        {
-            try
-            {
-                var response = await httpClient.GetAsync($"api/Product/GetProducts/{id}");
-                if (response.IsSuccessStatusCode)
-                {
-                    prod = await response.Content.ReadFromJsonAsync<ASMC6.Shared.Product>();
-                }
-                else
-                {
-                    ero = $"Không tìm thấy sản phẩm với ID {id}";
-                }
-            }
-            catch (Exception ex)
-            {
-                ero = $"Lỗi khi tải sản phẩm: {ex.Message}";
-            }
-        }
-
-        private async Task EditProd()
-        {
-            try
-            {
-                // Handle file upload if needed
-                var content = new MultipartFormDataContent();
-                if (selectedFile != null)
-                {
-                    var fileContent = new StreamContent(selectedFile.OpenReadStream());
-                    content.Add(fileContent, "file", selectedFile.Name);
-                }
-
-                // Add other product fields
-                content.Add(new StringContent(prod.Name), "Name");
-                content.Add(new StringContent(prod.MenuId.ToString()), "MenuId");
-                content.Add(new StringContent(prod.CategoryId.ToString()), "CategoryId");
-                content.Add(new StringContent(prod.Price.ToString()), "Price");
-                content.Add(new StringContent(prod.Description), "Description");
-                content.Add(new StringContent(prod.IsDelete.ToString()), "IsDelete");
-
-                var response = await httpClient.PutAsync($"api/Product/{prod.ProductId}", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    successMessage = "Cập nhật thành công!";
-                    ero = string.Empty;
-                }
-                else
-                {
-                    ero = "Lỗi khi cập nhật sản phẩm";
-                }
-            }
-            catch (Exception ex)
-            {
-                ero = $"Đã xảy ra lỗi: {ex.Message}";
-                successMessage = string.Empty;
-            }
-
-            StateHasChanged();
-        }
-
-        private void HandleFileSelected(InputFileChangeEventArgs e)
-        {
-            selectedFile = e.File;
-        }
-        }
     </Authorized>
     <NotAuthorized>
         <h3>Không có quyền truy cập</h3>
     </NotAuthorized>
 </AuthorizeView>
+
+@code {
+    [Parameter]
+    public int ProductId { get; set; }
+
+    private string errorMessage;
+    private string successMessage;
+    private ASMC6.Shared.Product prod = new ASMC6.Shared.Product();
+    private IBrowserFile selectedFile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (ProductId > 0)
+        {
+            await LoadEditProduct(ProductId);
+        }
+    }
+
+    private async Task LoadEditProduct(int id)
+    {
+        try
+        {
+            var response = await httpClient.GetAsync($"api/Product/GetProducts/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                prod = await response.Content.ReadFromJsonAsync<ASMC6.Shared.Product>();
+            }
+            else
+            {
+                errorMessage = $"Không tìm thấy sản phẩm với ID {id}";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Lỗi khi tải sản phẩm: {ex.Message}";
+        }
+    }
+
+    private async Task EditProd()
+    {
+        try
+        {
+            // Handle image upload if a file is selected
+            if (selectedFile != null)
+            {
+                var resizedImageFile = await selectedFile.RequestImageFileAsync("image/jpeg", 300, 500);
+                var buffer = new byte[resizedImageFile.Size];
+                await resizedImageFile.OpenReadStream().ReadAsync(buffer);
+
+                var content = new MultipartFormDataContent();
+                content.Add(new ByteArrayContent(buffer), "file", selectedFile.Name);
+
+                var uploadResponse = await httpClient.PostAsync("api/Product/UploadImage", content);
+                if (uploadResponse.IsSuccessStatusCode)
+                {
+                    // Assuming the server returns the URL of the uploaded image
+                    prod.Image = await uploadResponse.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    errorMessage = "Lỗi khi tải lên hình ảnh";
+                    return;
+                }
+            }
+
+            var response = await httpClient.PutAsync($"api/Product/{prod.ProductId}", JsonContent.Create(prod));
+
+            if (response.IsSuccessStatusCode)
+            {
+                successMessage = "Cập nhật thành công!";
+                errorMessage = string.Empty;
+                Navigation.NavigateTo("/adminproductmanage");
+            }
+            else
+            {
+                errorMessage = "Lỗi khi cập nhật sản phẩm";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Đã xảy ra lỗi: {ex.Message}";
+            successMessage = string.Empty;
+        }
+
+        StateHasChanged();
+    }
+
+    private void HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+    }
+}

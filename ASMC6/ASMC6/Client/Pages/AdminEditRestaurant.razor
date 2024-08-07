@@ -20,11 +20,12 @@
                         <h5 class="text-center mb-0">CHỈNH SỬA CỬA HÀNG</h5>
                     </div>
                     <div class="card-body">
-@*                         <EditForm Model="@rest" OnValidSubmit="EditRestaurant">
+                        <EditForm Model="@rest" OnValidSubmit="EditRestaurant" Context="editFormContext">
                             <DataAnnotationsValidator />
                             <div class="text-danger mb-3">
                                 <ValidationSummary />
                             </div>
+
                             <div class="form-group">
                                 <label for="Name" class="control-label"><strong>Tên Cửa Hàng</strong></label>
                                 <input @bind="rest.Name" class="form-control" placeholder="Nhập Tên" />
@@ -57,11 +58,11 @@
 
                             <div class="form-group text-center">
                                 <div class="d-flex justify-content-center">
-                                    <button type="submit" @onclick="Save" class="btn btn-danger mx-2">Cập Nhật</button>
+                                    <button type="submit" class="btn btn-danger mx-2">Cập Nhật</button>
                                     <a href="/adminrestaurantmanage" class="btn btn-secondary mx-2">Quay Về</a>
                                 </div>
                             </div>
-                        </EditForm> *@
+                        </EditForm>
                         @if (!string.IsNullOrEmpty(successMessage))
                         {
                             <div class="alert alert-success mt-3">

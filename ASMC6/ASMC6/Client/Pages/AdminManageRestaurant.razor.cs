@@ -18,15 +18,15 @@ namespace ASMC6.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            await LoadProduct();
+            await LoadRestaurant();
             isLoaded = true;
         }
 
-        private async Task LoadProduct()
+        private async Task LoadRestaurant()
         {
             try
             {
-                listRest = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurant");
+                listRest = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
             }
             catch (Exception ex)
             {
@@ -42,8 +42,8 @@ namespace ASMC6.Client.Pages
                 if (rests != null)
                 {
                     rests.IsDelete = true; // Mark the product as deleted
-                    await httpClient.PutAsJsonAsync($"api/Product/{restaurantId}", rests);
-                    await LoadProduct();
+                    await httpClient.PutAsJsonAsync($"api/Restaurant/{restaurantId}", rests);
+                    await LoadRestaurant();
                     StateHasChanged();
                 }
             }
@@ -77,7 +77,7 @@ namespace ASMC6.Client.Pages
 
         private void EditProd(int restaurantId)
         {
-            Navigation.NavigateTo("/editproduct/" + restaurantId);
+            Navigation.NavigateTo("/editrestaurant/" + restaurantId);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace ASMC6.Client.Pages
         private List<ASMC6.Shared.Product> pagedProducts;
         private ASMC6.Shared.Product prod;
         private decimal minPrice;
-        private decimal maxPrice = 100000;
+        private decimal maxPrice = 100000000;
 
 
         protected override async Task OnInitializedAsync()
@@ -66,7 +66,7 @@ namespace ASMC6.Client.Pages
         private void ResetPriceFilter()
         {
             minPrice = 0;
-            maxPrice = decimal.MaxValue;
+            maxPrice = 100000000;
             ApplyFilter();
             StateHasChanged();
         }

@@ -39,6 +39,7 @@ namespace ASMC6.Client.Pages
                         await JS.InvokeVoidAsync("showLoginAlert", "True");
                         await Task.Delay(500);
                         Navigation.NavigateTo("/",true);
+                        Navigation.NavigateTo("/admin", true);
 
                     }
                     else
