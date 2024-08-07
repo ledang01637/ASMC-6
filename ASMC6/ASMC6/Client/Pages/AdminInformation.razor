@@ -7,65 +7,74 @@
 @inject LocalStorageService _localStorageService
 @inject IJSRuntime JS
 
-<div class="container-fluid col-md-12 row vh-100">
-    <div class="col-md-3">
-        <div class="col-md-12 row p-2">
-            <div class="col-md-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="35" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-                </svg>
-            </div>
-            <h3 class="col-md-8 m-auto p-3">@SUser.User.Name</h3>
 
-        </div>
-        <hr class="border-3 bg-dark" />
-        <div class="col-md-12 row">
-            <ul class="navbar-nav mx-auto fs-4">
-                <li><a class="dropdown-item" asp-controller="User" asp-action="Histori">Lịch sử mua hàng</a></li>
-                <li><a class="dropdown-item" asp-controller="User" asp-action="ChangeAddress">Đổi địa chỉ</a></li>
-                <li><a class="dropdown-item" asp-controller="User" asp-action="ChangePassword">Đổi mật khẩu</a></li>
-                <!-- Menu hiện tại -->
-            </ul>
-        </div>
-    </div>
+<AuthorizeView Roles="1">
+    <Authorized>
+        <div class="container-fluid col-md-12 row vh-100">
+            <div class="col-md-3">
+                <div class="col-md-12 row p-2">
+                    <div class="col-md-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="35" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                        </svg>
+                    </div>
+                    <h3 class="col-md-8 m-auto p-3">@SUser.User.Name</h3>
 
-    <div class="col-md-9 bg-body-secondary">
-        <div class="col-md-12 p-1">
-            <h2>HỒ SƠ CỦA TÔI</h2>
-            <h6>Quản lý thông tin hồ sơ để bảo mật tài khoản</h6>
-        </div>
-        <hr class="border-3 bg-dark" />
-        <div class="col-md-12 row">
-            <div class="col-md-4 border-end">
-                <div class="bg-danger rounded-pill p-4 mt-5 m-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="currentColor" class="bi bi-person-fill rounded-pill" viewBox="0 0 16 16">
-                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-                    </svg>
+                </div>
+                <hr class="border-3 bg-dark" />
+                <div class="col-md-12 row">
+                    <ul class="navbar-nav mx-auto fs-4">
+                        <li><a class="dropdown-item" asp-controller="User" asp-action="Histori">Lịch sử mua hàng</a></li>
+                        <li><a class="dropdown-item" asp-controller="User" asp-action="ChangeAddress">Đổi địa chỉ</a></li>
+                        <li><a class="dropdown-item" asp-controller="User" asp-action="ChangePassword">Đổi mật khẩu</a></li>
+                        <!-- Menu hiện tại -->
+                    </ul>
                 </div>
             </div>
-            <div class="col-md-8 bg-secondary">
-                <form>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" value="@SUser.User.Name" readonly />
+
+            <div class="col-md-9 bg-body-secondary">
+                <div class="col-md-12 p-1">
+                    <h2>HỒ SƠ CỦA TÔI</h2>
+                    <h6>Quản lý thông tin hồ sơ để bảo mật tài khoản</h6>
+                </div>
+                <hr class="border-3 bg-dark" />
+                <div class="col-md-12 row">
+                    <div class="col-md-4 border-end">
+                        <div class="bg-danger rounded-pill p-4 mt-5 m-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="currentColor" class="bi bi-person-fill rounded-pill" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                            </svg>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" value="@SUser.User.Email" readonly />
+                    <div class="col-md-8 bg-secondary">
+                        <form>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" value="@SUser.User.Name" readonly />
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" value="@SUser.User.Email" readonly />
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Số điện thoại</label>
+                                <input type="text" class="form-control" id="phone" value="@SUser.User.Phone" readonly />
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Địa chỉ</label>
+                                <input type="text" class="form-control" id="address" value="@SUser.User.Address" readonly />
+                            </div>
+                        </form>
                     </div>
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Số điện thoại</label>
-                        <input type="text" class="form-control" id="phone" value="@SUser.User.Phone" readonly />
-                    </div>
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Địa chỉ</label>
-                        <input type="text" class="form-control" id="address" value="@SUser.User.Address" readonly />
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </Authorized>
+    <NotAuthorized>
+        <h3>Không có quyền truy cập</h3>
+    </NotAuthorized>
+</AuthorizeView>
+
 @code {
 
 }

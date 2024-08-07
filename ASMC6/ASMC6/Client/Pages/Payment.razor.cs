@@ -3,11 +3,13 @@ using ASMC6.Server.Service;
 using ASMC6.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Newtonsoft.Json.Linq;
 using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Json;
@@ -28,6 +30,7 @@ namespace ASMC6.Client.Pages
         private decimal expressDelivery = 25000;
         private bool isExpressChecked;
         private bool isRuleChecked;
+        private int idUser;
 
         private List<User> listUser;
         private User user = new User();
@@ -96,9 +99,11 @@ namespace ASMC6.Client.Pages
         }
         private async Task<string> PayMoney()
         {
+            await ReadToken();
+
             order = new Order()
             {
-                UserId = SUser.User.UserId,
+                UserId = idUser,
                 OrderDate = DateTime.Now,
                 TotalAmount = Total,
                 Status = "Đang xử lí"
@@ -123,13 +128,22 @@ namespace ASMC6.Client.Pages
             
             return ("AddOrder");
         }
+
+        private async Task ReadToken()
+        {
+            var token = await _localStorageService.GetItemAsync("authToken");
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+            var userId = jsonToken.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+            idUser = int.Parse(userId);
+        }
         private async Task History()
         {
 
             var addSuccess  = await PayMoney();
             if(addSuccess == "AddOrder")
             {
-                await JSRuntime.InvokeVoidAsync("showAddOrder", addSuccess);
+                await JSRuntime.InvokeVoidAsync("showAlert", addSuccess);
                 Navigation.NavigateTo("/history");
             }
             

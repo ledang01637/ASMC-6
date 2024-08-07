@@ -17,7 +17,6 @@ namespace ASMC6.Client.Pages
         private List<ASMC6.Shared.Product> listProMenu = new List<ASMC6.Shared.Product>();
         private List<ASMC6.Shared.Menu> menus = new List<ASMC6.Shared.Menu>();
         private ASMC6.Shared.Restaurant restaurant = new ASMC6.Shared.Restaurant();
-
         protected override async Task OnInitializedAsync()
         {
             await LoadRestaurants();
@@ -28,10 +27,14 @@ namespace ASMC6.Client.Pages
 
         private void LoadAll()
         {
-            var menuRes = menus.Where(a => a.RestaurantId == restaurant.RestaurantId).ToList();
-            foreach (var menu in menuRes)
+            if(restaurant != null)
             {
-                listProMenu = products.Where(p => p.MenuId == menu.MenuId).ToList();
+                var menuRes = menus.Where(a => a.RestaurantId == restaurant.RestaurantId).ToList();
+                foreach (var menu in menuRes)
+                {
+                    listProMenu = products.Where(p => p.MenuId == menu.MenuId).ToList();
+                }
+                Console.WriteLine(listProMenu);
             }
         }
 

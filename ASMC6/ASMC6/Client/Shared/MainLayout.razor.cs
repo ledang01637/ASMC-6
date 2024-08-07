@@ -1,7 +1,13 @@
-﻿using ASMC6.Client.Session;
+﻿using ASMC6.Client.Pages;
+using ASMC6.Client.Session;
+using ASMC6.Shared;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 
@@ -11,6 +17,7 @@ namespace ASMC6.Client.Shared
     {
         private bool IsLoggedIn { get; set; }
         private string UserName { get; set; }
+        private List<User> users = new List<User>();
         private int userId = 0;
 
         protected override async Task OnInitializedAsync()
@@ -20,10 +27,9 @@ namespace ASMC6.Client.Shared
             UserName = await _localStorageService.GetItemAsync("userName");
             var userRoleId = await _localStorageService.GetItemAsync("userRoleId");
             IsLoggedIn = !string.IsNullOrEmpty(token);
-
-            if (userRoleId != null)
-            userId = int.Parse(userRoleId);
-
+            if(!string.IsNullOrEmpty(UserName) ) { await GetUsers(UserName); }
+            if (!string.IsNullOrEmpty(userRoleId)) { userId = int.Parse(userRoleId); }
+            
             if (SUser.User != null)
             {
                 userId = SUser.User.UserId;
@@ -34,6 +40,22 @@ namespace ASMC6.Client.Shared
         private string GetRestaurantUrl()
         {
             return $"/restaurant/{userId}";
+        }
+        private async Task GetUsers(string email)
+        {
+            try
+            {
+                users = await httpClient.GetFromJsonAsync<List<User>>("api/User/GetUsers");
+
+                if (users != null)
+                {
+                    SUser.User = users.FirstOrDefault(a => a.Email.Equals(email));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erorr:: " + ex.Message);
+            }
         }
     }
 }

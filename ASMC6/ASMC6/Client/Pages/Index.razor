@@ -126,7 +126,7 @@
                             <img class="svg-icon8"
                                  alt=""
                                  src="./image/product/@item.Image"
-                                 width="100%" />
+                                 width="100%" height="300px" />
                         </div>
                         <div class="add-button-three position-relative mt-1">
                             <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
@@ -168,7 +168,11 @@
         <div class="col-md-12 row p-3">
         @if (listRest == null)
         {
-            <p>Loading...</p>
+            <div id="loading">
+                <div class="item1"></div>
+                <div class="item2"></div>
+                <div class="item3"></div>
+            </div>
         }
         else if (!listRest.Any())
         {

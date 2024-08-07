@@ -161,7 +161,7 @@
                                                             <div class="col-md-12">
                                                                 <img src="./image/product/@product.Image"
                                                                      class="img-fluid"
-                                                                     alt="Product Image" width="100%" style="max-height: 15rem;" />
+                                                                     alt="Product Image" width="100%" style="height: 15rem;" />
                                                             </div>
                                                             <b>@product.Name</b>
                                                             <div class="col-md-12">
@@ -192,13 +192,11 @@
                     </div>
 
                     <div class="carousel col-md-12 mt-3">
-                        <button class="carousel-control-prev bg-secondary rounded-pill"
+                        <button class="carousel-control-prev btn btn-secondary active"
                                 type="button"
                                 data-bs-target="#carouselexamplecaptions"
                                 data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon"
-                                  aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
+                            Previous
                         </button>
                         <div class="m-auto text-center">
                             @foreach (var i in Enumerable.Range(0, (int)Math.Ceiling(pagedProducts.Count / 8.0)))
@@ -213,13 +211,11 @@
                                 </button>
                             }
                         </div>
-                        <button class="carousel-control-next bg-secondary rounded-pill"
+                        <button class="carousel-control-next btn btn-secondary active"
                                 type="button"
                                 data-bs-target="#carouselexamplecaptions"
                                 data-bs-slide="next">
-                            <span class="carousel-control-next-icon"
-                                aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
+                            Next
                         </button>
                     </div>
                 </div>
