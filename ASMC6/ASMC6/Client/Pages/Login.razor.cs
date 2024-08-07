@@ -40,7 +40,7 @@ namespace ASMC6.Client.Pages
 
                         if(user.IsDelete)
                         {
-                            await JS.InvokeVoidAsync("showLoginAlert", "Block");
+                            await JS.InvokeVoidAsync("showAlert", "Block");
                             return;
                         }
                         var name = user.Email;
@@ -49,14 +49,14 @@ namespace ASMC6.Client.Pages
                         await _localStorageService.SetItemAsync("userName", name);
                         await _localStorageService.SetItemAsync("expiryTime", expiryTime);
                         await _localStorageService.SetItemAsync("userRoleId", user.RoleId.ToString());
-                        await JS.InvokeVoidAsync("showLoginAlert", "True");
+                        await JS.InvokeVoidAsync("showAlert", "True");
 
                         await Task.Delay(1000);
                         Navigation.NavigateTo("/", true);
                     }
                     else
                     {
-                        await JS.InvokeVoidAsync("showLoginAlert", "False");
+                        await JS.InvokeVoidAsync("showAlert", "False");
                     }
                 }
                 catch (JsonException ex)

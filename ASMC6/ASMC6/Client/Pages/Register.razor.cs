@@ -28,11 +28,11 @@ namespace ASMC6.Client.Pages
 
                 if (exitsEmail != null)
                 {
-                    await JS.InvokeVoidAsync("showRegisterAlert", "InputEmailExits");
+                    await JS.InvokeVoidAsync("showAlert", "InputEmailExits");
                 }
                 else if (exitsPhone != null)
                 {
-                    await JS.InvokeVoidAsync("showRegisterAlert", "InputPhoneExits");
+                    await JS.InvokeVoidAsync("showAlert", "InputPhoneExits");
                 }
                 else
                 {
@@ -41,11 +41,11 @@ namespace ASMC6.Client.Pages
                     {
                         user = new User();
                         errorMessage = string.Empty;
-                        await JS.InvokeVoidAsync("showRegisterAlert", "success");
+                        await JS.InvokeVoidAsync("showAlert", "success");
                     }
                     else
                     {
-                        await JS.InvokeVoidAsync("showRegisterAlert", "Error");
+                        await JS.InvokeVoidAsync("showAlert", "Error");
                     }
 
                 }

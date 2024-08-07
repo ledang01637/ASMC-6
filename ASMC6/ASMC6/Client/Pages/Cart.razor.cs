@@ -10,9 +10,9 @@ namespace ASMC6.Client.Pages
 {
     public partial class Cart
     {
-        private List<ASMC6.Shared.Product> cartItems;
+        private List<ASMC6.Shared.Product> cartItems = new List<ASMC6.Shared.Product>();
         private decimal Total;
-        private decimal Fee = 25000;
+        private decimal Fee = 0;
         private decimal Pay;
 
         protected override async Task OnInitializedAsync()
@@ -23,6 +23,10 @@ namespace ASMC6.Client.Pages
             {
                 Navigation.NavigateTo("/login");
             }
+            if (cartItems.Count() > 0)
+                Fee = 25000;
+            else
+                Fee = 0;
 
             cartItems = await CartService.GetCartAsync();
             CalculateTotal();
@@ -45,7 +49,7 @@ namespace ASMC6.Client.Pages
             }
             else
             {
-                await JS.InvokeVoidAsync("showLoginAlert", "EmptyPro");
+                await JS.InvokeVoidAsync("showAlert", "EmptyPro");
             }
         }
         private void CalculateTotal()

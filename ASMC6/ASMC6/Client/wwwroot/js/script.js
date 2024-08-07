@@ -1,4 +1,4 @@
-﻿function showLoginAlert(status) {
+﻿function showAlert(status) {
     if (status === "InputNull") {
         Swal.fire({
             title: "Đăng nhập thất bại",
@@ -34,29 +34,9 @@
             text: "Vui lòng thêm sản phẩm vào giỏ hàng",
             icon: "warning",
         });
-    }
-}
-
-function showAddOrder(status) {
-    if (status === "AddOrder") {
+    } else if (status === "AddOrder") {
         Swal.fire({
             title: "Đặt hàng thành công",
-            icon: "success",
-        });
-    }
-}
-
-function showRegisterAlert(status) {
-    if (status === "InputEmailExits") {
-        Swal.fire({
-            title: "Đăng ký thất bại",
-            text: "Email đã tồn tại",
-            icon: "warning",
-        });
-    } else {
-        Swal.fire({
-            title: "Đăng ký thành công",
-            text: "Đăng ký tài khoản thành công",
             icon: "success",
         });
     } else if (status === "success") {
@@ -76,8 +56,15 @@ function showRegisterAlert(status) {
             text: "Đã có lỗi xảy ra vui lòng đăng ký lại sau ít phút",
             icon: "error",
         });
-    } 
+    } else if (status === "InputEmailExits") {
+        Swal.fire({
+            title: "Đăng ký thất bại",
+            text: "Email đã tồn tại",
+            icon: "warning",
+        });
+    }
 }
+
 
 function checkTokenExpiry() {
     const token = localStorage.getItem('authToken');
