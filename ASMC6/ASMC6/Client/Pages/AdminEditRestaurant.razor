@@ -11,7 +11,7 @@
 @* @attribute [Authorize(Roles = "1")] *@
 
 
-@* <AuthorizeView Roles="1">
+<AuthorizeView Roles="1">
     <Authorized>
         <div class="row justify-content-center mt-3">
             <div class="col-md-6">
@@ -20,7 +20,7 @@
                         <h5 class="text-center mb-0">CHỈNH SỬA CỬA HÀNG</h5>
                     </div>
                     <div class="card-body">
-                        <EditForm Model="@rest" OnValidSubmit="EditRestaurant">
+@*                         <EditForm Model="@rest" OnValidSubmit="EditRestaurant">
                             <DataAnnotationsValidator />
                             <div class="text-danger mb-3">
                                 <ValidationSummary />
@@ -61,7 +61,7 @@
                                     <a href="/adminrestaurantmanage" class="btn btn-secondary mx-2">Quay Về</a>
                                 </div>
                             </div>
-                        </EditForm>
+                        </EditForm> *@
                         @if (!string.IsNullOrEmpty(successMessage))
                         {
                             <div class="alert alert-success mt-3">
@@ -150,4 +150,3 @@
         <h3>Không có quyền truy cập</h3>
     </NotAuthorized>
 </AuthorizeView>
- *@

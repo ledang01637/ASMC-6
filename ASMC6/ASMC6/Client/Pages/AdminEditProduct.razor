@@ -3,14 +3,13 @@
 @using ASMC6.Shared
 @using ASMC6.Server.Service
 @inject HttpClient httpClient
-
 @inject LocalStorageService _localStorageService
 @inject NavigationManager Navigation
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @* @attribute [Authorize(Roles = "1")] *@
 
-@* <AuthorizeView Roles="1">
+<AuthorizeView Roles="1">
     <Authorized>
         <div class="row justify-content-center mt-3">
             <div class="col-md-6">
@@ -19,61 +18,62 @@
                         <h5 class="text-center mb-0">CHỈNH SỬA SẢN PHẨM</h5>
                     </div>
                     <div class="card-body">
-                        <EditForm Model="@prod" OnValidSubmit="EditProd">
+@*                         <EditForm Model="@prod" OnValidSubmit="EditProd">
                             <DataAnnotationsValidator />
                             <div class="text-danger mb-3">
                                 <ValidationSummary />
                             </div>
+
                             <div class="form-group">
                                 <label for="Name" class="control-label"><strong>Tên sản phẩm</strong></label>
-                                <input @bind="prod.Name" class="form-control" placeholder="Nhập Tên" />
+                                <input id="Name" @bind="prod.Name" class="form-control" placeholder="Nhập Tên" />
                                 <ValidationMessage For="@(() => prod.Name)" />
                             </div>
 
                             <div class="form-group">
                                 <label for="MenuId" class="control-label"><strong>Menu ID</strong></label>
-                                <input type="text" @bind="prod.MenuId" class="form-control" placeholder="Nhập Menu ID" />
+                                <input id="MenuId" type="text" @bind="prod.MenuId" class="form-control" placeholder="Nhập Menu ID" />
                                 <ValidationMessage For="@(() => prod.MenuId)" />
                             </div>
 
                             <div class="form-group">
                                 <label for="CategoryId" class="control-label"><strong>Category ID</strong></label>
-                                <input type="text" @bind="prod.CategoryId" class="form-control" placeholder="Nhập Category ID" />
+                                <input id="CategoryId" type="text" @bind="prod.CategoryId" class="form-control" placeholder="Nhập Category ID" />
                                 <ValidationMessage For="@(() => prod.CategoryId)" />
                             </div>
 
                             <div class="form-group">
                                 <label for="Image" class="control-label"><strong>Ảnh sản phẩm</strong></label>
-                                <input type="file" @bind="prod.Image" class="form-control-file" />
+                                <input id="Image" type="file" class="form-control-file" @onchange="HandleFileSelected" />
                                 <small class="form-text text-muted">Chọn một tệp hình ảnh để tải lên.</small>
                                 <ValidationMessage For="@(() => prod.Image)" />
                             </div>
 
                             <div class="form-group">
                                 <label for="Price" class="control-label"><strong>Giá sản phẩm</strong></label>
-                                <input type="number" @bind="prod.Price" class="form-control" placeholder="Nhập giá sản phẩm" />
+                                <input id="Price" type="number" @bind="prod.Price" class="form-control" placeholder="Nhập giá sản phẩm" />
                                 <ValidationMessage For="@(() => prod.Price)" />
                             </div>
 
                             <div class="form-group">
                                 <label for="Description" class="control-label"><strong>Ghi chú</strong></label>
-                                <input type="text" @bind="prod.Description" class="form-control" placeholder="Nhập ghi chú" />
+                                <input id="Description" type="text" @bind="prod.Description" class="form-control" placeholder="Nhập ghi chú" />
                                 <ValidationMessage For="@(() => prod.Description)" />
                             </div>
 
                             <div class="form-group">
                                 <label for="IsDelete" class="control-label"><strong>Is Delete</strong></label>
-                                <input type="text" @bind="prod.IsDelete" class="form-control" placeholder="Nhập trạng thái xóa" />
+                                <input id="IsDelete" type="text" value="False" class="form-control" readonly />
                                 <ValidationMessage For="@(() => prod.IsDelete)" />
                             </div>
 
                             <div class="form-group text-center">
                                 <div class="d-flex justify-content-center">
-                                    <button type="submit" @onclick="Save" class="btn btn-danger mx-2">Cập Nhật</button>
+                                    <button type="submit" class="btn btn-danger mx-2">Cập Nhật</button>
                                     <a href="/adminproductmanage" class="btn btn-secondary mx-2">Quay Về</a>
                                 </div>
                             </div>
-                        </EditForm>
+                        </EditForm> *@
                         @if (!string.IsNullOrEmpty(successMessage))
                         {
                             <div class="alert alert-success mt-3">
@@ -98,16 +98,17 @@
         private string ero;
         private string successMessage;
         private ASMC6.Shared.Product prod = new ASMC6.Shared.Product();
+        private IBrowserFile selectedFile;
 
         protected override async Task OnInitializedAsync()
         {
             if (ProductId > 0)
             {
-                await LoadProduct(ProductId);
+                await LoadEditProduct(ProductId);
             }
         }
 
-        private async Task LoadProduct(int id)
+        private async Task LoadEditProduct(int id)
         {
             try
             {
@@ -131,7 +132,24 @@
         {
             try
             {
-                var response = await httpClient.PutAsJsonAsync($"api/Product/{prod.ProductId}", prod);
+                // Handle file upload if needed
+                var content = new MultipartFormDataContent();
+                if (selectedFile != null)
+                {
+                    var fileContent = new StreamContent(selectedFile.OpenReadStream());
+                    content.Add(fileContent, "file", selectedFile.Name);
+                }
+
+                // Add other product fields
+                content.Add(new StringContent(prod.Name), "Name");
+                content.Add(new StringContent(prod.MenuId.ToString()), "MenuId");
+                content.Add(new StringContent(prod.CategoryId.ToString()), "CategoryId");
+                content.Add(new StringContent(prod.Price.ToString()), "Price");
+                content.Add(new StringContent(prod.Description), "Description");
+                content.Add(new StringContent(prod.IsDelete.ToString()), "IsDelete");
+
+                var response = await httpClient.PutAsync($"api/Product/{prod.ProductId}", content);
+
                 if (response.IsSuccessStatusCode)
                 {
                     successMessage = "Cập nhật thành công!";
@@ -150,13 +168,14 @@
 
             StateHasChanged();
         }
-        }
 
+        private void HandleFileSelected(InputFileChangeEventArgs e)
+        {
+            selectedFile = e.File;
+        }
+        }
     </Authorized>
     <NotAuthorized>
         <h3>Không có quyền truy cập</h3>
     </NotAuthorized>
 </AuthorizeView>
-
-
- *@
