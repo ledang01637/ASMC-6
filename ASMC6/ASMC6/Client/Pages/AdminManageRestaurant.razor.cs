@@ -5,60 +5,62 @@ using System.Threading.Tasks;
 using System;
 using System.Net.Http.Json;
 using System.Linq;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace ASMC6.Client.Pages
 {
     public partial class AdminManageRestaurant
     {
-        private List<ASMC6.Shared.Restaurant> listRest;
-        private ASMC6.Shared.Restaurant rest = new ASMC6.Shared.Restaurant();
+        private List<ASMC6.Shared.Restaurant> listRest = new List<ASMC6.Shared.Restaurant>();
+        private bool isLoaded = false;
 
         protected override async Task OnInitializedAsync()
         {
-            await Load();
+            await LoadProduct();
+            isLoaded = true;
         }
 
-        private async Task Load()
+        private async Task LoadProduct()
         {
             try
             {
-                listRest = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
+                listRest = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurant");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error loading products: {ex.Message}");
             }
         }
 
-        //private async Task HideProd(int RestaurantId)
-        //{
-        //    try
-        //    {
-        //        var restaurant = listRest.FirstOrDefault(p => p.RestaurantId == RestaurantId);
-        //        if (restaurant != null)
-        //        {
-        //            restaurant.IsDelete = true; // Mark the product as deleted
-        //            await httpClient.PutAsJsonAsync($"api/Restaurant/UpdateRestaurant/{restaurant.RestaurantId}", restaurant);
-        //            // Optionally update the UI to reflect the hidden status
-        //            // No need to remove the product from the list
-        //            await Load();
-        //            StateHasChanged();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Error hiding product: {ex.Message}");
-        //    }
-        //}
-
-        private async Task DeleteProd(int RestaurantId)
+        private async Task HideProd(int restaurantId)
         {
             try
             {
-                var response = await httpClient.DeleteAsync($"api/Restaurant/DeleteRestaurant/{RestaurantId}");
+                var rests = listRest.FirstOrDefault(p => p.RestaurantId == restaurantId);
+                if (rests != null)
+                {
+                    rests.IsDelete = true; // Mark the product as deleted
+                    await httpClient.PutAsJsonAsync($"api/Product/{restaurantId}", rests);
+                    await LoadProduct();
+                    StateHasChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error hiding product: {ex.Message}");
+            }
+        }
+
+        private async Task DeleteProd(int restaurantId)
+        {
+            try
+            {
+                var response = await httpClient.DeleteAsync($"api/Restaurant/{restaurantId}");
                 if (response.IsSuccessStatusCode)
                 {
-                    listRest = listRest.Where(p => p.RestaurantId != RestaurantId).ToList();
+                    listRest = listRest.Where(p => p.RestaurantId != restaurantId).ToList();
                     StateHasChanged();
                 }
                 else
@@ -72,23 +74,10 @@ namespace ASMC6.Client.Pages
             }
         }
 
-        private void EditRest(int restaurantId)
+
+        private void EditProd(int restaurantId)
         {
-            Navigation.NavigateTo($"/editrestaurant/{restaurantId}");
+            Navigation.NavigateTo("/editproduct/" + restaurantId);
         }
-
-        private void DeleteRest(int restaurantId)
-        {
-            Navigation.NavigateTo($"/deleterestaurant/{restaurantId}");
-        }
-
-
-        //chuyển trang
-        //protected override void OnInitialized()
-        //{
-        //    // Automatically redirect after a short delay
-        //    Task.Delay(2000).ContinueWith(_ => Navigation.NavigateTo("/", true));
-        //}
-
     }
 }

@@ -1,91 +1,162 @@
-﻿@page "/edit-restaurant/{restaurantId:int}"
+﻿@page "/editproduct/{ProductId:int}"
 @layout AdminMainLayout
 @using ASMC6.Shared
 @using ASMC6.Server.Service
-@inject LocalStorageService _localStorageService
 @inject HttpClient httpClient
-@inject NavigationManager Navigation
+
 @inject LocalStorageService _localStorageService
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@* @attribute [Authorize(Roles = "1")] *@
 
-<div class="row justify-content-center mt-3">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-header bg-danger text-white">
-                <h5 class="text-center mb-0">TRỞ THÀNH NGƯỜI BÁN</h5>
-            </div>
-            <div class="card-body">
-                <EditForm method="post" Model="@rest" OnValidSubmit="AddProd">
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                    <div class="form-group">
-                        <label asp-for="Name" class="control-label"><strong>Tên Cửa Hàng</strong></label>
-                        <input @bind="rest.Name" class="form-control" placeholder="Nhập Tên" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
+@* <AuthorizeView Roles="1">
+    <Authorized>
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="text-center mb-0">CHỈNH SỬA SẢN PHẨM</h5>
                     </div>
+                    <div class="card-body">
+                        <EditForm Model="@prod" OnValidSubmit="EditProd">
+                            <DataAnnotationsValidator />
+                            <div class="text-danger mb-3">
+                                <ValidationSummary />
+                            </div>
+                            <div class="form-group">
+                                <label for="Name" class="control-label"><strong>Tên sản phẩm</strong></label>
+                                <input @bind="prod.Name" class="form-control" placeholder="Nhập Tên" />
+                                <ValidationMessage For="@(() => prod.Name)" />
+                            </div>
 
-                    <div class="form-group">
-                        <label class="control-label"><strong>Ảnh Cửa Hàng</strong></label>
-                        <input type="file" @bind="rest.Image" class="form-control-file" />
-                        <small class="form-text text-muted">Chọn một tệp hình ảnh để tải lên.</small>
-                    </div>
+                            <div class="form-group">
+                                <label for="MenuId" class="control-label"><strong>Menu ID</strong></label>
+                                <input type="text" @bind="prod.MenuId" class="form-control" placeholder="Nhập Menu ID" />
+                                <ValidationMessage For="@(() => prod.MenuId)" />
+                            </div>
 
-                    <div class="form-group">
-                        <label asp-for="Address" class="control-label"><strong>Địa Chỉ</strong></label>
-                        <input @bind="rest.Address" class="form-control" placeholder="Nhập Địa Chỉ" />
-                        <span asp-validation-for="Address" class="text-danger"></span>
-                    </div>
+                            <div class="form-group">
+                                <label for="CategoryId" class="control-label"><strong>Category ID</strong></label>
+                                <input type="text" @bind="prod.CategoryId" class="form-control" placeholder="Nhập Category ID" />
+                                <ValidationMessage For="@(() => prod.CategoryId)" />
+                            </div>
 
-                    <div class="form-group">
-                        <label asp-for="OpeningHours" class="control-label"><strong>Giờ Mở Cửa</strong></label>
-                        <input @bind="rest.OpeningHours" class="form-control" placeholder="Nhập Giờ Mở Cửa" />
-                        <span asp-validation-for="OpeningHours" class="text-danger"></span>
-                    </div>
+                            <div class="form-group">
+                                <label for="Image" class="control-label"><strong>Ảnh sản phẩm</strong></label>
+                                <input type="file" @bind="prod.Image" class="form-control-file" />
+                                <small class="form-text text-muted">Chọn một tệp hình ảnh để tải lên.</small>
+                                <ValidationMessage For="@(() => prod.Image)" />
+                            </div>
 
-                    <div class="form-group text-center">
-                        <div class="d-flex justify-content-center">
-                            <button class="btn btn-danger mx-2">Đăng ký</button>
-                            <a asp-controller="Home" aria-current="page" href="/" class="btn btn-secondary mx-2">Quay Về</a>
-                        </div>
+                            <div class="form-group">
+                                <label for="Price" class="control-label"><strong>Giá sản phẩm</strong></label>
+                                <input type="number" @bind="prod.Price" class="form-control" placeholder="Nhập giá sản phẩm" />
+                                <ValidationMessage For="@(() => prod.Price)" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Description" class="control-label"><strong>Ghi chú</strong></label>
+                                <input type="text" @bind="prod.Description" class="form-control" placeholder="Nhập ghi chú" />
+                                <ValidationMessage For="@(() => prod.Description)" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="IsDelete" class="control-label"><strong>Is Delete</strong></label>
+                                <input type="text" @bind="prod.IsDelete" class="form-control" placeholder="Nhập trạng thái xóa" />
+                                <ValidationMessage For="@(() => prod.IsDelete)" />
+                            </div>
+
+                            <div class="form-group text-center">
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" @onclick="Save" class="btn btn-danger mx-2">Cập Nhật</button>
+                                    <a href="/adminproductmanage" class="btn btn-secondary mx-2">Quay Về</a>
+                                </div>
+                            </div>
+                        </EditForm>
+                        @if (!string.IsNullOrEmpty(successMessage))
+                        {
+                            <div class="alert alert-success mt-3">
+                                @successMessage
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(ero))
+                        {
+                            <div class="alert alert-danger mt-3">
+                                @ero
+                            </div>
+                        }
                     </div>
-                </EditForm>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
+        @code {
+        [Parameter]
+        public int ProductId { get; set; }
 
+        private string ero;
+        private string successMessage;
+        private ASMC6.Shared.Product prod = new ASMC6.Shared.Product();
 
-@code {
-    private List<Restaurant> listProd = new List<Restaurant>();
-    private ASMC6.Shared.Restaurant rest = new ASMC6.Shared.Restaurant();
-
-    protected override async Task OnInitializedAsync()
-    {
-        var email = await _localStorageService.GetItemAsync("userName");
-
-        if (email is null)
+        protected override async Task OnInitializedAsync()
         {
-            Navigation.NavigateTo("/login");
+            if (ProductId > 0)
+            {
+                await LoadProduct(ProductId);
+            }
         }
-        await LoadProducts();
-    }
 
-    private async Task LoadProducts()
-    {
-        try
+        private async Task LoadProduct(int id)
         {
-            listProd = await httpClient.GetFromJsonAsync<List<Restaurant>>("api/Restaurant/GetRestaurants");
+            try
+            {
+                var response = await httpClient.GetAsync($"api/Product/GetProducts/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    prod = await response.Content.ReadFromJsonAsync<ASMC6.Shared.Product>();
+                }
+                else
+                {
+                    ero = $"Không tìm thấy sản phẩm với ID {id}";
+                }
+            }
+            catch (Exception ex)
+            {
+                ero = $"Lỗi khi tải sản phẩm: {ex.Message}";
+            }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-    }
 
-    private async Task AddProd()
-    {
-        await httpClient.PostAsJsonAsync("api/Restaurant/AddRestaurant", rest);
-        await LoadProducts();
-        rest = new ASMC6.Shared.Restaurant();
-        StateHasChanged();
-    }
-}
+        private async Task EditProd()
+        {
+            try
+            {
+                var response = await httpClient.PutAsJsonAsync($"api/Product/{prod.ProductId}", prod);
+                if (response.IsSuccessStatusCode)
+                {
+                    successMessage = "Cập nhật thành công!";
+                    ero = string.Empty;
+                }
+                else
+                {
+                    ero = "Lỗi khi cập nhật sản phẩm";
+                }
+            }
+            catch (Exception ex)
+            {
+                ero = $"Đã xảy ra lỗi: {ex.Message}";
+                successMessage = string.Empty;
+            }
+
+            StateHasChanged();
+        }
+        }
+
+    </Authorized>
+    <NotAuthorized>
+        <h3>Không có quyền truy cập</h3>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+ *@

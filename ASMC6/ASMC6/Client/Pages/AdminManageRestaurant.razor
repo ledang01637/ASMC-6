@@ -5,36 +5,50 @@
 @inject HttpClient httpClient
 @inject NavigationManager Navigation
 
-@if (listRest != null)
-{
-    <hr />
-    <h4>Restaurants</h4>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Image</th>
-                <th>Opening Hours</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var restaurant in listRest)
-            {
-                <tr>
-                    <td><img src="./image/restaurant/@restaurant.Image" alt="Alternate Text" width="100px" height="100px" /></td>
-                    <td>@restaurant.Name</td>
-                    <td>@restaurant.OpeningHours</td>
-                    <td>
-                        <button class="btn btn-primary" @onclick="() => EditRest(restaurant.RestaurantId)">Edit</button>
-                        <button class="btn btn-danger" @onclick="() => DeleteProd(restaurant.RestaurantId)">Delete</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>Loading...</p>
-}
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@* @attribute [Authorize(Roles = "1")] *@
+
+
+
+
+<AuthorizeView Roles="1">
+    <Authorized>
+        @if(isLoaded)
+        {
+            <hr />
+            <h4>Restaurants</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Opening Hours</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var restaurant in listRest)
+                    {
+                        <tr>
+                            <td><img src="./image/restaurant/@restaurant.Image" alt="Alternate Text" width="100px" height="100px" /></td>
+                            <td>@restaurant.Name</td>
+                            <td>@restaurant.OpeningHours</td>
+                            <td>
+                                <button class="btn btn-primary" @onclick="() => EditProd(restaurant.RestaurantId)">Sửa</button>
+                                <button class="btn btn-danger" @onclick="() => DeleteProd(restaurant.RestaurantId)">Ẩn</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>Loading...</p>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <h3>Không có quyền truy cập</h3>
+    </NotAuthorized>
+</AuthorizeView>

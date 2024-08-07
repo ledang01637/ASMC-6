@@ -33,51 +33,78 @@ namespace ASMC6.Client.Pages
             }
         }
 
-        private async Task HideProd(int userId)
+        private async Task DeleteUser(int userId)
         {
             try
             {
-                var user = listUser.FirstOrDefault(p => p.UserId == userId);
+                var user = listUser.FirstOrDefault(u => u.UserId == userId);
                 if (user != null)
                 {
-                    user.IsDelete = true; // Mark the product as deleted
-                    await httpClient.PutAsJsonAsync($"api/Product/UpdateProduct/{userId}", user);
-                    // Optionally update the UI to reflect the hidden status
-                    // No need to remove the product from the list
-                    await LoadUser();
-                    StateHasChanged();
+                    user.IsDelete = true; // Mark the user as deleted
+                    var response = await httpClient.PutAsJsonAsync($"api/User/{userId}", user);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Optionally refresh the list or update the UI to reflect the hidden status
+                        StateHasChanged();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error updating user");
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error hiding product: {ex.Message}");
+                Console.WriteLine($"Error updating user: {ex.Message}");
             }
         }
 
-        private async Task DeleteProd(int userId)
+
+        //private async Task DeleteUser(int UserId)
+        //{
+        //    try
+        //    {
+        //        var response = await httpClient.DeleteAsync($"api/Restaurant/{UserId}");
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            listUser = listUser.Where(p => p.UserId != UserId).ToList();
+        //            StateHasChanged();
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine("Error deleting product");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error deleting product: {ex.Message}");
+        //    }
+        //}
+
+        private async Task EditProdAsync(int userId)
         {
             try
             {
-                var response = await httpClient.DeleteAsync($"api/User/DeleteUser/{userId}");
-                if (response.IsSuccessStatusCode)
+                var user = listUser.FirstOrDefault(u => u.UserId == userId);
+                if (user != null)
                 {
-                    listUser = listUser.Where(p => p.UserId != userId).ToList();
-                    StateHasChanged();
-                }
-                else
-                {
-                    Console.WriteLine("Error deleting product");
+                    user.IsDelete = false; // Mark the user as deleted
+                    var response = await httpClient.PutAsJsonAsync($"api/User/{userId}", user);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Optionally refresh the list or update the UI to reflect the hidden status
+                        StateHasChanged();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error updating user");
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deleting product: {ex.Message}");
+                Console.WriteLine($"Error updating user: {ex.Message}");
             }
-        }
-
-        private void EditProd(int userId)
-        {
-            Navigation.NavigateTo("/edituser/" + userId);
         }
     }
 }

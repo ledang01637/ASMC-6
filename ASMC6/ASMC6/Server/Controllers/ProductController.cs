@@ -12,9 +12,9 @@ namespace ASMC6.Server.Controllers
     {
         private readonly ProductService _productService;
 
-        public ProductController(ProductService _product)
+        public ProductController(ProductService productService)
         {
-            _productService = _product;
+            _productService = productService;
         }
 
         [HttpGet("GetProducts")]
@@ -24,9 +24,9 @@ namespace ASMC6.Server.Controllers
         }
 
         [HttpPost("AddProduct")]
-        public Product AddProduct(Product product)
+        public ActionResult<Product> AddProduct(Product product)
         {
-            return _productService.AddProduct(new Product
+            var newProduct = _productService.AddProduct(new Product
             {
                 MenuId = product.MenuId,
                 CategoryId = product.CategoryId,
@@ -35,44 +35,55 @@ namespace ASMC6.Server.Controllers
                 Image = product.Image,
                 Price = product.Price,
                 IsDelete = product.IsDelete,
-
             });
+
+            return CreatedAtAction(nameof(GetProductById), new { id = newProduct.ProductId }, newProduct);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Product> GetId(int id)
+        public ActionResult<Product> GetProductById(int id)
         {
             if (id == 0)
             {
-                return BadRequest("Value must be...");
-
+                return BadRequest("Invalid product ID.");
             }
-            return Ok(_productService.GetIdProduct(id));
+
+            var product = _productService.GetIdProduct(id);
+            if (product == null)
+            {
+                return NotFound("Product not found.");
+            }
+
+            return Ok(product);
         }
 
-
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteProduct(int id)
         {
-            var deletedCategory = _productService.DeleteProduct(id);
-            if (deletedCategory == null)
+            var deletedProduct = _productService.DeleteProduct(id);
+            if (deletedProduct == null)
             {
-                return NotFound("Category not found");
+                return NotFound("Product not found.");
             }
 
-            return Ok(deletedCategory);
+            return Ok(deletedProduct);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] Product updatedProduct)
+        public IActionResult UpdateProduct(int id, [FromBody] Product updatedProduct)
         {
-            var updatedLoai = _productService.UpdateProduct(id, updatedProduct);
-            if (updatedLoai == null)
+            if (id != updatedProduct.ProductId)
             {
-                return NotFound("Category not found");
+                return BadRequest("Product ID mismatch.");
             }
 
-            return Ok(updatedLoai);
+            var updatedProductResult = _productService.UpdateProduct(id, updatedProduct);
+            if (updatedProductResult == null)
+            {
+                return NotFound("Product not found.");
+            }
+
+            return Ok(updatedProductResult);
         }
     }
 }

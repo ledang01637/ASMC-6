@@ -5,6 +5,8 @@ using Microsoft.JSInterop;
 using System.Text.Json;
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ASMC6.Client.Pages
 {
@@ -12,6 +14,7 @@ namespace ASMC6.Client.Pages
     {
 
         private LoginRequest user = new LoginRequest();
+        private List<ASMC6.Shared.User> checkuser = new List<ASMC6.Shared.User>();
         private string Token = "";
 
         private async Task HandleLogin()
@@ -21,9 +24,11 @@ namespace ASMC6.Client.Pages
             {
                 try
                 {
+                    var usercheck = checkuser.Where(u => u.Email == user.Email && u.IsDelete == false);
                     var loginResponse = await response.Content.ReadFromJsonAsync<LoginRespone>();
-                    if (loginResponse != null && loginResponse.SuccsessFull)
+                    if (loginResponse != null && loginResponse.SuccsessFull && usercheck != null)
                     {
+                        
                         Token = loginResponse.Token;
 
                         var name = user.Email;

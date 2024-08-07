@@ -19,14 +19,13 @@
             <table class="table table-striped cardz">
                 <thead>
                     <tr>
-                        <th>Image</th>
-                        <th>MenuID</th>
-                        <th>CategoryID</th>
                         <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
+                        <th>Password</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
                         <th>IsDelete</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,11 +40,17 @@
                             <td>@user.Role</td>
                             <td>@(user.IsDelete)</td>
                             <td>
-                                <button class="btn btn-primary" @onclick="() => EditProd(user.UserId)">Sửa</button>
+
                                 @if (!user.IsDelete)
                                 {
-                                    <button class="btn btn-danger" @onclick="() => DeleteProd(user.UserId)">Ẩn</button>
+                                    <button class="btn btn-primary" @onclick="() => EditProdAsync(user.UserId)">Sửa</button>
+                                    <button class="btn btn-danger" @onclick="() => DeleteUser(user.UserId)">Ẩn</button>
                                 }
+                                @if (user.IsDelete)
+                                {
+                                    <button class="btn btn-warning" @onclick="() => EditProdAsync(user.UserId)">Khôi phục</button>
+                                }
+
                             </td>
                         </tr>
                     }

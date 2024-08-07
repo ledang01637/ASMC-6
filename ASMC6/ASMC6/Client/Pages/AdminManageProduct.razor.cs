@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace ASMC6.Client.Pages
 {
@@ -41,9 +42,7 @@ namespace ASMC6.Client.Pages
                 if (product != null)
                 {
                     product.IsDelete = true; // Mark the product as deleted
-                    await httpClient.PutAsJsonAsync($"api/Product/UpdateProduct/{productId}", product);
-                    // Optionally update the UI to reflect the hidden status
-                    // No need to remove the product from the list
+                    await httpClient.PutAsJsonAsync($"api/Product/{productId}", product);
                     await LoadProduct();
                     StateHasChanged();
                 }
@@ -58,7 +57,7 @@ namespace ASMC6.Client.Pages
         {
             try
             {
-                var response = await httpClient.DeleteAsync($"api/Product/DeleteProduct/{productId}");
+                var response = await httpClient.DeleteAsync($"api/Product/{productId}");
                 if (response.IsSuccessStatusCode)
                 {
                     listProd = listProd.Where(p => p.ProductId != productId).ToList();
@@ -75,9 +74,11 @@ namespace ASMC6.Client.Pages
             }
         }
 
+
         private void EditProd(int productId)
         {
             Navigation.NavigateTo("/editproduct/" + productId);
         }
     }
 }
+
