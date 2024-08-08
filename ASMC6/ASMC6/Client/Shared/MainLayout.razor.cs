@@ -18,28 +18,32 @@ namespace ASMC6.Client.Shared
         private bool IsLoggedIn { get; set; }
         private string UserName { get; set; }
         private List<User> users = new List<User>();
-        private int userId = 0;
+        private int RoleId = 0;
 
         protected override async Task OnInitializedAsync()
         {
             await JS.InvokeVoidAsync("checkTokenExpiry");
             var token = await _localStorageService.GetItemAsync("authToken");
             UserName = await _localStorageService.GetItemAsync("userName");
+
             var userRoleId = await _localStorageService.GetItemAsync("userRoleId");
             IsLoggedIn = !string.IsNullOrEmpty(token);
+
             if(!string.IsNullOrEmpty(UserName) ) { await GetUsers(UserName); }
-            if (!string.IsNullOrEmpty(userRoleId)) { userId = int.Parse(userRoleId); }
-            
+            if (!string.IsNullOrEmpty(userRoleId)) { RoleId = int.Parse(userRoleId); }
+
             if (SUser.User != null)
             {
-                userId = SUser.User.UserId;
+                RoleId = SUser.User.RoleId;
             }
+            
 
             StateHasChanged();
         }
         private string GetRestaurantUrl()
         {
-            return $"/restaurant/{userId}";
+             
+            return $"/restaurant/{RoleId}";
         }
         private async Task GetUsers(string email)
         {

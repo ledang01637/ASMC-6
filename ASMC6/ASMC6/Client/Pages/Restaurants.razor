@@ -36,7 +36,7 @@
 
                     <div class="form-group">
                         <label asp-for="OpeningHours" class="control-label"><strong>Giờ Mở Cửa</strong></label>
-                        <input type="datetime-local" @bind="rest.OpeningHours" class="form-control" />
+                        <input type="datetime" @bind="rest.OpeningHours" class="form-control" />
                         <ValidationMessage For="@(()=>rest.OpeningHours)" />
                     </div>
 
@@ -67,7 +67,7 @@
 @code {
     private string ero;
     private string successMessage;
-    private List<ASMC6.Shared.Restaurant> listProd = new List<ASMC6.Shared.Restaurant>();
+    private List<ASMC6.Shared.Restaurant> listRest = new List<ASMC6.Shared.Restaurant>();
     private ASMC6.Shared.Restaurant rest = new ASMC6.Shared.Restaurant();
 
     protected override async Task OnInitializedAsync()
@@ -85,7 +85,7 @@
     {
         try
         {
-            listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
+            listRest = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
         }
         catch (Exception ex)
         {
@@ -97,11 +97,35 @@
     {
         try
         {
-            await httpClient.PostAsJsonAsync("api/Restaurant/AddRestaurant", rest);
-            await LoadProducts();
-            rest = new ASMC6.Shared.Restaurant(); // Reset form
-            ero = string.Empty;
-            successMessage = "Đăng ký thành công!";
+            rest.UserId = SUser.User.UserId;
+            var responese = await httpClient.PostAsJsonAsync("api/Restaurant/AddRestaurant", rest);
+            var updatedUser = new User()
+                {
+                    Name = SUser.User.Name,
+                    RoleId = 2,
+                    Email = SUser.User.Email,
+                    Phone = SUser.User.Phone,
+                    Password = SUser.User.Password,
+                    Address = SUser.User.Address,
+                    IsDelete = SUser.User.IsDelete
+                };
+            int id = SUser.User.UserId;
+            var respoe = await httpClient.PutAsJsonAsync($"api/User/UpdateUser/{id}", updatedUser);
+            if (responese.IsSuccessStatusCode && respoe.IsSuccessStatusCode)
+            {
+                await LoadProducts();
+                rest = new ASMC6.Shared.Restaurant();
+                ero = string.Empty;
+                successMessage = "Đăng ký thành công!";
+                await Task.Delay(1000);
+                Navigation.NavigateTo("/logout",true);
+            }
+            else
+            {
+                ero = "Đăng ký bán hàng thất bại!";
+                successMessage = string.Empty;
+            }
+
         }
         catch (Exception ex)
         {

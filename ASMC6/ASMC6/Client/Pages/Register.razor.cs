@@ -42,6 +42,8 @@ namespace ASMC6.Client.Pages
                         user = new User();
                         errorMessage = string.Empty;
                         await JS.InvokeVoidAsync("showAlert", "success");
+                        await Task.Delay(1000);
+                        Navigation.NavigateTo("/login",true);
                     }
                     else
                     {
