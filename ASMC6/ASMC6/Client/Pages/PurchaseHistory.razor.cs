@@ -17,6 +17,11 @@ namespace ASMC6.Client.Pages
         private List<Order> orderUs;
         protected override async Task OnInitializedAsync()
         {
+
+            _ = Task.Delay(15000).ContinueWith(async _ =>
+            {
+                await UpdateOrderShipper();
+            });
             await LoadHistories();
         }
 
@@ -81,9 +86,32 @@ namespace ASMC6.Client.Pages
                     orderu.UserId = status.UserId;
                 }
             }
+            StateHasChanged();
+        }
 
+        private async Task UpdateOrderShipper()
+        {
+            var lastIndex = orders.Count() - 1;
             
+            var order = orders[lastIndex];
 
+            int idOrder = order.OrderId;
+            
+            if (order != null)
+            {
+                if (order.Status.Equals("Đang xử lí"))
+                {
+                    var status = new Order()
+                    {
+                        OrderId = idOrder,
+                        UserId = SUser.User.UserId,
+                        Status = "Đang giao hàng",
+                        OrderDate = order.OrderDate,
+                        TotalAmount = order.TotalAmount,
+                    };
+                    await httpClient.PutAsJsonAsync("api/Order/UpdateStatus/" + idOrder, status);
+                } 
+            }
             StateHasChanged();
         }
 

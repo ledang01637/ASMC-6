@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ASMC6.Client.Pages
@@ -36,6 +38,9 @@ namespace ASMC6.Client.Pages
                 }
                 else
                 {
+                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                    user.Password = hashedPassword;
+
                     var success =  await httpClient.PostAsJsonAsync("api/User/AddUser", user);
                     if (success.IsSuccessStatusCode)
                     {
@@ -70,7 +75,5 @@ namespace ASMC6.Client.Pages
                 Console.WriteLine($"Error: {ex.Message}");
             }
         }
-
-
     }
 }

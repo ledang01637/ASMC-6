@@ -1,15 +1,62 @@
 ﻿@page "/ggfb-response"
-@inject HttpClient HttpClient
+@inject HttpClient httpClient
 @inject LocalStorageService _localStorageService
 @inject NavigationManager Navigation
 @inject IJSRuntime JS
 @using System.IdentityModel.Tokens.Jwt
+@using ASMC6.Client.Session
 @using ASMC6.Shared
 @using Microsoft.AspNetCore.WebUtilities
 
 
+<article class="container">
+    <div class="mt-4 mb-4 register mx-auto" style="height: 800px !important;">
+        <h1 class="text-center fw-bold pt-4">
+            Cập nhật thông tin
+        </h1>
+
+        <EditForm class="register-form" Model="@user" OnValidSubmit="updateUser" novalidate>
+            <DataAnnotationsValidator />
+
+            <div class="form-group position-relative" style="margin-bottom:30px">
+                <label class="control-label">Mật khẩu mới</label>
+                <InputText @bind-Value="user.Password" class="form-control" type="password" />
+                <ValidationMessage For="@(() => user.Password)" style="margin-left:10px; position:absolute; left:0; bottom:-25px; font-size:15px !important;" />
+            </div>
+            <div class="form-group position-relative" style="margin-bottom:30px">
+                <label class="control-label">Số điện thoại</label>
+                <InputText @bind-Value="user.Phone" class="form-control" />
+                <ValidationMessage For="@(() => user.Phone)" style="margin-left:10px; position:absolute; left:0; bottom:-25px; font-size:15px !important;" />
+            </div>
+            <div class="form-group position-relative" style="margin-bottom:30px">
+                <label class="control-label">Địa chỉ</label>
+                <InputText @bind-Value="user.Address" class="form-control" />
+                <ValidationMessage For="@(() => user.Address)" style="margin-left:10px; position:absolute; left:0; bottom:-25px; font-size:15px !important;" />
+            </div>
+            <div class="form-group text-center" style="margin-bottom:20px">
+                <button type="submit" class="register-submit-btn btn btn-primary">Xác nhận</button>
+            </div>
+        </EditForm>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger mt-3">
+                @errorMessage
+            </div>
+        }
+    </div>
+</article>
+
+
+
 @code {
-    private async Task ProcessResponse()
+    private User user = new User();
+    private List<User> users = new List<User>();
+    private string errorMessage;
+
+
+
+    protected override async Task OnInitializedAsync()
     {
         var uri = new Uri(Navigation.Uri);
         var queryParams = QueryHelpers.ParseQuery(uri.Query);
@@ -19,41 +66,83 @@
         {
             try
             {
-                var expiryTime = DateTime.Now.AddMinutes(30).ToString("o");
-
                 var handler = new JwtSecurityTokenHandler();
                 var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
 
                 if (jsonToken != null)
                 {
-                    var name = jsonToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
-                    var roleId = jsonToken.Claims.FirstOrDefault(c => c.Type == "RoleId")?.Value;
-
                     await _localStorageService.SetItemAsync("authToken", token);
-                    await _localStorageService.SetItemAsync("expiryTime", expiryTime);
-                    await _localStorageService.SetItemAsync("userName", name);
-                    await _localStorageService.SetItemAsync("userRoleId", roleId);
-
-                    Navigation.NavigateTo("/", true);
+                    var email = jsonToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
+                    await GetUsers(email);
                 }
                 else
                 {
-                    await JS.InvokeVoidAsync("showLoginAlert", "False");
+                    Console.WriteLine($"Error: jsonToken null");
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                await JS.InvokeVoidAsync("showLoginAlert", "False");
+                Console.WriteLine($"Error: ", ex.Message);
             }
         }
         else
         {
-            await JS.InvokeVoidAsync("showLoginAlert", "False");
+            Console.WriteLine($"Error: token null");
         }
     }
 
-    protected override async Task OnInitializedAsync()
+
+    private async Task updateUser()
     {
-        await ProcessResponse();
+        try
+        {
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            int id = SUser.User.UserId;
+            user.Email = SUser.User.Email;
+            user.RoleId = SUser.User.RoleId;
+            user.IsDelete = SUser.User.IsDelete;
+            user.Name = SUser.User.Name;
+            user.Password = hashedPassword;
+
+            var success = await httpClient.PutAsJsonAsync($"api/User/UpdateUser/{id}", user);
+            if (success.IsSuccessStatusCode)
+            {
+                var name = user.Email;
+                var expiryTime = DateTime.Now.AddMinutes(30).ToString("o");
+                await _localStorageService.SetItemAsync("userName", name);
+                await _localStorageService.SetItemAsync("expiryTime", expiryTime);
+                await _localStorageService.SetItemAsync("userRoleId", user.RoleId.ToString());
+                await JS.InvokeVoidAsync("showAlert", "UpdateSuccessLogin");
+                await Task.Delay(1000);
+                Navigation.NavigateTo("/", true);
+            }
+            else
+            {
+                await JS.InvokeVoidAsync("showAlert", "Error");
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Đã xảy ra lỗi: {ex.Message}";
+        }
+
+        StateHasChanged();
+    }
+    private async Task GetUsers(string email)
+    {
+        try
+        {
+            users = await httpClient.GetFromJsonAsync<List<User>>("api/User/GetUsers");
+
+            if (users != null)
+            {
+                user = users.FirstOrDefault(a => a.Email.Equals(email));
+                SUser.User = user;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erorr:: " + ex.Message);
+        }
     }
 }

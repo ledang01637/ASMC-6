@@ -133,12 +133,6 @@
                                 <div class="link-great-container18">
                                     <a class="great-value-rising9 fs-5">@item.Name</a>
                                 </div>
-                                @* <div class="product-badge-four d-flex flex-row align-items-end justify-content-start gap-2">
-                                    <img class="img-rated-400-out-of-511"
-                                         loading="lazy"
-                                         alt=""
-                                         src="./public/img--rated-400-out-of-52.svg" />
-                                </div> *@
                             </div>
                             <b class="ins-wrapper fs-5 mt-3">@item.Price.ToString("#,##0") VND</b>
                             <a class="position-absolute top-0 end-0 mt-3" style="cursor: pointer" @onclick="() => AddToCart(item)">
@@ -165,7 +159,7 @@
 </div>
 
 <section class="container">
-        <div class="col-md-12 row p-3">
+        <div class="col-md-12 row">
         @if (listRest == null)
         {
             <div id="loading">
@@ -182,7 +176,7 @@
         {
             @foreach (var rest in listRest)
             {
-                <a class="col-3 border rounded m-2 nav-link" href="/product">
+                <a class="col-md-3 border mt-3 rounded nav-link" href="/product">
                     <div class="image-links col-md-12 row">
                         <div class="product-links col-md-6">
                             <div class="offer-links">

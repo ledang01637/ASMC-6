@@ -23,6 +23,7 @@ namespace ASMC6.Client.Pages
         private string Token = "";
         private async Task HandleLogin()
         {
+
             var response = await httpClient.PostAsJsonAsync("api/AuthJWT/AuthUser", user);
             if (response.IsSuccessStatusCode)
             {
@@ -50,7 +51,6 @@ namespace ASMC6.Client.Pages
                         await _localStorageService.SetItemAsync("expiryTime", expiryTime);
                         await _localStorageService.SetItemAsync("userRoleId", user.RoleId.ToString());
                         await JS.InvokeVoidAsync("showAlert", "True");
-
                         await Task.Delay(1000);
                         Navigation.NavigateTo("/", true);
                     }

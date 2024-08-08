@@ -62,6 +62,11 @@
             text: "Email đã tồn tại",
             icon: "warning",
         });
+    } else if (status === "UpdateSuccessLogin") {
+        Swal.fire({
+            title: "Cập nhật thông tin thành công",
+            icon: "success",
+        });
     }
 }
 

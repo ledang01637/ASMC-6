@@ -43,9 +43,10 @@ namespace ASMC6.Server.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var isSuccess = ValidateUser(loginModel.Email, loginModel.Password);
 
             var successLogin = _appDBContext.User
-                .FirstOrDefault(x => x.Email == loginModel.Email && x.Password == loginModel.Password);
+                .FirstOrDefault(x => x.Email == loginModel.Email && isSuccess);
 
             if (successLogin != null)
             {
@@ -99,7 +100,7 @@ namespace ASMC6.Server.Controllers
                 {
                     Name = result.Principal.FindFirst(ClaimTypes.Name)?.Value,
                     Email = emailClaim.Value,
-                    Password = new Random().Next(100000, 999999).ToString(),
+                    Password = BCrypt.Net.BCrypt.HashPassword(new Random().Next(100000, 999999).ToString()),
                     RoleId = 3,
                     Address = "",
                     Phone = "",
@@ -193,6 +194,15 @@ namespace ASMC6.Server.Controllers
                 signingCredentials: signIn
             );
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+        public bool ValidateUser(string username, string password)
+        {
+            var user = _appDBContext.User.FirstOrDefault(u => u.Email == username);
+            if (user == null)
+                return false;
+
+            // Xác thực mật khẩu
+            return BCrypt.Net.BCrypt.Verify(password, user.Password);
         }
     }
 }

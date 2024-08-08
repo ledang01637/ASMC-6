@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System;
 using System.Net.Http.Json;
+using System.Linq;
 
 namespace ASMC6.Client.Pages
 {
@@ -11,6 +12,7 @@ namespace ASMC6.Client.Pages
     {
         private List<ASMC6.Shared.Product> listProd;
         private List<ASMC6.Shared.Restaurant> listRest;
+        private List<ASMC6.Shared.Menu> listMenu;
         private ASMC6.Shared.Product prod = new ASMC6.Shared.Product();
 
         protected override async Task OnInitializedAsync()
@@ -24,6 +26,7 @@ namespace ASMC6.Client.Pages
             {
                 listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
                 listRest = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
+                listMenu = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Menu>>("api/Menu/GetMenus");
             }
             catch (Exception ex)
             {
@@ -31,12 +34,12 @@ namespace ASMC6.Client.Pages
             }
         }
 
-        //private async Task AddProd()
-        //{
-        //    await httpClient.PostAsJsonAsync("api/Product/AddProduct", prod);
-        //    await Load();
-        //    StateHasChanged();
-        //}
+        private async Task MenuRest()
+        {
+            
+            
+        }
+
         private async Task AddToCart(ASMC6.Shared.Product product)
         {
             await CartService.AddItemToCartAsync(product);
