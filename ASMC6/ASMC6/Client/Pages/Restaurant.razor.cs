@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Components;
 using System.Linq;
+using System.Net.Http;
 
 namespace ASMC6.Client.Pages
 {
@@ -14,59 +15,21 @@ namespace ASMC6.Client.Pages
 
         private List<ASMC6.Shared.Restaurant> restaurants = new List<ASMC6.Shared.Restaurant>();
         private List<ASMC6.Shared.Product> products = new List<ASMC6.Shared.Product>();
-        private List<ASMC6.Shared.Product> listProMenu = new List<ASMC6.Shared.Product>();
         private List<ASMC6.Shared.Menu> menus = new List<ASMC6.Shared.Menu>();
         private ASMC6.Shared.Restaurant restaurant = new ASMC6.Shared.Restaurant();
         protected override async Task OnInitializedAsync()
         {
-            await LoadRestaurants();
-            await LoadMenus();
-            await LoadProducts();
-            LoadAll();
+           await LoadAll();
         }
 
-        private void LoadAll()
-        {
-            if(restaurant != null)
-            {
-                var menuRes = menus.Where(a => a.RestaurantId == restaurant.RestaurantId).ToList();
-                foreach (var menu in menuRes)
-                {
-                    listProMenu = products.Where(p => p.MenuId == menu.MenuId).ToList();
-                }
-                Console.WriteLine(listProMenu);
-            }
-        }
-
-        private async Task LoadRestaurants()
+        private async Task LoadAll()
         {
             try
             {
+                products = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
                 restaurants = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
-                restaurant = restaurants.FirstOrDefault(r => r.UserId == userId);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-        private async Task LoadProducts()
-        {
-            try
-            {
-                products = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Restaurant/GetRestaurants");
-                restaurant = restaurants.FirstOrDefault(r => r.UserId == userId);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-        private async Task LoadMenus()
-        {
-            try
-            {
                 menus = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Menu>>("api/Menu/GetMenus");
+                restaurant = restaurants.FirstOrDefault(r => r.UserId == userId);
             }
             catch (Exception ex)
             {

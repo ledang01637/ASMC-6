@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using System;
 using System.Net.Http.Json;
 using System.Linq;
+using ASMC6.Shared;
+using System.Text.Json;
 
 namespace ASMC6.Client.Pages
 {
     public partial class Index
     {
-        private List<ASMC6.Shared.Product> listProd;
-        private List<ASMC6.Shared.Restaurant> listRest;
-        private List<ASMC6.Shared.Menu> listMenu;
-        private ASMC6.Shared.Product prod = new ASMC6.Shared.Product();
+        private List<ASMC6.Shared.Restaurant> listRest = new List<ASMC6.Shared.Restaurant>();
+        private List<ASMC6.Shared.Product> listProd = new List<ASMC6.Shared.Product>();
+        private List<ASMC6.Shared.Menu> listMenu = new List<ASMC6.Shared.Menu>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -33,13 +34,6 @@ namespace ASMC6.Client.Pages
                 Console.WriteLine($"Error: {ex.Message}");
             }
         }
-
-        private async Task MenuRest()
-        {
-            
-            
-        }
-
         private async Task AddToCart(ASMC6.Shared.Product product)
         {
             await CartService.AddItemToCartAsync(product);

@@ -7,6 +7,9 @@
 @inject CartService CartService
 @inject NavigationManager Navigation
 
+
+
+
 <!--Carosel-->
 <div id="carouselExampleDark"
      class="carousel carousel-dark slide"
@@ -108,41 +111,39 @@
     </div>
     <div class="col-md-12 row">
         <!--SP1-->
-        @if (listProd == null)
+        @foreach (var rest in listRest)
         {
-            <p>Loading...</p>
-        }
-        else if (!listProd.Any())
-        {
-            <p>Your cart is empty.</p>
-        }
-        else
-        {
-            @foreach (var item in listProd)
+            var menuForRest = listMenu.FirstOrDefault(menu => menu.RestaurantId == rest.RestaurantId);
+
+            if (menuForRest != null)
             {
-                <div class="border border-1 col-md-3 mt-3">
-                    <div class="col-md-12">
-                        <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient mt-3">
-                            <img class="svg-icon8"
-                                 alt=""
-                                 src="./image/product/@item.Image"
-                                 width="100%" height="300px" />
-                        </div>
-                        <div class="add-button-three position-relative mt-1">
-                            <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
-                                <div class="link-great-container18">
-                                    <a class="great-value-rising9 fs-5">@item.Name</a>
-                                </div>
+                var item = listProd.FirstOrDefault(prod => prod.MenuId == menuForRest.MenuId);
+
+                if (item != null)
+                {
+                    <div class="border border-1 col-md-3 mt-3">
+                        <div class="col-md-12">
+                            <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient mt-3">
+                                <img class="svg-icon8"
+                                     alt=""
+                                     src="./image/product/@item.Image"
+                                     width="100%" height="300px" />
                             </div>
-                            <b class="ins-wrapper fs-5 mt-3">@item.Price.ToString("#,##0") VND</b>
-                            <a class="position-absolute top-0 end-0 mt-3" style="cursor: pointer" @onclick="() => AddToCart(item)">
-                                <i class="fa-solid fa-cart-plus text-danger fs-4"></i>
-                            </a>
+                            <div class="add-button-three position-relative mt-1">
+                                <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
+                                    <div class="link-great-container18">
+                                        <a class="great-value-rising9 fs-5">@item.Name</a>
+                                    </div>
+                                </div>
+                                <b class="ins-wrapper fs-5 mt-3">@item.Price.ToString("#,##0") VND</b>
+                                <a class="position-absolute top-0 end-0 mt-3" style="cursor: pointer" @onclick="() => AddToCart(item)">
+                                    <i class="fa-solid fa-cart-plus text-danger fs-4"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             }
-
         }
     </div>
 </section>
@@ -152,14 +153,11 @@
         <div class="col-md-10">
             <b class="fs-2">Danh mục cửa hàng</b>
         </div>
-        <div class="col-md-2">
-            <a href="product" class="btn btn-light col-md-12 m-auto">Xem thêm</a>
-        </div>
     </div>
 </div>
 
 <section class="container">
-        <div class="col-md-12 row">
+    <div class="col-md-12 row">
         @if (listRest == null)
         {
             <div id="loading">
@@ -205,13 +203,12 @@
                 </a>
             }
         }
-        
-        </div>
-        <!---->
-        <div class="container rounded-start rounded-end">
-            <div class="col-md-12 row p-2">
-                <div class="col-md-10"></div>
-            </div>
-        </div>
 
-    </section>
+    </div>
+    <!---->
+    <div class="container rounded-start rounded-end">
+        <div class="col-md-12 row p-2">
+            <div class="col-md-10"></div>
+        </div>
+    </div>
+</section>

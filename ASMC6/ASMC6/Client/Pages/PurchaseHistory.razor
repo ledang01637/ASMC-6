@@ -48,7 +48,7 @@
                     }
                 }
                 <div class="position-absolute bottom-0 end-0 mb-2 me-2">
-                    <button class="btn bg" @onclick="() => UpdateStatus(order.OrderId)" disabled="@(order.Status != "Đang giao hàng")">Xác nhận đã nhận hàng</button>
+                    <button class="btn bg" @onclick="() => UpdateStatus(order.OrderId)" disabled="@(order.Status != "Đã nhận hàng")">Xác nhận đã nhận hàng</button>
                 </div>
             </div>
         }

@@ -17,11 +17,7 @@ namespace ASMC6.Client.Pages
         private List<Order> orderUs;
         protected override async Task OnInitializedAsync()
         {
-
-            _ = Task.Delay(15000).ContinueWith(async _ =>
-            {
-                await UpdateOrderShipper();
-            });
+            StartBackgroundTasks();
             await LoadHistories();
         }
 
@@ -99,7 +95,7 @@ namespace ASMC6.Client.Pages
             
             if (order != null)
             {
-                if (order.Status.Equals("Đang xử lí"))
+                if(order.Status.Equals("Đang xử lí"))
                 {
                     var status = new Order()
                     {
@@ -110,9 +106,34 @@ namespace ASMC6.Client.Pages
                         TotalAmount = order.TotalAmount,
                     };
                     await httpClient.PutAsJsonAsync("api/Order/UpdateStatus/" + idOrder, status);
-                } 
+
+                }
+                else if(order.Status.Equals("Đang giao hàng"))
+                {
+                    var status = new Order()
+                    {
+                        OrderId = idOrder,
+                        UserId = SUser.User.UserId,
+                        Status = "Đã nhận hàng",
+                        OrderDate = order.OrderDate,
+                        TotalAmount = order.TotalAmount,
+                    };
+                    await httpClient.PutAsJsonAsync("api/Order/UpdateStatus/" + idOrder, status);
+                }
+                
             }
             StateHasChanged();
+        }
+        private void StartBackgroundTasks()
+        {
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(5000);
+                await UpdateOrderShipper();
+
+                await Task.Delay(5000);
+                await UpdateOrderShipper();
+            });
         }
 
     }

@@ -201,7 +201,6 @@ namespace ASMC6.Server.Controllers
             if (user == null)
                 return false;
 
-            // Xác thực mật khẩu
             return BCrypt.Net.BCrypt.Verify(password, user.Password);
         }
     }
