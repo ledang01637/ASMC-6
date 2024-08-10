@@ -41,10 +41,14 @@
                             <td>@user.Role</td>
                             <td>@(user.IsDelete)</td>
                             <td>
-                                <button class="btn btn-primary" @onclick="() => EditProd(user.UserId)">Sửa</button>
                                 @if (!user.IsDelete)
                                 {
-                                    <button class="btn btn-danger" @onclick="() => DeleteProd(user.UserId)">Ẩn</button>
+                                    <button class="btn btn-primary" @onclick="() => EditUser(user.UserId)">Sửa</button>
+                                    <button class="btn btn-danger" @onclick="() => HideUser(user.UserId)">Ẩn</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-warning" @onclick="() => RestoreUser(user.UserId)">Khôi phục</button>
                                 }
                             </td>
                         </tr>

@@ -33,7 +33,7 @@ namespace ASMC6.Client.Pages
             }
         }
 
-        private async Task HideProd(int userId)
+        private async Task HideUser(int userId)
         {
             try
             {
@@ -41,41 +41,37 @@ namespace ASMC6.Client.Pages
                 if (user != null)
                 {
                     user.IsDelete = true; // Mark the product as deleted
-                    await httpClient.PutAsJsonAsync($"api/Product/UpdateProduct/{userId}", user);
-                    // Optionally update the UI to reflect the hidden status
-                    // No need to remove the product from the list
+                    await httpClient.PutAsJsonAsync($"api/User/{userId}", user);
                     await LoadUser();
                     StateHasChanged();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error hiding product: {ex.Message}");
+                Console.WriteLine($"Không tìm thấy người dùng : {ex.Message}");
             }
         }
 
-        private async Task DeleteProd(int userId)
+        private async Task RestoreUser(int userId)
         {
             try
             {
-                var response = await httpClient.DeleteAsync($"api/User/DeleteUser/{userId}");
-                if (response.IsSuccessStatusCode)
+                var user = listUser.FirstOrDefault(p => p.UserId == userId);
+                if (user != null)
                 {
-                    listUser = listUser.Where(p => p.UserId != userId).ToList();
+                    user.IsDelete = false; // Restore the product
+                    await httpClient.PutAsJsonAsync($"api/User/{userId}", user);
+                    await LoadUser();
                     StateHasChanged();
-                }
-                else
-                {
-                    Console.WriteLine("Error deleting product");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deleting product: {ex.Message}");
+                Console.WriteLine($"Đã xảy ra lỗi khi khôi phục : {ex.Message}");
             }
         }
 
-        private void EditProd(int userId)
+        private void EditUser(int userId)
         {
             Navigation.NavigateTo("/edituser/" + userId);
         }
