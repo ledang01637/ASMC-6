@@ -67,6 +67,12 @@
             title: "Cập nhật thông tin thành công",
             icon: "success",
         });
+    } else if (status === "AddProduct") {
+        Swal.fire({
+            title: "Đã thêm",
+            text: "Sản phẩm đã được thêm thành công",
+            icon: "success",
+        });
     }
 }
 

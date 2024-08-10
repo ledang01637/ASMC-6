@@ -17,20 +17,20 @@ namespace ASMC6.Server.Controllers
             __categoryService = _category;
         }
 
-        [HttpGet("GetCategory")]
+        [HttpGet("GetCategories")]
         public List<Category> GetCategories()
         {
             return __categoryService.GetCategory();
         }
 
         [HttpPost("AddCategory")]
-        public Category AddCategory(Category category)
+        public Category AddCategory(Category Category)
         {
             return __categoryService.AddCategory(new Category
             {
-                CategoryId = category.CategoryId,
-                Name = category.Name,
-                Description = category.Description,
+                Name = Category.Name,
+                Description = Category.Description
+
             });
         }
 
