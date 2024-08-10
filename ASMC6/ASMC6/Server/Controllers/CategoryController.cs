@@ -66,7 +66,7 @@
 //        [HttpPut("{id}")]
 //        public IActionResult Update(int id, [FromBody] Category updatedCategory)
 //        {
-//            var updatedLoai = __categoryService.UpdateCategories(id, updatedCategory);
+//            var updatedLoai = __categoryService.UpdateCategories(id, updatedCategory);s
 //            if (updatedLoai == null)
 //            {
 //                return NotFound("Category not found");
