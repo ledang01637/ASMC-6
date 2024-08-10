@@ -30,45 +30,24 @@ namespace ASMC6.Client.Pages
             }
         }
 
-        //private async Task HideProd(int RestaurantId)
-        //{
-        //    try
-        //    {
-        //        var restaurant = listRest.FirstOrDefault(p => p.RestaurantId == RestaurantId);
-        //        if (restaurant != null)
-        //        {
-        //            restaurant.IsDelete = true; // Mark the product as deleted
-        //            await httpClient.PutAsJsonAsync($"api/Restaurant/UpdateRestaurant/{restaurant.RestaurantId}", restaurant);
-        //            // Optionally update the UI to reflect the hidden status
-        //            // No need to remove the product from the list
-        //            await Load();
-        //            StateHasChanged();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Error hiding product: {ex.Message}");
-        //    }
-        //}
 
-        private async Task DeleteProd(int RestaurantId)
+
+        private async Task HideRest(int restaurantId)
         {
             try
             {
-                var response = await httpClient.DeleteAsync($"api/Restaurant/DeleteRestaurant/{RestaurantId}");
-                if (response.IsSuccessStatusCode)
+                var restaurant = listRest.FirstOrDefault(p => p.RestaurantId == restaurantId);
+                if (restaurant != null)
                 {
-                    listRest = listRest.Where(p => p.RestaurantId != RestaurantId).ToList();
+                    restaurant.IsDelete = true; // Mark the product as deleted
+                    await httpClient.PutAsJsonAsync($"api/Restaurant/{restaurantId}", restaurant);
+                    await Load();
                     StateHasChanged();
-                }
-                else
-                {
-                    Console.WriteLine("Error deleting product");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deleting product: {ex.Message}");
+                Console.WriteLine($"Error hiding product: {ex.Message}");
             }
         }
 

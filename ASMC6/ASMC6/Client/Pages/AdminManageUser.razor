@@ -8,8 +8,65 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @* @attribute [Authorize(Roles = "1")] *@
 
-
 <AuthorizeView Roles="1">
+    <Authorized>
+        @if (isLoaded)
+        {
+            <hr />
+
+            <h4>Quản lý sản phẩm</h4>
+            <table class="table table-striped cardz">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Password</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>IsDelete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in listUser)
+                    {
+                        <tr>
+                            <td>@user.Name</td>
+                            <td>@user.Password</td>
+                            <td>@user.Address</td>
+                            <td>@user.Email</td>
+                            <td>@user.Phone</td>
+                            <td>@user.Role</td>
+                            <td>@(user.IsDelete)</td>
+                            <td>
+                                @if (!user.IsDelete)
+                                {
+                                    <button class="btn btn-danger" @onclick="() => HideUser(user.UserId)">Khóa</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-warning" @onclick="() => HideUser(user.UserId)">Khôi phục</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>Loading...</p>
+        }
+
+    </Authorized>
+    <NotAuthorized>
+        <h3>Không có quyền truy cập</h3>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
+@* <AuthorizeView Roles="1">
     <Authorized>
         @if (isLoaded)
         {
@@ -66,3 +123,4 @@
         <h3>Không có quyền truy cập</h3>
     </NotAuthorized>
 </AuthorizeView>
+ *@

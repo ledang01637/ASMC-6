@@ -88,28 +88,6 @@ namespace ASMC6.Client.Pages
         }
    
 
-    //private async Task DeleteProd(int productId)
-    //    {
-    //        try
-    //        {
-    //            var response = await httpClient.DeleteAsync($"api/Product/DeleteProduct/{productId}");
-    //            if (response.IsSuccessStatusCode)
-    //            {
-    //                listProd = listProd.Where(p => p.ProductId != productId).ToList();
-    //                filteredProd = listProd;
-    //                StateHasChanged();
-    //            }
-    //            else
-    //            {
-    //                Console.WriteLine("Error deleting product");
-    //            }
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            Console.WriteLine($"Error deleting product: {ex.Message}");
-    //        }
-    //    }
-
         private void EditProd(int productId)
         {
             Navigation.NavigateTo("/editproduct/" + productId);
