@@ -106,62 +106,34 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // if (ProductId > 0)
-        // {
-        //     await LoadEditProduct(ProductId);
-        // }
+        await LoadEditProduct();
     }
 
     private async Task LoadEditProduct()
     {
-
-        // try
-        // {
-        //     var response = await httpClient.GetAsync($"api/Product/GetProductById/{ProductId}");
-        //     if (response.IsSuccessStatusCode)
-        //     {
-        //         prod = await response.Content.ReadFromJsonAsync<ASMC6.Shared.Product>();
-        //     }
-        //     else
-        //     {
-        //         errorMessage = $"Không tìm thấy sản phẩm với ID {ProductId}";
-        //     }
-        // }
-        // catch (Exception ex)
-        // {
-        //     errorMessage = $"Lỗi khi tải sản phẩm: {ex.Message}";
-        // }
+        try
+        {
+            var response = await httpClient.GetFromJsonAsync<ASMC6.Shared.Product>($"api/Product/{ProductId}");
+            if (response != null)
+            {
+                prod = response;
+            }
+            else
+            {
+                errorMessage = "Không tìm thấy sản phẩm.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Đã xảy ra lỗi: {ex.Message}";
+        }
     }
 
     private async Task EditProd()
     {
         try
         {
-            // Handle image upload if a file is selected
-            // if (selectedFile != null)
-            // {
-            //     var resizedImageFile = await selectedFile.RequestImageFileAsync("image/jpeg", 300, 500);
-            //     var buffer = new byte[resizedImageFile.Size];
-            //     await resizedImageFile.OpenReadStream().ReadAsync(buffer);
-
-            //     var content = new MultipartFormDataContent();
-            //     content.Add(new ByteArrayContent(buffer), "file", selectedFile.Name);
-
-            //     var uploadResponse = await httpClient.PostAsync("api/Product/UploadImage", content);
-            //     if (uploadResponse.IsSuccessStatusCode)
-            //     {
-            //         // Assuming the server returns the URL of the uploaded image
-            //         prod.Image = await uploadResponse.Content.ReadAsStringAsync();
-            //     }
-            //     else
-            //     {
-            //         errorMessage = "Lỗi khi tải lên hình ảnh";
-            //         return;
-            //     }
-            // }
-
-            
-            var response = await httpClient.PutAsync($"api/Product/UpdateProduct/{prod.ProductId}", JsonContent.Create(prod));
+            var response = await httpClient.PutAsJsonAsync($"api/Product/{ProductId}", prod);
 
             if (response.IsSuccessStatusCode)
             {
@@ -171,7 +143,8 @@
             }
             else
             {
-                errorMessage = "Lỗi khi cập nhật sản phẩm";
+                var errorContent = await response.Content.ReadAsStringAsync();
+                errorMessage = $"Lỗi khi cập nhật sản phẩm: {errorContent}";
             }
         }
         catch (Exception ex)
