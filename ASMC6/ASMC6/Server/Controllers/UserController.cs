@@ -62,8 +62,8 @@ namespace ASMC6.Server.Controllers
             return Ok(deletedCategory);
         }
 
-        [HttpPut("UpdateUser/{id}")]
-        public IActionResult Update(int id, User updatedUser)
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody] User updatedUser)
         {
             var updatedLoai = _UserService.UpdateUser(id, updatedUser);
             if (updatedLoai == null)
@@ -73,5 +73,6 @@ namespace ASMC6.Server.Controllers
 
             return Ok(updatedLoai);
         }
+
     }
 }

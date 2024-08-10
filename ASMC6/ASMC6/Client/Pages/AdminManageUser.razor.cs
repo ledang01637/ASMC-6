@@ -1,4 +1,5 @@
-﻿using ASMC6.Server.Service;
+﻿
+using ASMC6.Server.Service;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -33,47 +34,32 @@ namespace ASMC6.Client.Pages
             }
         }
 
+
         private async Task HideUser(int userId)
         {
             try
             {
-                var user = listUser.FirstOrDefault(p => p.UserId == userId);
+                var user = listUser.FirstOrDefault(u => u.UserId == userId);
                 if (user != null)
                 {
-                    user.IsDelete = true; // Mark the product as deleted
-                    await httpClient.PutAsJsonAsync($"api/User/{userId}", user);
-                    await LoadUser();
-                    StateHasChanged();
+                    user.IsDelete = true; // Mark the user as deleted
+                    var response = await httpClient.PutAsJsonAsync($"api/User/{userId}", user);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        await LoadUser();
+                        StateHasChanged();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error hiding user: {response.ReasonPhrase}");
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Không tìm thấy người dùng : {ex.Message}");
+                Console.WriteLine($"Error hiding user: {ex.Message}");
             }
         }
 
-        private async Task RestoreUser(int userId)
-        {
-            try
-            {
-                var user = listUser.FirstOrDefault(p => p.UserId == userId);
-                if (user != null)
-                {
-                    user.IsDelete = false; // Restore the product
-                    await httpClient.PutAsJsonAsync($"api/User/{userId}", user);
-                    await LoadUser();
-                    StateHasChanged();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Đã xảy ra lỗi khi khôi phục : {ex.Message}");
-            }
-        }
-
-        private void EditUser(int userId)
-        {
-            Navigation.NavigateTo("/edituser/" + userId);
-        }
     }
 }

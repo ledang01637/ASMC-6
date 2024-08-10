@@ -1,78 +1,73 @@
-﻿//using ASMC6.Server.Service;
-//using ASMC6.Shared;
-//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
-//using System.Collections.Generic;
+﻿using ASMC6.Server.Service;
+using ASMC6.Shared;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
-//namespace ASMC6.Server.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class CategoryController : ControllerBase
-//    {
-//        private readonly ProductService __categoryService;
+namespace ASMC6.Server.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CategoryController : ControllerBase
+    {
+        private readonly CategoryService __categoryService;
 
-//        public CategoryController(CategoryService _category)
-//        {
-//            __categoryService = _category;
-//        }
+        public CategoryController(CategoryService _category)
+        {
+            __categoryService = _category;
+        }
 
-//        [HttpGet("GetCategory")]
-//        public List<Category> GetCategories()
-//        {
-//            return __categoryService.GetCategory();
-//        }
+        [HttpGet("GetCategory")]
+        public List<Category> GetCategories()
+        {
+            return __categoryService.GetCategory();
+        }
 
-//        [HttpPost("AddProduct")]
-//        public Product AddProduct(Product product)
-//        {
-//            return __categoryService.AddProduct(new Product
-//            {
-//                MenuId = product.MenuId,
-//                CategoryId = product.CategoryId,
-//                Name = product.Name,
-//                Description = product.Description,
-//                Image = product.Image,
-//                Price = product.Price,
-//                IsDelete = product.IsDelete,
+        [HttpPost("AddCategory")]
+        public Category AddCategory(Category category)
+        {
+            return __categoryService.AddCategory(new Category
+            {
+                CategoryId = category.CategoryId,
+                Name = category.Name,
+                Description = category.Description,
+            });
+        }
 
-//            });
-//        }
+        [HttpGet("{id}")]
+        public ActionResult<Category> GetId(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest("Value must be...");
 
-//        [HttpGet("{id}")]
-//        public ActionResult<Product> GetId(int id)
-//        {
-//            if (id == 0)
-//            {
-//                return BadRequest("Value must be...");
-
-//            }
-//            return Ok(__categoryService.GetIdProduct(id));
-//        }
+            }
+            return Ok(__categoryService.GetIdCategory(id));
+        }
 
 
-//        [HttpDelete("{id}")]
-//        public IActionResult Delete(int id)
-//        {
-//            var deletedCategory = __categoryService.DeleteProduct(id);
-//            if (deletedCategory == null)
-//            {
-//                return NotFound("Category not found");
-//            }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var deletedCategory = __categoryService.DeleteCategory(id);
+            if (deletedCategory == null)
+            {
+                return NotFound("Category not found");
+            }
 
-//            return Ok(deletedCategory);
-//        }
+            return Ok(deletedCategory);
+        }
 
-//        [HttpPut("{id}")]
-//        public IActionResult Update(int id, [FromBody] Category updatedCategory)
-//        {
-//            var updatedLoai = __categoryService.UpdateCategories(id, updatedCategory);
-//            if (updatedLoai == null)
-//            {
-//                return NotFound("Category not found");
-//            }
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody] Category updatedCategory)
+        {
+            var updatedLoai = __categoryService.UpdateCategory(id, updatedCategory);
+            if (updatedLoai == null)
+            {
+                return NotFound("Category not found");
+            }
 
-//            return Ok(updatedLoai);
-//        }
-//    }
-//}
+            return Ok(updatedLoai);
+        }
+    }
+}

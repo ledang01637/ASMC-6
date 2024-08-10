@@ -12,7 +12,7 @@ namespace ASMC6.Server.Service
         {
             _context = context;
         }
-        public IEnumerable<Category> GetCategory()
+        public List<Category> GetCategory()
         {
             return _context.Category.ToList();
         }

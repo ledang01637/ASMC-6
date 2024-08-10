@@ -9,7 +9,7 @@
 
 <AuthorizeView Roles="1">
     <Authorized>
-        @if (listCate != null)
+        @if (listCategory != null)
         {
             <hr />
             <h4>Restaurants</h4>
@@ -23,15 +23,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var cate in listCate)
+                    @foreach (var cate in listCategory)
                     {
                         <tr>
+                            <td>@cate.CategoryId</td>
                             <td>@cate.Name</td>
                             <td>@cate.Description</td>
-                            <td>@cate.CategoryId</td>
                             <td>
-                                <button class="btn btn-primary" @onclick="() => EditRest(cate.CategoryId)">Edit</button>
-                                <button class="btn btn-danger" @onclick="() => DeleteRest(cate.CategoryId)">Delete</button>
+@*                                 <button class="btn btn-primary" @onclick="() => EditRest(cate.CategoryId)">Edit</button>
+                                <button class="btn btn-danger" @onclick="() => DeleteRest(cate.CategoryId)">Delete</button> *@
                             </td>
                         </tr>
                     }
