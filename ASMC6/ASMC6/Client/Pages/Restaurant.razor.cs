@@ -25,6 +25,7 @@ namespace ASMC6.Client.Pages
         public ASMC6.Shared.Product prodModel = new ASMC6.Shared.Product();
         private string imageFileName;
         private IBrowserFile selectedFile;
+        private int selectedProductId;
 
         protected override async Task OnInitializedAsync()
         {
@@ -59,7 +60,7 @@ namespace ASMC6.Client.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await JS.InvokeVoidAsync("showAlert", "AddProduct");
+                    await JS.InvokeVoidAsync("showAlert", "ProductSuccess");
                     await LoadProducts();
                 }
                 else
@@ -99,5 +100,66 @@ namespace ASMC6.Client.Pages
             StateHasChanged();
         }
 
+        private async Task LoadProductForEdit(int productId)
+        {
+
+            prodModel = await httpClient.GetFromJsonAsync <ASMC6.Shared.Product >($"api/Product/GetProductById/{productId}");
+            selectedProductId = productId;
+
+        }
+        private async Task UpdateProduct()
+        {
+            try
+            {
+                prodModel.Image = imageFileName;
+                var response = await httpClient.PutAsJsonAsync($"api/Product/PutProduct/{selectedProductId}", prodModel);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await JS.InvokeVoidAsync("showAlert", "ProductSuccess");
+                    await LoadProducts();
+                }
+                else
+                {
+                    Console.WriteLine("Error update product");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+            }
+            
+        }
+        private void ShowConfirmDeleteModal(int productId)
+        {
+            selectedProductId = productId;
+            JS.InvokeVoidAsync("showModal", "ConfirmDeleteModal");
+        }
+        private async Task DeleteProduct()
+        {
+            try
+            {
+                prodModel = await httpClient.GetFromJsonAsync<ASMC6.Shared.Product>($"api/Product/GetProductById/{selectedProductId}");
+
+                prodModel.IsDelete = true;
+                var response = await httpClient.PutAsJsonAsync($"api/Product/PutProduct/{selectedProductId}", prodModel);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await JS.InvokeVoidAsync("closeModal", "ConfirmDeleteModal");
+                    await JS.InvokeVoidAsync("showAlert", "ProductSuccess");
+                    await LoadProducts();
+                }
+                else
+                {
+                    Console.WriteLine("Error update product");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+            }
+
+        }
     }
 }

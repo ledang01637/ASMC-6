@@ -67,10 +67,9 @@
             title: "Cập nhật thông tin thành công",
             icon: "success",
         });
-    } else if (status === "AddProduct") {
+    } else if (status === "ProductSuccess") {
         Swal.fire({
-            title: "Đã thêm",
-            text: "Sản phẩm đã được thêm thành công",
+            title: "Thành công",
             icon: "success",
         });
     }
@@ -92,6 +91,38 @@ function checkTokenExpiry() {
         localStorage.removeItem('expiryTime');
     }
 }
+
+function checkTokenExpiry() {
+    const token = localStorage.getItem('authToken');
+    const expiryTime = localStorage.getItem('expiryTime');
+
+    if (!token || !expiryTime) {
+        return; 
+    }
+
+    const currentTime = new Date().toISOString();
+    if (new Date(currentTime) > new Date(expiryTime)) {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('expiryTime');
+    }
+}
+
+function showModal(modalId) {
+    var modalElement = document.getElementById(modalId);
+    if (modalElement) {
+        var modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    }
+}
+function closeModal(modalId) {
+    var modalElement = document.getElementById(modalId);
+    if (modalElement) {
+        var modal = new bootstrap.Modal(modalElement);
+        modal.hide();
+    }
+}
+
 
 window.cartFunctions = {
     getCart: function () {

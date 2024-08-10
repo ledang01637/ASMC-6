@@ -47,7 +47,6 @@
                         <tbody>
                             @{
                                 var menuForRest = menus.FirstOrDefault(menu => menu.RestaurantId == restaurant.RestaurantId);
-
                                 if (menuForRest != null)
                                 {
                                     var prodForMenuRest = products.Where(pro => pro.MenuId == menuForRest.MenuId).ToList();
@@ -71,14 +70,12 @@
                                                     <td class="align-middle">@item.Description</td>
                                                     <td class="align-middle">@menuForRest.Name</td>
                                                     <td class="align-middle">@catePro?.Name</td>
-                                                    <td>
-                                                        <div class="btn-group">
-                                                            <a class="btn btn-outline-secondary">Sửa</a>
-                                                            <a class="btn btn-outline-secondary">Ẩn</a>
-                                                        </div>
+                                                    <td class="align-middle">
+                                                        <button class="btn text-primary content-btn content-btn-edit" @onclick="() => LoadProductForEdit(item.ProductId)" data-bs-toggle="modal" data-bs-target="#UpdateModel"><i class="far fa-edit"></i></button>
+                                                        <button class="btn text-danger content-btn content-btn-trash" @onclick="() => ShowConfirmDeleteModal(item.ProductId)"><i class="fas fa-trash"></i></button>
                                                     </td>
                                                 </tr>
-                                            }  
+                                            }
                                         }
                                     }
                                 }
@@ -95,6 +92,7 @@
     </NotAuthorized>
 </AuthorizeView>
 
+@* AddProduct *@
 <div class="modal fade" id="CreateModel" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -149,6 +147,86 @@
                     <button type="submit" class="btn btn-success">Thêm</button>
                 </div>
             </EditForm>
+        </div>
+    </div>
+</div>
+
+@* UpdateProduct *@
+<div class="modal fade" id="UpdateModel" tabindex="-1" aria-labelledby="UpdateModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="UpdateModelLabel">Sửa sản phẩm</h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <EditForm Model="@prodModel" OnValidSubmit="UpdateProduct">
+                <DataAnnotationsValidator />
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="productName" class="form-label">Tên sản phẩm:</label>
+                        <InputText class="form-control" @bind-Value="prodModel.Name" id="productName" name="Name" />
+                        <ValidationMessage For="@(() => prodModel.Name)" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productImage" class="form-label">Ảnh sản phẩm:</label>
+                        <InputFile class="form-control" OnChange="HandleFileSelected" id="productImage" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription" class="form-label">Mô tả sản phẩm:</label>
+                        <InputText class="form-control" @bind-Value="prodModel.Description" id="productDescription" name="Description" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice" class="form-label">Giá sản phẩm:</label>
+                        <InputNumber class="form-control" @bind-Value="prodModel.Price" id="productPrice" name="Price" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productCategoryId" class="form-label">Danh mục:</label>
+                        <InputSelect class="form-control" @bind-Value="prodModel.CategoryId" id="productCategoryId" name="CategoryId">
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.CategoryId">@category.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                    <div class="form-group">
+                        <label for="productMenuId" class="form-label">Menu:</label>
+                        <InputSelect class="form-control" @bind-Value="prodModel.MenuId" id="productMenuId" name="MenuId">
+                            @foreach (var menu in menus)
+                            {
+                                <option value="@menu.MenuId">@menu.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                    <div class="form-check">
+                        <InputCheckbox class="form-check-input" @bind-Value="@prodModel.IsDelete" id="productIsDelete" name="IsDelete" />
+                        <label for="productIsDelete" class="form-check-label">Ẩn sản phẩm</label>
+                        <ValidationMessage For="@(() => prodModel.IsDelete)" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@* ConformDelete *@
+<div class="modal fade" id="ConfirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Xác nhận xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa sản phẩm này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" @onclick="DeleteProduct">Xóa</button>
+            </div>
         </div>
     </div>
 </div>

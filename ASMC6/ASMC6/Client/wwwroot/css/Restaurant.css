@@ -50,4 +50,22 @@
     height: 300px;
     width: 300px !important;
 }
+.content {
+    display: inline-block;
+    margin: 2px;
+    width: max-content;
+    height: max-content;
+    background-color: #202938;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+}
 
+.content-btn {
+    border-radius: 4px;
+}
+
+.btn-edit {
+    background-color: #6366F1;
+}

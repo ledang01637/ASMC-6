@@ -41,7 +41,7 @@ namespace ASMC6.Server.Controllers
             });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetProductById/{id}")]
         public ActionResult<Product> GetId(int id)
         {
             if (id == 0)
@@ -65,7 +65,7 @@ namespace ASMC6.Server.Controllers
             return Ok(deletedCategory);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("PutProduct/{id}")]
         public IActionResult Update(int id, [FromBody] Product updatedProduct)
         {
             var updatedLoai = _productService.UpdateProduct(id, updatedProduct);
