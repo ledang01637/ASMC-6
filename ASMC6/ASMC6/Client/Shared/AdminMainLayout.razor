@@ -9,86 +9,83 @@
 
 
 <CascadingAuthenticationState>
-<div class="admin-layout">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar Brand-->
-        <a href="index.html" class="text-decoration-none" style="margin-left: 5%;">
-            <div class="">
-                <h2 class="text-white">VFOOD</h2>
-            </div>
-        </a>
-        <!-- Navbar-->
-        <ul class="navbar-nav ms-auto me-3 me-lg-4">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-user fa-fw"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Settings</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="/login">Logout</a></li>
-                </ul>
-            </li>
-        </ul>
-
-    </nav>
-    <div class="col-md-12 row">
-        <div class="col-md-2 row bg-dark">
-            <nav class="bg-dark dropdown">
-                <a href="/admin" class="col-md-12 btn btn-dark text-decoration-none">
-                    <div class="col-md-12 p-2 mt-1">
-                        <h3 class="text-white">Thông Tin</h3>
-                    </div>
-                </a>
-                <a href="/adminusermanage" class="col-md-12 btn btn-dark text-decoration-none">
-                    <div class="col-md-12 p-2 mt-1">
-                        <h3 class="text-white">Tài khoản người dùng</h3>
-                    </div>
-                </a>
-                <a href="/admincategorymanage" class="col-md-12 btn btn-dark text-decoration-none">
-                    <div class="col-md-12 p-2 mt-1">
-                        <h3 class="text-white">Danh Mục</h3>
-                    </div>
-                </a>
-                <a href="/adminproductmanage" class="col-md-12 btn btn-dark text-decoration-none">
-                    <div class="col-md-12 p-2 mt-1">
-                        <h3 class="text-white">Sản Phẩm</h3>
-                    </div>
-                </a>
-                <a href="/adminrestaurantmanage" class="col-md-12 btn btn-dark text-decoration-none">
-                    <div class="col-md-12 p-2 mt-1">
-                        <h3 class="text-white">Cửa Hàng</h3>
-                    </div>
-                </a>
-                <a href="/adminordermanage" class="col-md-12 btn btn-dark text-decoration-none">
-                    <div class="col-md-12 p-2 mt-1">
-                        <h3 class="text-white">Order</h3>
-                    </div>
-                </a>
-            </nav>
-        </div>
-        <div class="col-md-10">
-            <main>
-                <div class="container-fluid fixed-height-container vh-100">
-                    @Body
+    <div class="admin-layout">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-danger">
+            <!-- Navbar Brand-->
+            <a href="index.html" class="text-decoration-none" style="margin-left: 5%;">
+                <div class="d-flex align-items-center">
+                    <img src="./image/icon/whiteIcon.png" alt="VFOOD Logo" style="height: 60px; margin-right: 5px;">
                 </div>
-            </main>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
+            </a>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user fa-fw"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="col-md-12 row">
+            <div class="col-md-2 row bg-secondary">
+                <nav class="bg-secondary dropdown">
+                    <a href="/information" class="col-md-12 btn btn-secondary text-decoration-none">
+                        <div class="col-md-12 p-2 mt-1 d-flex align-items-center">
+                            <i class="fas fa-info-circle text-white me-2"></i>
+                            <h3 class="text-white">Thông Tin</h3>
+                        </div>
+                    </a>
+                    <a href="/adminusermanage" class="col-md-12 btn btn-secondary text-decoration-none">
+                        <div class="col-md-12 p-2 mt-1 d-flex align-items-center">
+                            <i class="fas fa-users text-white me-2"></i>
+                            <h3 class="text-white">Tài khoản người dùng</h3>
+                        </div>
+                    </a>
+                    <a href="/admincategorymanage" class="col-md-12 btn btn-secondary text-decoration-none">
+                        <div class="col-md-12 p-2 mt-1 d-flex align-items-center">
+                            <i class="fas fa-list text-white me-2"></i>
+                            <h3 class="text-white">Danh Mục</h3>
+                        </div>
+                    </a>
+                    <a href="/adminproductmanage" class="col-md-12 btn btn-secondary text-decoration-none">
+                        <div class="col-md-12 p-2 mt-1 d-flex align-items-center">
+                            <i class="fas fa-box text-white me-2"></i>
+                            <h3 class="text-white">Sản Phẩm</h3>
+                        </div>
+                    </a>
+                    <a href="/adminrestaurantmanage" class="col-md-12 btn btn-secondary text-decoration-none">
+                        <div class="col-md-12 p-2 mt-1 d-flex align-items-center">
+                            <i class="fas fa-store text-white me-2"></i>
+                            <h3 class="text-white">Cửa Hàng</h3>
+                        </div>
+                    </a>
+                    <a href="/adminordermanage" class="col-md-12 btn btn-secondary text-decoration-none">
+                        <div class="col-md-12 p-2 mt-1 d-flex align-items-center">
+                            <i class="fas fa-shopping-cart text-white me-2"></i>
+                            <h3 class="text-white">Hóa Đơn</h3>
+                        </div>
+                    </a>
+                </nav>
+            </div>
+            <div class="col-md-10">
+                <main>
+                    <div class="container-fluid fixed-height-container" style="height: 868px;">
+                        <div class="card shadow-sm mt-3">
+                            <div class="card-body">
+                                @Body
+                            </div>
                         </div>
                     </div>
-                </div>
-            </footer>
+                </main>
+            </div>
         </div>
     </div>
 
-</div>
 </CascadingAuthenticationState>
  
