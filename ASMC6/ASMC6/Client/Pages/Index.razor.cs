@@ -32,10 +32,13 @@ namespace ASMC6.Client.Pages
                 listMenu = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Menu>>("api/Menu/GetMenus");
                 if (SUser.User != null)
                 {
-                    restaurant = listRest.FirstOrDefault(r => r.UserId == SUser.User.UserId);
-                    var listRestLogin = listRest.Where(m => m.RestaurantId != restaurant.RestaurantId).ToList();
-                    var menuForRest = listMenu.Where(menu => listRestLogin.Any(lr => lr.RestaurantId == menu.RestaurantId)).ToList();
-                    listProd = listProd.Where(p => menuForRest.Any(mr => mr.MenuId == p.MenuId)).ToList();
+                    if(SUser.User.RoleId == 2)
+                    {
+                        restaurant = listRest.FirstOrDefault(r => r.UserId == SUser.User.UserId);
+                        var listRestLogin = listRest.Where(m => m.RestaurantId != restaurant.RestaurantId).ToList();
+                        var menuForRest = listMenu.Where(menu => listRestLogin.Any(lr => lr.RestaurantId == menu.RestaurantId)).ToList();
+                        listProd = listProd.Where(p => menuForRest.Any(mr => mr.MenuId == p.MenuId)).ToList();
+                    }  
                 }
             }
             catch (Exception ex)

@@ -41,6 +41,7 @@ namespace ASMC6.Client.Pages
                 menus = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Menu>>("api/Menu/GetMenus");
                 categories = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Category>>("api/Category/GetCategories");
 
+                Console.WriteLine("UserID: " + SUser.User.UserId);
                 restaurant = restaurants.FirstOrDefault(r => r.UserId == SUser.User.UserId);
             }
             catch (Exception ex)
