@@ -12,10 +12,10 @@ namespace ASMC6.Client.Pages
 {
     public partial class AdminManageCategory
     {
-        private List<ASMC6.Shared.Category> listCategory = new List<ASMC6.Shared.Category>();
-        private List<ASMC6.Shared.Category> filteredCategory = new List<ASMC6.Shared.Category>();
-        //private List<Category> categories = new List<Category>();
+        private List<Category> listCategory = new List<Category>();
+        private List<Category> filteredCategory = new List<Category>();
         private bool isLoaded = false;
+        private string errorMessage;
 
         protected override async Task OnInitializedAsync()
         {
@@ -32,60 +32,40 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error loading categories: {ex.Message}");
+                errorMessage = $"Error loading categories: {ex.Message}";
             }
         }
 
-        //private async Task HideProd(int CategoryId)
-        //{
-        //    try
-        //    {
-        //        var product = listProd.FirstOrDefault(p => p.ProductId == productId);
-        //        if (product != null)
-        //        {
-        //            product.IsDelete = true; // Mark the product as deleted
-        //            await httpClient.PutAsJsonAsync($"api/Product/{productId}", product);
-        //            await LoadProduct();
-        //            StateHasChanged();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Error hiding product: {ex.Message}");
-        //    }
-        //}
+        private async Task DeleteCategory(int categoryId)
+        {
+            try
+            {
+                var category = listCategory.FirstOrDefault(p => p.CategoryId == categoryId);
+                if (category != null)
+                {
+                    await httpClient.DeleteAsync($"api/Category/{categoryId}");
+                    await LoadCategories();
+                    StateHasChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = $"Error deleting category: {ex.Message}";
+            }
+        }
 
+        private void EditCategory(int categoryId)
+        {
+            Navigation.NavigateTo($"/editcategory/{categoryId}");
+        }
 
-        //private void EditProd(int productId)
-        //{
-        //    Navigation.NavigateTo("/editproduct/" + productId);
-        //}
-
-        //private void FilterProducts(ChangeEventArgs e)
-        //{
-        //    var searchTerm = e.Value.ToString().ToLower();
-        //    filteredProd = listProd.Where(p => p.Name.ToLower().Contains(searchTerm) || p.Description.ToLower().Contains(searchTerm)).ToList();
-        //}
-
-        //private void FilterByPrice(ChangeEventArgs e)
-        //{
-        //    if (decimal.TryParse(e.Value.ToString(), out decimal searchPrice))
-        //    {
-        //        filteredProd = listProd.Where(p => p.Price >= 0 && p.Price <= searchPrice).ToList();
-        //    }
-        //    else
-        //    {
-        //        filteredProd = listProd;
-        //    }
-        //}
-
-
-        //chuyển trang
-        //protected override void OnInitialized()
-        //{
-        //    // Automatically redirect after a short delay
-        //    Task.Delay(2000).ContinueWith(_ => Navigation.NavigateTo("/", true));
-        //}
+        private void FilterCategories(ChangeEventArgs e)
+        {
+            var searchTerm = e.Value.ToString().ToLower();
+            filteredCategory = string.IsNullOrWhiteSpace(searchTerm)
+                ? listCategory
+                : listCategory.Where(p => p.Name.ToLower().Contains(searchTerm) || p.Description.ToLower().Contains(searchTerm)).ToList();
+        }
 
     }
 }

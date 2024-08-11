@@ -147,7 +147,7 @@
                     <div class="carousel-inner row">
                         @if (pagedProducts != null)
                         {
-                            @foreach (var item in pagedProducts.Select((p, index) => new { p, index }).GroupBy(x => x.index / 8))
+                            @foreach (var item in pagedProducts.Select((p, index) => new { p, index }).Where(x => !x.p.IsDelete).GroupBy(x => x.index / 8))
                             {
                                 <div class="carousel-item @(item.First().index == 0 ? "active" : "")">
                                     <div class="col-md-12 row">

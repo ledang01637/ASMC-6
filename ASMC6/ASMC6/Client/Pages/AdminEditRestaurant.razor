@@ -108,7 +108,7 @@
     {
         try
         {
-            await httpClient.PutAsJsonAsync($"api/Restaurant/UpdateRestaurant/{rest.RestaurantId}", rest);
+            await httpClient.PutAsJsonAsync($"api/Restaurant/{rest.RestaurantId}", rest);
             successMessage = "Cập nhật thành công!";
             ero = string.Empty;
         }

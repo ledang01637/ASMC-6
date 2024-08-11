@@ -1,4 +1,5 @@
-﻿using ASMC6.Server.Service;
+﻿
+using ASMC6.Server.Service;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace ASMC6.Client.Pages
     {
         private List<ASMC6.Shared.Order> listOrder = new List<ASMC6.Shared.Order>();
         private bool isLoaded = false;
+        private string errorMessage;
 
         protected override async Task OnInitializedAsync()
         {
@@ -24,11 +26,11 @@ namespace ASMC6.Client.Pages
         {
             try
             {
-                listOrder = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Order>>("api/Order/GetOrder");
+                listOrder = await httpClient.GetFromJsonAsync<List<Order>>("api/Order/GetOrders");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error loading products: {ex.Message}");
+                errorMessage = $"Error loading orders: {ex.Message}";
             }
         }
 
@@ -39,16 +41,15 @@ namespace ASMC6.Client.Pages
                 var order = listOrder.FirstOrDefault(p => p.OrderId == orderId);
                 if (order != null)
                 {
+                    // Assuming you want to mark the order as hidden
                     await httpClient.PutAsJsonAsync($"api/Order/UpdateOrder/{orderId}", order);
-                    // Optionally update the UI to reflect the hidden status
-                    // No need to remove the product from the list
                     await LoadOrder();
                     StateHasChanged();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error hiding product: {ex.Message}");
+                errorMessage = $"Error hiding order: {ex.Message}";
             }
         }
 
@@ -64,19 +65,18 @@ namespace ASMC6.Client.Pages
                 }
                 else
                 {
-                    Console.WriteLine("Error deleting Order");
+                    errorMessage = "Error deleting order";
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deleting product: {ex.Message}");
+                errorMessage = $"Error deleting order: {ex.Message}";
             }
         }
 
         private void EditOrder(int orderId)
         {
-            Navigation.NavigateTo("/editorder/" + orderId);
+            Navigation.NavigateTo($"/editorder/{orderId}");
         }
-
     }
 }
