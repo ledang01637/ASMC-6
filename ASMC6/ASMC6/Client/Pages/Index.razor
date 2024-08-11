@@ -1,5 +1,4 @@
 ﻿@page "/"
-
 @layout MainLayout
 @using ASMC6.Shared
 @using ASMC6.Server.Service
@@ -72,79 +71,93 @@
 <!---->
 <section class="container">
     <div class="col-md-12 row">
-        <div class="border border-1 col-md-6 p-3"
-             style="
-            background: url(./public/banner17jpg@2x.png) no-repeat;
-            background-size: cover;
-          ">
-            <div class="shopping-heading-parent">
-                <div class="shopping-heading">
-                    <h1 class="heading-257">Make your grocery</h1>
-                    <h1 class="heading-258">shopping easy with us</h1>
-                </div>
-                <div class="feed-your-family3">Feed your family the best</div>
-            </div>
-            <button class="link75 btn btn-outline-secondary">
-                <b class="shop-now12">Shop Now</b>
-                <img alt="" src="./public/iklbiconmoveright2.svg" />
-            </button>
+        <div class="border border-1 col-md-6 p-3">
+            <img src="./image/restaurant/bun-1.jpeg" width="100%" height="270vh" alt="Alternate Text" />
             <div class="diventry-inner10"></div>
         </div>
-        <div class="col-md-6 p-3"
-             style="
-            background: url(./public/banner19jpg@2x.png) no-repeat;
-            background-size: cover;
-          ">
-            <div class="shopping-heading-parent">
-                <div class="shopping-heading">
-                    <h1 class="heading-257">Make your grocery</h1>
-                    <h1 class="heading-258">shopping easy with us</h1>
-                </div>
-                <div class="feed-your-family3">Feed your family the best</div>
-            </div>
-            <button class="link75 btn btn-outline-secondary">
-                <b class="shop-now12">Shop Now</b>
-                <img alt="" src="./public/iklbiconmoveright2.svg" />
-            </button>
+        <div class="border border-1 col-md-6 p-3">
+            <img src="./image/restaurant/rest1.jpg" width="100%" height="270vh" alt="Alternate Text" />
             <div class="diventry-inner10"></div>
         </div>
     </div>
     <div class="col-md-12 row">
         <!--SP1-->
-        @foreach (var rest in listRest)
-        {
-            var menuForRest = listMenu.FirstOrDefault(menu => menu.RestaurantId == rest.RestaurantId);
-
-            if (menuForRest != null)
+        @{
+            if (restaurant != null)
             {
-                var item = listProd.FirstOrDefault(prod => prod.MenuId == menuForRest.MenuId);
-
-                if (item != null)
+                @foreach (var prod in listProd)
                 {
-                    <div class="border border-1 col-md-3 mt-3">
-                        <div class="col-md-12">
-                            <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient mt-3">
-                                <img class="svg-icon8"
-                                     alt=""
-                                     src="./image/product/@item.Image"
-                                     width="100%" height="300px" />
-                            </div>
-                            <div class="add-button-three position-relative mt-1">
-                                <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
-                                    <div class="link-great-container18">
-                                        <a class="great-value-rising9 fs-5">@item.Name</a>
-                                    </div>
+                    if (!prod.IsDelete)
+                    {
+                        <div class="border border-1 col-md-3 mt-3">
+                            <div class="col-md-12">
+                                <h1>@prod.ProductId</h1>
+                                <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient mt-3">
+                                    <img class="svg-icon8"
+                                         alt=""
+                                         src="./image/product/@prod.Image"
+                                         width="100%" height="300px" />
                                 </div>
-                                <b class="ins-wrapper fs-5 mt-3">@item.Price.ToString("#,##0") VND</b>
-                                <a class="position-absolute top-0 end-0 mt-3" style="cursor: pointer" @onclick="() => AddToCart(item)">
-                                    <i class="fa-solid fa-cart-plus text-danger fs-4"></i>
-                                </a>
+                                <div class="add-button-three position-relative mt-1">
+                                    <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
+                                        <div class="link-great-container18">
+                                            <a class="great-value-rising9 fs-5">@prod.Name</a>
+                                        </div>
+                                    </div>
+                                    <b class="ins-wrapper fs-5 mt-3">@prod.Price.ToString("#,##0") VND</b>
+                                    <a class="position-absolute top-0 end-0 mt-3" style="cursor: pointer" @onclick="() => AddToCart(prod)">
+                                        <i class="fa-solid fa-cart-plus text-danger fs-4"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
             }
+            else
+            {
+                foreach (var rest in listRest)
+                {
+                    var menuForRest = listMenu.FirstOrDefault(menu => menu.RestaurantId == rest.RestaurantId);
+                    var prods = listProd.Where(prod => prod.MenuId == menuForRest.MenuId).ToList();
+
+                    if (prods != null)
+                    {
+                        @foreach (var prod in prods)
+                        {
+                            if (!prod.IsDelete)
+                            {
+                                <div class="border border-1 col-md-3 mt-3">
+                                    <div class="col-md-12">
+                                        <h1>@prod.ProductId</h1>
+                                        <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient mt-3">
+                                            <img class="svg-icon8"
+                                                 alt=""
+                                                 src="./image/product/@prod.Image"
+                                                 width="100%" height="300px" />
+                                        </div>
+                                        <div class="add-button-three position-relative mt-1">
+                                            <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
+                                                <div class="link-great-container18">
+                                                    <a class="great-value-rising9 fs-5">@prod.Name</a>
+                                                </div>
+                                            </div>
+                                            <b class="ins-wrapper fs-5 mt-3">@prod.Price.ToString("#,##0") VND</b>
+                                            <a class="position-absolute top-0 end-0 mt-3" style="cursor: pointer" @onclick="() => AddToCart(prod)">
+                                                <i class="fa-solid fa-cart-plus text-danger fs-4"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    }
+                }
+            }
+
         }
+
     </div>
 </section>
 
