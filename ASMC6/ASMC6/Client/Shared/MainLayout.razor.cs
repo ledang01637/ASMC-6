@@ -17,6 +17,7 @@ namespace ASMC6.Client.Shared
     {
         private bool IsLoggedIn { get; set; }
         private string UserName { get; set; }
+        private string Name {  get; set; }
         private List<User> users = new List<User>();
         private int RoleId = 0;
 
@@ -35,6 +36,7 @@ namespace ASMC6.Client.Shared
             if (SUser.User != null)
             {
                 RoleId = SUser.User.RoleId;
+                Name = SUser.User.Name;
             }
             
 

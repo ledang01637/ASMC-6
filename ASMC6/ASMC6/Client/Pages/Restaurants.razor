@@ -117,7 +117,7 @@
                 return;
             }
             DateTime localDate = DateTime.Now;
-            if (rest.OpeningHours < localDate && (localDate.Year - rest.OpeningHours.Year) > 1)
+            if (rest.OpeningHours < localDate)
             {
                 ero = "Thời gian phải lớn hơn hiện tại và và thời gian mở là phải bé hơn 1 năm";
                 successMessage = string.Empty;
