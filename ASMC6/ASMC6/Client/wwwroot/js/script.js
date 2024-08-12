@@ -72,6 +72,12 @@
             title: "Thành công",
             icon: "success",
         });
+    } else if (status === "ProductFail") {
+        Swal.fire({
+            title: "Thất bại",
+            text: "Sản phẩm đã tồn tại",
+            icon: "success",
+        });
     }
 }
 

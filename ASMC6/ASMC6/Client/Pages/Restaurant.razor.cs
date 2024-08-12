@@ -55,6 +55,13 @@ namespace ASMC6.Client.Pages
         {
             try
             {
+                var existingProduct = products.FirstOrDefault(r => r.Name == prodModel.Name);
+                if (existingProduct != null)
+                {
+                    await JS.InvokeVoidAsync("showAlert", "ProductFail");
+                    await Task.Delay(1000);
+                    return;
+                }
                 prodModel.Image = imageFileName;
                 prodModel.IsDelete = false;
                 var response = await httpClient.PostAsJsonAsync("api/Product/AddProduct", prodModel);

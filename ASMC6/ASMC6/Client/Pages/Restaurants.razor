@@ -36,8 +36,15 @@
 
                     <div class="form-group">
                         <label asp-for="OpeningHours" class="control-label"><strong>Giờ Mở Cửa</strong></label>
-                        <input type="date" @bind="rest.OpeningHours" class="form-control" />
+                        <input type="datetime" @bind="rest.OpeningHours" class="form-control" />
                         <ValidationMessage For="@(()=>rest.OpeningHours)" />
+                    </div>
+
+                    <!-- New Menu Name Input Field -->
+                    <div class="form-group">
+                        <label class="control-label"><strong>Tên Menu</strong></label>
+                        <input @bind="menuName" class="form-control" placeholder="Nhập Tên Menu" />
+                        <ValidationMessage For="@(()=>menuName)" />
                     </div>
 
                     <div class="form-group text-center">
@@ -66,12 +73,14 @@
 
 @code {
     private string ero;
+
     private string successMessage;
+    private string menuName;
     private List<ASMC6.Shared.Restaurant> listRest = new List<ASMC6.Shared.Restaurant>();
     private ASMC6.Shared.Restaurant rest = new ASMC6.Shared.Restaurant();
-    private int selectedProductId;
     private string imageFileName;
     private IBrowserFile selectedFile;
+    private int selectedProductId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -95,6 +104,83 @@
             Console.WriteLine($"Error: {ex.Message}");
         }
     }
+
+    private async Task AddProd()
+    {
+        try
+        {
+            var existingRestaurant = listRest.FirstOrDefault(r => r.UserId == SUser.User.UserId);
+            if (existingRestaurant != null)
+            {
+                ero = "Bạn đã đăng ký một cửa hàng trước đó!";
+                successMessage = string.Empty;
+                return;
+            }
+            DateTime localDate = DateTime.Now;
+            if (rest.OpeningHours < localDate && (localDate.Year - rest.OpeningHours.Year) > 1)
+            {
+                ero = "Thời gian phải lớn hơn hiện tại và và thời gian mở là phải bé hơn 1 năm";
+                successMessage = string.Empty;
+                return;
+            }
+            rest.UserId = SUser.User.UserId;
+            var response = await httpClient.PostAsJsonAsync("api/Restaurant/AddRestaurant", rest);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var abc = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
+                var cba = abc.LastOrDefault();
+                var menu = new Menu
+                    {
+                        RestaurantId = cba.RestaurantId,
+                        Name = menuName,
+                        IsDelete = false
+                    };
+                await httpClient.PostAsJsonAsync("api/Menu/AddMenu", menu);
+
+                var updatedUser = new User()
+                    {
+                        Name = SUser.User.Name,
+                        RoleId = 2,
+                        Email = SUser.User.Email,
+                        Phone = SUser.User.Phone,
+                        Password = SUser.User.Password,
+                        Address = SUser.User.Address,
+                        IsDelete = SUser.User.IsDelete
+                    };
+                int id = SUser.User.UserId;
+                var userResponse = await httpClient.PutAsJsonAsync($"api/User/{id}", updatedUser);
+
+                if (response.IsSuccessStatusCode && userResponse.IsSuccessStatusCode)
+                {
+                    await LoadProducts();
+                    rest = new ASMC6.Shared.Restaurant();
+                    menuName = string.Empty;
+                    ero = string.Empty;
+                    successMessage = "Đăng ký thành công!";
+                    await Task.Delay(1000);
+                    Navigation.NavigateTo("/logout", true);
+                }
+                else
+                {
+                    ero = "Đăng ký bán hàng thất bại!";
+                    successMessage = string.Empty;
+                }
+            }
+            else
+            {
+                ero = "Đăng ký bán hàng thất bại!";
+                successMessage = string.Empty;
+            }
+        }
+        catch (Exception ex)
+        {
+            ero = $"Đã xảy ra lỗi: {ex.Message}";
+            successMessage = string.Empty;
+        }
+
+        StateHasChanged();
+    }
     private void HandleFileSelected(InputFileChangeEventArgs e)
     {
         var file = e.File;
@@ -104,47 +190,5 @@
             imageFileName = file.Name;
             rest.Image = imageFileName;
         }
-    }
-    private async Task AddProd()
-    {
-        try
-        {
-            rest.UserId = SUser.User.UserId;
-            var responese = await httpClient.PostAsJsonAsync("api/Restaurant/AddRestaurant", rest);
-            var updatedUser = new User()
-                {
-                    Name = SUser.User.Name,
-                    RoleId = 2,
-                    Email = SUser.User.Email,
-                    Phone = SUser.User.Phone,
-                    Password = SUser.User.Password,
-                    Address = SUser.User.Address,
-                    IsDelete = SUser.User.IsDelete
-                };
-            int id = SUser.User.UserId;
-            var respoe = await httpClient.PutAsJsonAsync($"api/User/{id}", updatedUser);
-            if (responese.IsSuccessStatusCode && respoe.IsSuccessStatusCode)
-            {
-                await LoadProducts();
-                rest = new ASMC6.Shared.Restaurant();
-                ero = string.Empty;
-                successMessage = "Đăng ký thành công!";
-                await Task.Delay(1000);
-                Navigation.NavigateTo("/logout",true);
-            }
-            else
-            {
-                ero = "Đăng ký bán hàng thất bại!";
-                successMessage = string.Empty;
-            }
-
-        }
-        catch (Exception ex)
-        {
-            ero = $"Đã xảy ra lỗi: {ex.Message}";
-            successMessage = string.Empty;
-        }
-
-        StateHasChanged();
     }
 }
