@@ -76,7 +76,7 @@
         Swal.fire({
             title: "Thất bại",
             text: "Sản phẩm đã tồn tại",
-            icon: "success",
+            icon: "error",
         });
     }
 }
