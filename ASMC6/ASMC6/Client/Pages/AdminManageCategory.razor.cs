@@ -12,8 +12,8 @@ namespace ASMC6.Client.Pages
 {
     public partial class AdminManageCategory
     {
-        private List<Category> listCategory = new List<Category>();
-        private List<Category> filteredCategory = new List<Category>();
+        private List<ASMC6.Shared.Category> listCategory = new List<ASMC6.Shared.Category>();
+        private List<ASMC6.Shared.Category> filteredCategory = new List<ASMC6.Shared.Category>();
         private bool isLoaded = false;
         private string errorMessage;
 
@@ -27,7 +27,7 @@ namespace ASMC6.Client.Pages
         {
             try
             {
-                listCategory = await httpClient.GetFromJsonAsync<List<Category>>("api/Category/GetCategory");
+                listCategory = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Category>>("api/Category/GetCategory");
                 filteredCategory = listCategory;
             }
             catch (Exception ex)

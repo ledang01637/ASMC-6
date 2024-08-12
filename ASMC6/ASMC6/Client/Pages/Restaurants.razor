@@ -110,7 +110,7 @@
                     IsDelete = SUser.User.IsDelete
                 };
             int id = SUser.User.UserId;
-            var respoe = await httpClient.PutAsJsonAsync($"api/User/UpdateUser/{id}", updatedUser);
+            var respoe = await httpClient.PutAsJsonAsync($"api/User/{id}", updatedUser);
             if (responese.IsSuccessStatusCode && respoe.IsSuccessStatusCode)
             {
                 await LoadProducts();

@@ -13,6 +13,10 @@ namespace ASMC6.Client.Pages
     public partial class AdminManageOrder
     {
         private List<ASMC6.Shared.Order> listOrder = new List<ASMC6.Shared.Order>();
+        private List<ASMC6.Shared.OrderItem> listOrderItem = new List<ASMC6.Shared.OrderItem>();
+        private List<ASMC6.Shared.Product> listProd = new List<ASMC6.Shared.Product>();
+        private List<ASMC6.Shared.Restaurant> listRest = new List<ASMC6.Shared.Restaurant>();
+        private List<ASMC6.Shared.Menu> listMenu = new List<ASMC6.Shared.Menu>();
         private bool isLoaded = false;
         private string errorMessage;
 
@@ -22,17 +26,25 @@ namespace ASMC6.Client.Pages
             isLoaded = true;
         }
 
+
         private async Task LoadOrder()
         {
             try
             {
-                listOrder = await httpClient.GetFromJsonAsync<List<Order>>("api/Order/GetOrders");
+                listOrder = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Order>>("api/Order/GetOrders");
+                //listOrderItem = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.OrderItem>>("api/OrderItem/GetOrderItems");
+                //listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
+                //listRest = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
+                //listMenu = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Menu>>("api/Menu/GetMenus");
+
             }
             catch (Exception ex)
             {
                 errorMessage = $"Error loading orders: {ex.Message}";
             }
         }
+
+
 
         private async Task HideProd(int orderId)
         {
@@ -80,3 +92,4 @@ namespace ASMC6.Client.Pages
         }
     }
 }
+
