@@ -5,6 +5,21 @@
 @inject HttpClient httpClient
 @inject NavigationManager Navigation
 
+<style>
+    .product-table-container {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+        .product-table-container table {
+            width: 100%;
+        }
+
+    .search-bar, .filter-bar {
+        margin-bottom: 20px;
+    }
+</style>
+
 <AuthorizeView Roles="1">
     <Authorized>
         @if (isLoaded)
@@ -12,35 +27,41 @@
             <hr />
 
             <h4>Quản lý order</h4>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>OrderItems</th>
-                        <th>OrderDate</th>
-                        <th>UserId</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var order in listOrder)
-                    {
+            <div class="product-table-container">
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            <td>@order.OrderItems</td>
-                            <td>@order.OrderDate</td>
-                            <td>@order.UserId</td>
-                            <td>
-                                <button class="btn btn-primary" @onclick="() => EditOrder(order.OrderId)">Edit</button>
-                                <button class="btn btn-danger" @onclick="() => DeleteOrder(order.OrderId)">Delete</button>
-                            </td>
+                            <th>Order Items</th>
+                            <th>Order Date</th>
+                            <th>User ID</th>
+                            <th>Actions</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in listOrder)
+                        {
+                            <tr>
+                                <td>@order.OrderId</td>
+                                <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                <td>@order.User.Name</td>
+                                <td>
+                                    <button class="btn btn-primary" @onclick="() => EditOrder(order.OrderId)">Edit</button>
+                                    <button class="btn btn-danger" @onclick="() => DeleteOrder(order.OrderId)">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <p class="text-danger">@errorMessage</p>
         }
         else
         {
             <p>Loading...</p>
         }
-
     </Authorized>
     <NotAuthorized>
         <h3>Không có quyền truy cập</h3>

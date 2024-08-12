@@ -32,12 +32,6 @@ namespace ASMC6.Client.Pages
             }
         }
 
-        private async Task AddProd()
-        {
-            await httpClient.PostAsJsonAsync("api/Product/AddProduct", prod);
-            await LoadProducts();
-            StateHasChanged();
-        }
         private async Task AddToCart(ASMC6.Shared.Product product)
         {
             await CartService.AddItemToCartAsync(product);
