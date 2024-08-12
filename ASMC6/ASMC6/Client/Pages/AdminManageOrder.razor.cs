@@ -7,6 +7,8 @@ using System;
 using System.Net.Http.Json;
 using System.Linq;
 using ASMC6.Shared;
+using ASMC6.Client.Session;
+using Microsoft.AspNetCore.Components;
 
 namespace ASMC6.Client.Pages
 {
@@ -17,8 +19,19 @@ namespace ASMC6.Client.Pages
         private List<ASMC6.Shared.Product> listProd = new List<ASMC6.Shared.Product>();
         private List<ASMC6.Shared.Restaurant> listRest = new List<ASMC6.Shared.Restaurant>();
         private List<ASMC6.Shared.Menu> listMenu = new List<ASMC6.Shared.Menu>();
+        private List<ASMC6.Shared.User> listUser = new List<ASMC6.Shared.User>();
+
+        private ASMC6.Shared.Restaurant restaurants = new ASMC6.Shared.Restaurant();
+        private ASMC6.Shared.Product products = new ASMC6.Shared.Product();
+        private ASMC6.Shared.Order orders = new ASMC6.Shared.Order();
+        private ASMC6.Shared.Category categories = new ASMC6.Shared.Category();
+        private ASMC6.Shared.User users = new ASMC6.Shared.User();
+
+        private List<ASMC6.Shared.Product> originalListProd;
+
         private bool isLoaded = false;
         private string errorMessage;
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -32,11 +45,21 @@ namespace ASMC6.Client.Pages
             try
             {
                 listOrder = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Order>>("api/Order/GetOrders");
-                //listOrderItem = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.OrderItem>>("api/OrderItem/GetOrderItems");
-                //listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
-                //listRest = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
-                //listMenu = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Menu>>("api/Menu/GetMenus");
+                listOrderItem = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.OrderItem>>("api/OrderItem/GetOrderItems");
+                listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
+                listRest = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
+                listMenu = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Menu>>("api/Menu/GetMenus");
+                listUser = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.User>>("api/User/GetUsers");
 
+                restaurants = await httpClient.GetFromJsonAsync<ASMC6.Shared.Restaurant>("api/Restaurant/GetRestaurants");
+                products = await httpClient.GetFromJsonAsync<ASMC6.Shared.Product>("api/Product/GetProducts");
+                orders = await httpClient.GetFromJsonAsync<ASMC6.Shared.Order>("api/Order/GetOrders");
+                categories = await httpClient.GetFromJsonAsync<ASMC6.Shared.Category>("api/Category/GetCategories");
+
+                listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
+                originalListProd = new List<ASMC6.Shared.Product>(listProd);
+
+                //listRest = restaurants.FirstOrDefault(r => r.UserId == SUser.User.UserId);
             }
             catch (Exception ex)
             {
@@ -90,6 +113,16 @@ namespace ASMC6.Client.Pages
         {
             Navigation.NavigateTo($"/editorder/{orderId}");
         }
+
+        private void SearchName(ChangeEventArgs e)
+        {
+            var searchTerm = e.Value.ToString().ToLower();
+            listProd = listProd.Where(p => p.Name.ToLower().Contains(searchTerm) || p.Description.ToLower().Contains(searchTerm)).ToList();
+        }
+
+
+
+
     }
 }
 

@@ -27,29 +27,67 @@
             <hr />
 
             <h4>Quản lý order</h4>
+            <div class="search-bar">
+                <input type="text" class="form-control" placeholder="Tìm theo sản phẩm" @oninput="SearchName" />
+            </div>
+
+
+
             <div class="product-table-container">
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Order Items</th>
+                            <th>Image</th>
+                            <th>Product</th>
+                            <th>Restaurant</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
                             <th>Order Date</th>
-                            <th>User ID</th>
-                            <th>Actions</th>
+                            <th>User</th>
+                            <th>TotalAmount</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var order in listOrder)
                         {
-                            <tr>
-                                <td>@order.OrderId</td>
-                                <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                                <td>@order.User.Name</td>
-                                <td>
-                                    <button class="btn btn-primary" @onclick="() => EditOrder(order.OrderId)">Edit</button>
-                                    <button class="btn btn-danger" @onclick="() => DeleteOrder(order.OrderId)">Delete</button>
-                                </td>
-                            </tr>
+                            var connectUser = listUser.FirstOrDefault(u => u.UserId == order.UserId);
+                            if (connectUser != null)
+                            {
+                                var oiForRest = listOrderItem.FirstOrDefault(oi => oi.OrderId == order.OrderId);
+
+                                if (oiForRest != null)
+                                {
+                                    var connectProd = listProd.FirstOrDefault(prod => prod.ProductId == oiForRest.ProductId);
+
+                                    if (connectProd != null)
+                                    {
+                                        var connectMenu = listMenu.FirstOrDefault(m => m.MenuId == connectProd.MenuId);
+
+                                        if (connectMenu != null)
+                                        {
+                                            var connectRest = listRest.FirstOrDefault(m => m.RestaurantId == connectMenu.RestaurantId);
+                                            if (connectRest != null)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <img src="./image/product/@connectProd.Image" width="60px" alt="Product Image" />
+                                                    </td>
+                                                    <td>@connectProd.Name</td>
+                                                    <td>@connectRest.Name</td>
+                                                    <td>@connectProd.Price</td>
+                                                    <td>X @oiForRest.Quantity</td>
+                                                    <td>@order.OrderDate.ToString("dd/MM/yyyy")</td>
+                                                    <td>@connectUser.Name</td>
+                                                    <td>@order.TotalAmount.ToString("#,##0")</td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
                         }
+
                     </tbody>
                 </table>
             </div>
@@ -67,3 +105,4 @@
         <h3>Không có quyền truy cập</h3>
     </NotAuthorized>
 </AuthorizeView>
+

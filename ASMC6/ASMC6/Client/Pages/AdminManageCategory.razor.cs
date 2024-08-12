@@ -27,7 +27,7 @@ namespace ASMC6.Client.Pages
         {
             try
             {
-                listCategory = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Category>>("api/Category/GetCategory");
+                listCategory = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Category>>("api/Category/GetCategories");
                 filteredCategory = listCategory;
             }
             catch (Exception ex)

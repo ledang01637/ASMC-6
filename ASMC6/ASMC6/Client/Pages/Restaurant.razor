@@ -2,11 +2,11 @@
 @using ASMC6.Shared
 @inject HttpClient httpClient
 @inject IJSRuntime JS
-
+@inject NavigationManager Navigation
 
 <AuthorizeView Roles="2">
     <Authorized>
-        @if (restaurants is null)
+        @if (restaurants == null || menus == null || products == null || categories == null)
         {
             <p>Loading...</p>
         }
@@ -15,11 +15,11 @@
             <article class="container mb-3">
                 <div class="mt-5 mb-5 row text-light fw-bold bg-danger bg-opacity-90 align-items-center">
                     <div class="col-md-5 mt-2 mb-2">
-                        <img class="rounded" src="/image/restaurant/@restaurant.Image" width="100%" height="250vh" alt="">
+                        <img class="rounded" src="/image/restaurant/@restaurant.Image" width="100%" height="250px" alt="Restaurant Image">
                     </div>
                     <div class="info-res col-md-5 ms-2 fw-bold">
                         <div class="text-light">
-                            <h1>Phúc Long</h1>
+                            <h1>@restaurant.Name</h1>
                             <hr>
                             <span>Thời gian mở cửa: @restaurant.OpeningHours.ToShortTimeString()</span><br>
                             <span>Địa chỉ: @restaurant.Address</span><br>
@@ -27,42 +27,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 row mx-auto justify-content-center p-0">
-                    @if (restaurants == null)
-                    {
-                        <p>loain</p>
-                        <div class="bd">
-                            <div id="loading">
-                                <div class="item1"></div>
-                                <div class="item2"></div>
-                                <div class="item3"></div>
-                            </div>
-                        </div>
-
-                    }
-                    else
-                    {
-                        @foreach (var item in restaurants)
-                        {
-                            <div class="col-md-4 text-center inner-food">
-                                <img src="/image/restaurant/@item.Image" alt="" width="100%" height="70%">
-                                <div class="name-food row m-0" style="height:46px; font-size:25px; color:white; background-color: #DB3737 ;">
-                                    <span class="text-name-food text-truncate" style="">nv @item.Name</span>
-                                </div>
-                                <div class="address-food row m-0" style="background-color:#C56D6D; height:46px; font-size:25px; color:white;">
-                                    <span class="text-addres-food text-truncate">ax @restaurant.Address</span>
-                                </div>
-                            </div>
-                        }
-                    }
-
-                </div>
-                
                 <div class="container">
                     <h1 class="text-center">Quản lý sản phẩm</h1>
-                    <p>
-                        <a class="btn btn-primary">Thêm sản phẩm</a>
-                    </p>
+                    <div class="btn-create mb-2">
+                        <button class="btn bg text-light" data-bs-toggle="modal" data-bs-target="#CreateModel">Thêm mới sản phẩm</button>
+                    </div>
                     <table class="table">
                         <thead>
                             <tr>
@@ -76,32 +45,41 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="align-middle">
-                                    Name
-                                </td>
-                                <td class="align-middle">
-                                    <img src="" width="50px" height="50px" alt="Alternate Text" />
-                                </td>
-                                <td class="align-middle">
-                                    200000
-                                </td>
-                                <td class="align-middle">
-                                    Mô tả
-                                </td>
-                                <td class="align-middle">
-                                    Menu
-                                </td>
-                                <td class="align-middle">
-                                    Danh mục
-                                </td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a class="btn btn-outline-secondary">Sửa</a>
-                                        <a class="btn btn-outline-secondary">Ẩn</a>
-                                    </div>
-                                </td>
-                            </tr>
+                            @{
+                                var menuForRest = menus.FirstOrDefault(menu => menu.RestaurantId == restaurant.RestaurantId);
+                                if (menuForRest != null)
+                                {
+                                    var prodForMenuRest = products.Where(pro => pro.MenuId == menuForRest.MenuId).ToList();
+                                    if (prodForMenuRest.Count == 0)
+                                    {
+                                        <p>No products available</p>
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in prodForMenuRest)
+                                        {
+                                            if (!item.IsDelete)
+                                            {
+                                                var catePro = categories.FirstOrDefault(c => c.CategoryId == item.CategoryId);
+                                                <tr>
+                                                    <td class="align-middle">@item.Name</td>
+                                                    <td class="align-middle">
+                                                        <img src="./image/product/@item.Image" width="50px" height="50px" alt="Product Image" />
+                                                    </td>
+                                                    <td class="align-middle">@item.Price.ToString("#,##0")</td>
+                                                    <td class="align-middle">@item.Description</td>
+                                                    <td class="align-middle">@menuForRest.Name</td>
+                                                    <td class="align-middle">@catePro?.Name</td>
+                                                    <td class="align-middle">
+                                                        <button class="btn text-primary content-btn content-btn-edit" @onclick="() => LoadProductForEdit(item.ProductId)" data-bs-toggle="modal" data-bs-target="#UpdateModel"><i class="far fa-edit"></i></button>
+                                                        <button class="btn text-danger content-btn content-btn-trash" @onclick="() => ShowConfirmDeleteModal(item.ProductId)"><i class="fas fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -109,9 +87,147 @@
         }
     </Authorized>
     <NotAuthorized>
-        <h3>Bạn không có quyền truy cập</h3>
-        <img src="/image/meme-cut-14.jpg" width="100%" height="auto" alt="Alternate Text" />
+        <div>
+            <img src="/image/bg.jpg" width="100%" height="auto" alt="Unauthorized Access" />
+        </div>
     </NotAuthorized>
 </AuthorizeView>
 
+@* AddProduct *@
+<div class="modal fade" id="CreateModel" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <EditForm Model="@prodModel" OnValidSubmit="AddProduct">
+                <DataAnnotationsValidator />
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="productName" class="form-label">Tên sản phẩm:</label>
+                        <InputText class="form-control" @bind-Value="prodModel.Name" id="productName" name="Name" />
+                        <ValidationMessage For="@(() => prodModel.Name)" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productImage" class="form-label">Ảnh sản phẩm:</label>
+                        <InputFile class="form-control" OnChange="HandleFileSelected" id="productImage" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription" class="form-label">Mô tả sản phẩm:</label>
+                        <InputText class="form-control" @bind-Value="prodModel.Description" id="productDescription" name="Description" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice" class="form-label">Giá sản phẩm:</label>
+                        <InputNumber class="form-control" @bind-Value="prodModel.Price" id="productPrice" name="Price" />
+                    </div>
+                    <div class="form-group">
+                        <label for="CategoryId" class="form-label">Danh mục:</label>
+                        <InputSelect @onchange="OnCategoryChanged" class="form-control" @bind-Value="prodModel.CategoryId" id="CategoryId" name="CategoryId">
+                            <option value="">Chọn danh mục</option>
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.CategoryId">@category.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                    <div class="form-group">
+                        <label for="MenuId" class="form-label">Menu:</label>
+                        <InputSelect @onchange="OnMenuChanged" class="form-control" @bind-Value="prodModel.MenuId" id="MenuId" name="MenuId">
+                            @{
+                                var menuForRest = menus.Where(menu => menu.RestaurantId == restaurant.RestaurantId).ToList();
+                                <option value="">Chọn menu</option>
+                                foreach (var menu in menuForRest)
+                                {
+                                    <option value="@menu.MenuId">@menu.Name</option>
+                                }
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Thêm</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
 
+@* UpdateProduct *@
+<div class="modal fade" id="UpdateModel" tabindex="-1" aria-labelledby="UpdateModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="UpdateModelLabel">Sửa sản phẩm</h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <EditForm Model="@prodModel" OnValidSubmit="UpdateProduct">
+                <DataAnnotationsValidator />
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="productName" class="form-label">Tên sản phẩm:</label>
+                        <InputText class="form-control" @bind-Value="prodModel.Name" id="productName" name="Name" />
+                        <ValidationMessage For="@(() => prodModel.Name)" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productImage" class="form-label">Ảnh sản phẩm:</label>
+                        <InputFile class="form-control" OnChange="HandleFileSelected" id="productImage" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription" class="form-label">Mô tả sản phẩm:</label>
+                        <InputText class="form-control" @bind-Value="prodModel.Description" id="productDescription" name="Description" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice" class="form-label">Giá sản phẩm:</label>
+                        <InputNumber class="form-control" @bind-Value="prodModel.Price" id="productPrice" name="Price" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productCategoryId" class="form-label">Danh mục:</label>
+                        <InputSelect class="form-control" @bind-Value="prodModel.CategoryId" id="productCategoryId" name="CategoryId">
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.CategoryId">@category.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                    <div class="form-group">
+                        <label for="productMenuId" class="form-label">Menu:</label>
+                        <InputSelect class="form-control" @bind-Value="prodModel.MenuId" id="productMenuId" name="MenuId">
+                            @foreach (var menu in menus)
+                            {
+                                <option value="@menu.MenuId">@menu.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                    <div class="form-check">
+                        <InputCheckbox class="form-check-input" @bind-Value="@prodModel.IsDelete" id="productIsDelete" name="IsDelete" />
+                        <label for="productIsDelete" class="form-check-label">Ẩn sản phẩm</label>
+                        <ValidationMessage For="@(() => prodModel.IsDelete)" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@* ConformDelete *@
+<div class="modal fade" id="ConfirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Xác nhận xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa sản phẩm này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" @onclick="DeleteProduct">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>

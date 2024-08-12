@@ -17,7 +17,7 @@ namespace ASMC6.Server.Controllers
             __categoryService = _category;
         }
 
-        [HttpGet("GetCategory")]
+        [HttpGet("GetCategories")]
         public List<Category> GetCategories()
         {
             return __categoryService.GetCategory();
