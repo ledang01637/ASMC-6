@@ -67,6 +67,12 @@ namespace ASMC6.Server.Service
             _context.SaveChanges();
             return existingprod;
         }
+        public List<Product> GetProductsByRestaurant(int restaurantId)
+        {
+            return _context.Product
+                .Where(p => p.Menu.RestaurantId == restaurantId)
+                .ToList();
+        }
 
     }
 }

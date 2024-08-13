@@ -25,6 +25,18 @@ namespace ASMC6.Server.Controllers
             return _productService.GetProducts();
         }
 
+        [HttpGet("GetProductsByRestaurant/{restaurantId}")]
+        public ActionResult<List<Product>> GetProductsByRestaurant(int restaurantId)
+        {
+            var products = _productService.GetProductsByRestaurant(restaurantId);
+            if (products == null || !products.Any())
+            {
+                return NotFound("No products found for this restaurant.");
+            }
+
+            return Ok(products);
+        }
+
         [HttpPost("AddProduct")]
         public Product AddProduct(Product product)
         {

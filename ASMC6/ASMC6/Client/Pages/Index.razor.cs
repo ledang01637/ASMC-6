@@ -51,5 +51,10 @@ namespace ASMC6.Client.Pages
             await CartService.AddItemToCartAsync(product);
             Navigation.NavigateTo("/cart");
         }
+
+        private void MoveTo(int restaurantId)
+        {
+            Navigation.NavigateTo($"/restaurantProd/{restaurantId}");
+        }
     }
 }

@@ -3,17 +3,20 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Components;
 
 namespace ASMC6.Client.Pages
 {
     public partial class Product
     {
+
         private List<ASMC6.Shared.Product> listProd;
+        private List<ASMC6.Shared.Product> listProd2;
         private List<ASMC6.Shared.Product> pagedProducts;
         private ASMC6.Shared.Product prod;
         private decimal minPrice;
         private decimal maxPrice = 100000;
-
+        [Parameter] public int RestaurantId { get; set; }
 
         protected override async Task OnInitializedAsync()
         {

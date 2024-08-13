@@ -82,35 +82,41 @@
     </div>
     <div class="col-md-12 row">
         <!--SP1-->
+
         @{
             if (restaurant != null)
             {
-                @foreach (var prod in listProd)
+                @foreach (var menuProd in listMenu)
                 {
-                    if (!prod.IsDelete)
+                    var connectProd = listProd.FirstOrDefault(b => b.MenuId == menuProd.MenuId);
+                    if (connectProd != null)
                     {
-                        <div class="border border-1 col-md-3 mt-3">
-                            <div class="col-md-12">
-                                <h1>@prod.ProductId</h1>
-                                <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient mt-3">
-                                    <img class="svg-icon8"
-                                         alt=""
-                                         src="./image/product/@prod.Image"
-                                         width="100%" height="300px" />
-                                </div>
-                                <div class="add-button-three position-relative mt-1">
-                                    <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
-                                        <div class="link-great-container18">
-                                            <a class="great-value-rising9 fs-5">@prod.Name</a>
-                                        </div>
-                                    </div>
-                                    <b class="ins-wrapper fs-5 mt-3">@prod.Price.ToString("#,##0") VND</b>
-                                    <a class="position-absolute top-0 end-0 mt-3" style="cursor: pointer" @onclick="() => AddToCart(prod)">
-                                        <i class="fa-solid fa-cart-plus text-danger fs-4"></i>
+                        var connectRest = listRest.FirstOrDefault(x => x.RestaurantId == menuProd.RestaurantId);
+                        if (connectRest != null)
+                        {
+                            <div class="border border-1 col-md-3 mt-3">
+                                <div class="col-md-12">
+                                    <a>@connectProd.ProductId</a>
+                                    <a class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient mt-3" style="cursor: pointer" href="./restaurantProd/@connectRest.RestaurantId">
+                                        <img class="svg-icon8"
+                                             alt=""
+                                             src="./image/product/@connectProd.Image"
+                                             width="100%" height="300px" />
                                     </a>
+                                    <div class="add-button-three position-relative mt-1">
+                                        <div class="link-great-value-rising-crus-parent d-flex flex-column align-items-start justify-content-start">
+                                            <div class="link-great-container18">
+                                                <a class="great-value-rising9 fs-5">@connectProd.Name</a>
+                                            </div>
+                                        </div>
+                                        <b class="ins-wrapper fs-5 mt-3">@connectProd.Price.ToString("#,##0") VND</b>
+                                        <a class="position-absolute top-0 end-0 mt-3" style="cursor: pointer" @onclick="() => AddToCart(connectProd)">
+                                            <i class="fa-solid fa-cart-plus text-danger fs-4"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     }
                 }
             }
@@ -120,17 +126,17 @@
                 {
                     var menuForRest = listMenu.FirstOrDefault(menu => menu.RestaurantId == rest.RestaurantId);
                     var prods = listProd.Where(prod => prod.MenuId == menuForRest.MenuId).ToList();
-
                     if (prods != null)
                     {
                         @foreach (var prod in prods)
                         {
+
                             if (!prod.IsDelete)
                             {
                                 <div class="border border-1 col-md-3 mt-3">
                                     <div class="col-md-12">
-                                        <h1>@prod.ProductId</h1>
-                                        <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient mt-3">
+                                        <a>@prod.ProductId</a>
+                                        <div class="d-flex flex-row align-items-start justify-content-start spanbadge46 bg-gradient mt-3" @onclick="() => MoveTo(menuForRest.RestaurantId)">
                                             <img class="svg-icon8"
                                                  alt=""
                                                  src="./image/product/@prod.Image"
@@ -160,7 +166,6 @@
 
     </div>
 </section>
-
 <div class="container mt-3 mb-3 border rounded-start rounded-end bg-danger">
     <div class="col-md-12 row p-2">
         <div class="col-md-10">
@@ -187,7 +192,7 @@
         {
             @foreach (var rest in listRest)
             {
-                <a class="col-md-3 border mt-3 rounded nav-link" href="/product">
+                <a class="col-md-3 border mt-3 rounded nav-link" href="./restaurantProd/@rest.RestaurantId">
                     <div class="image-links col-md-12 row">
                         <div class="product-links col-md-6">
                             <div class="offer-links">
