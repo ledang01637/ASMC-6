@@ -38,7 +38,11 @@ namespace ASMC6.Client.Pages
                         var listRestLogin = listRest.Where(m => m.RestaurantId != restaurant.RestaurantId).ToList();
                         var menuForRest = listMenu.Where(menu => listRestLogin.Any(lr => lr.RestaurantId == menu.RestaurantId)).ToList();
                         listProd = listProd.Where(p => menuForRest.Any(mr => mr.MenuId == p.MenuId)).ToList();
-                    }  
+                    }
+                    if (restaurant != null)
+                    {
+                        listRest = listRest.Where(a => a.RestaurantId != restaurant.RestaurantId).ToList();
+                    }
                 }
             }
             catch (Exception ex)

@@ -5,6 +5,7 @@
 @inject NavigationManager Navigation
 @inject HttpClient httpClient
 
+
 <div class="row justify-content-center mt-3">
     <div class="col-md-6">
         <div class="card shadow-sm">
@@ -120,6 +121,12 @@
             if (rest.OpeningHours < localDate)
             {
                 ero = "Thời gian phải lớn hơn hiện tại và và thời gian mở là phải bé hơn 1 năm";
+                successMessage = string.Empty;
+                return;
+            }
+            if (String.IsNullOrEmpty(menuName))
+            {
+                ero = "Vui lòng nhập tên menu";
                 successMessage = string.Empty;
                 return;
             }

@@ -19,7 +19,7 @@ namespace ASMC6.Shared
         [Required(ErrorMessage = "Không được bỏ trống thông tin")]
         public string Address { get; set; }
         [Required(ErrorMessage = "Không được bỏ trống thông tin")]
-        public DateTime OpeningHours { get; set; }
+        public DateTime OpeningHours { get; set; } = DateTime.Now;
         public bool IsDelete { get; set; }
 
         public ICollection<Menu> Menus { get; set; }
