@@ -5,7 +5,6 @@
 @inject CartService CartService
 @inject NavigationManager Navigation
 
-
 @if (listProd != null)
 {
     <div class="container-fluid col-md-12 mt-5">
@@ -42,65 +41,56 @@
                     Reset giá
                 </button>
 
-                <hr />
-
             </div>
             <!--Product-->
-            <div class="col-md-9 mt-3">
+            <div class="col-md-9">
+
                 <div id="carouselExampleIndicators" class="carousel slide">
                     <div class="col-md-12 m-auto">
                         <div class="carousel-inner">
                             @{
-                                int totalPages = 0;
-                                foreach (var rest in listRest)
+                                int itemsPerPage = 8;
+                                int totalItems = listProd.Count();
+                                int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+                                for (int pageIndex = 0; pageIndex < totalPages; pageIndex++)
                                 {
-                                    var menuForRest = listMenu.FirstOrDefault(menu => menu.RestaurantId == rest.RestaurantId);
-                                    var prods = listProd.Where(prod => prod.MenuId == menuForRest.MenuId).ToList();
-
-                                    int itemsPerPage = 8;
-                                    int totalItems = prods.Count();
-                                    totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
-                                    for (int pageIndex = 0; pageIndex < totalPages; pageIndex++)
-                                    {
-                                        var pageProducts = prods.Skip(pageIndex * itemsPerPage).Take(itemsPerPage);
-
-                                        <div class="carousel-item @(pageIndex == 0 ? "active" : "")">
-                                            <div class="container col-md-12 row">
-                                                @foreach (var product in pageProducts)
-                                                {
-                                                    <a class="col-md-3 text-decoration-none mt-3">
-                                                        <div class="card position-relative">
-                                                            <div class="card-body">
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <img src="./image/product/@product.Image"
-                                                                             alt="Product Image" width="100%" height="150vh" />
-                                                                    </div>
-                                                                    <b>@product.Name</b>
-                                                                    <div class="col-md-12">
-                                                                        <div class="d-flex justify-content-between align-items-center">
-                                                                            <div>
-                                                                                <img src="./public/img--rated-433-out-of-5.svg"
-                                                                                     class="img-fluid"
-                                                                                     alt="Rating" />
-                                                                                <span class="empty-rating">3</span>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div>
-                                                                            <b class="text-danger ins">@product.Price VND</b>
-                                                                        </div>
-                                                                    </div>
-                                                                    <a class="nav-link" style="cursor: pointer" @onclick="() => AddToCart(product)">
-                                                                        <i class="fa-solid fa-cart-plus text-danger fs-4 position-absolute bottom-0 end-0 me-3 mb-3"></i>
-                                                                    </a>
+                                    var pageProducts = listProd.Skip(pageIndex * itemsPerPage).Take(itemsPerPage);
+                                    <div class="carousel-item @(pageIndex == 0 ? "active" : "")">
+                                        <div class="container col-md-12 row">
+                                            @foreach (var product in pageProducts)
+                                            {
+                                                <a class="col-md-3 text-decoration-none mt-3">
+                                                    <div class="card position-relative">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <img src="./image/product/@product.Image"
+                                                                         alt="Product Image" width="100%" height="150vh" />
                                                                 </div>
+                                                                <b>@product.Name</b>
+                                                                <div class="col-md-12">
+                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                        <div>
+                                                                            <img src="./public/img--rated-433-out-of-5.svg"
+                                                                                 class="img-fluid"
+                                                                                 alt="Rating" />
+                                                                            <span class="empty-rating">3</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <b class="text-danger ins">@product.Price VND</b>
+                                                                    </div>
+                                                                </div>
+                                                                <a class="nav-link" style="cursor: pointer" @onclick="() => AddToCart(product)">
+                                                                    <i class="fa-solid fa-cart-plus text-danger fs-4 position-absolute bottom-0 end-0 me-3 mb-3"></i>
+                                                                </a>
                                                             </div>
                                                         </div>
-                                                    </a>
-                                                }
-                                            </div>
+                                                    </div>
+                                                </a>
+                                            }
                                         </div>
-                                    }
+                                    </div>
                                 }
                             }
                         </div>
@@ -109,14 +99,14 @@
                             <div class="col-md-3 text-start">
                                 <button class="btn btn-primary rounded col-md-3" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
+                                    <span class="visually-hidden">Lui</span>
                                 </button>
                             </div>
                             <div class="col-md-6 text-center">
                                 <div class="mt-3 border border-0">
                                     @for (int i = 0; i < totalPages; i++)
                                     {
-                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" class="border border-0 fs-5 m-1 @(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")" aria-label="Slide @(i + 1)">
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" class="border border-0 fs-5 m-1 @(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")" aria-label="Slide @(i + 1) btn">
                                             @(i + 1)
                                         </button>
                                     }
@@ -125,7 +115,7 @@
                             <div class="col-md-3 text-end">
                                 <button class="btn btn-primary rounded col-md-3" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
+                                    <span class="visually-hidden">Tới</span>
                                 </button>
                             </div>
                         </div>

@@ -43,7 +43,6 @@ namespace ASMC6.Client.Pages
                         {
                             await JS.InvokeVoidAsync("showAlert", "Block");
                             await Task.Delay(1000);
-                            Navigation.NavigateTo("/");
                             return;
                         }
                         var name = user.Email;

@@ -50,25 +50,29 @@
                     <tbody>
                         @foreach (var user in filteredUser)
                         {
-                            <tr>
-                                <td>@user.Name</td>
-                                <td>@user.Password</td>
-                                <td>@user.Address</td>
-                                <td>@user.Email</td>
-                                <td>@user.Phone</td>
-                                <td>@user.RoleId</td>
-                                <td>@(user.IsDelete)</td>
-                                <td>
-                                    @if (!user.IsDelete)
-                                    {
-                                        <button class="btn btn-danger" @onclick="() => HideUser(user.UserId)">Khóa</button>
-                                    }
-                                    else
-                                    {
-                                        <button class="btn btn-warning" @onclick="() => RestoreUser(user.UserId)">Khôi phục</button>
-                                    }
-                                </td>
-                            </tr>
+                            if(user.RoleId != 1)
+                            {
+                                <tr>
+                                    <td>@user.Name</td>
+                                    <td>@user.Password</td>
+                                    <td>@user.Address</td>
+                                    <td>@user.Email</td>
+                                    <td>@user.Phone</td>
+                                    <td>@user.RoleId</td>
+                                    <td>@(user.IsDelete)</td>
+                                    <td>
+                                        @if (!user.IsDelete)
+                                        {
+                                            <button class="btn btn-danger" @onclick="() => HideUser(user.UserId)">Khóa</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-warning" @onclick="() => RestoreUser(user.UserId)">Khôi phục</button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            
                         }
                     </tbody>
                 </table>
