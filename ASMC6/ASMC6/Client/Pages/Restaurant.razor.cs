@@ -46,6 +46,8 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
+                var query = $"[C#] fix error: {ex.Message}";
+                await JS.InvokeVoidAsync("openChatGPT", query);
                 Console.WriteLine(ex.Message);
             }
         }
@@ -78,6 +80,8 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
+                var query = $"[C#] fix error: {ex.Message}";
+                await JS.InvokeVoidAsync("openChatGPT", query);
                 Console.WriteLine($"{ex.Message}");
 
             }
@@ -134,6 +138,8 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
+                var query = $"[C#] fix error: {ex.Message}";
+                await JS.InvokeVoidAsync("openChatGPT", query);
                 Console.WriteLine($"{ex.Message}");
             }
             
@@ -165,6 +171,8 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
+                var query = $"[C#] fix error: {ex.Message}";
+                await JS.InvokeVoidAsync("openChatGPT", query);
                 Console.WriteLine($"{ex.Message}");
             }
 

@@ -71,6 +71,8 @@ namespace ASMC6.Client.Pages
                 }
                 catch (JsonException ex)
                 {
+                    var query = $"[C#] fix error: {ex.Message}";
+                    await JS.InvokeVoidAsync("openChatGPT", query);
                     Token = $"JSON parse error: {ex.Message}";
                 }
             }
@@ -107,6 +109,8 @@ namespace ASMC6.Client.Pages
             }
             catch(Exception ex)
             {
+                var query = $"[C#] fix error: {ex.Message}";
+                await JS.InvokeVoidAsync("openChatGPT", query);
                 Console.WriteLine($"Erorr:: " + ex.Message);
             }
         }

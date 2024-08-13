@@ -1,5 +1,6 @@
 ﻿using ASMC6.Client.Session;
 using ASMC6.Shared;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,8 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
+                var query = $"[C#] fix error: {ex.Message}";
+                await JS.InvokeVoidAsync("openChatGPT", query);
                 Console.WriteLine($"Lỗi khi tải dữ liệu history: {ex.Message}");
             }
         }

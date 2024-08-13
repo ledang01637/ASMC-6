@@ -8,6 +8,7 @@ using System.Linq;
 using ASMC6.Shared;
 using System.Text.Json;
 using ASMC6.Client.Session;
+using Microsoft.JSInterop;
 
 namespace ASMC6.Client.Pages
 {
@@ -43,6 +44,8 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
+                var query = $"[C#] fix error: {ex.Message}";
+                await JS.InvokeVoidAsync("openChatGPT", query);
                 Console.WriteLine($"Error: {ex.Message}");
             }
         }

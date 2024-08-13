@@ -1,5 +1,4 @@
-﻿
-using ASMC6.Server.Service;
+﻿using ASMC6.Server.Service;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -8,6 +7,7 @@ using System.Net.Http.Json;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace ASMC6.Client.Pages
 {
@@ -57,6 +57,8 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
+                var query = $"[C#] fix error: {ex.Message}";
+                await JS.InvokeVoidAsync("openChatGPT", query);
                 Console.WriteLine($"Error hiding user: {ex.Message}");
             }
         }
