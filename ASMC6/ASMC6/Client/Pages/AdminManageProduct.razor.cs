@@ -75,7 +75,7 @@ namespace ASMC6.Client.Pages
                 var product = listProd.FirstOrDefault(p => p.ProductId == productId);
                 if (product != null)
                 {
-                    product.IsDelete = false; // Restore the product
+                    product.IsDelete = false;
                     await httpClient.PutAsJsonAsync($"api/Product/{productId}", product);
                     await LoadProduct();
                     StateHasChanged();

@@ -8,119 +8,82 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @* @attribute [Authorize(Roles = "1")] *@
 
+<style>
+    .product-table-container {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+        .product-table-container table {
+            width: 100%;
+        }
+
+    .search-bar, .filter-bar {
+        margin-bottom: 20px;
+    }
+</style>
+
 <AuthorizeView Roles="1">
     <Authorized>
         @if (isLoaded)
         {
             <hr />
 
-            <h4>Quản lý sản phẩm</h4>
-            <table class="table table-striped cardz">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Password</th>
-                        <th>Address</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Role</th>
-                        <th>IsDelete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var user in listUser)
-                    {
+            <h4>Quản lý người dùng</h4>
+            <div class="search-bar">
+                <input type="text" class="form-control" placeholder="Tìm kiếm người dùng..." @oninput="FilterUser" />
+            </div>
+            <div class="product-table-container">
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            <td>@user.Name</td>
-                            <td>@user.Password</td>
-                            <td>@user.Address</td>
-                            <td>@user.Email</td>
-                            <td>@user.Phone</td>
-                            <td>@user.Role</td>
-                            <td>@(user.IsDelete)</td>
-                            <td>
-                                @if (!user.IsDelete)
-                                {
-                                    <button class="btn btn-danger" @onclick="() => HideUser(user.UserId)">Khóa</button>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-warning" @onclick="() => HideUser(user.UserId)">Khôi phục</button>
-                                }
-                            </td>
+                            <th>Name</th>
+                            <th>Password</th>
+                            <th>Address</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Role</th>
+                            <th>IsDelete</th>
+                            <th>Actions</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in filteredUser)
+                        {
+                            <tr>
+                                <td>@user.Name</td>
+                                <td>@user.Password</td>
+                                <td>@user.Address</td>
+                                <td>@user.Email</td>
+                                <td>@user.Phone</td>
+                                <td>@user.RoleId</td>
+                                <td>@(user.IsDelete)</td>
+                                <td>
+                                    @if (!user.IsDelete)
+                                    {
+                                        <button class="btn btn-danger" @onclick="() => HideUser(user.UserId)">Khóa</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-warning" @onclick="() => RestoreUser(user.UserId)">Khôi phục</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <p class="text-danger">@errorMessage</p>
         }
         else
         {
             <p>Loading...</p>
         }
-
     </Authorized>
     <NotAuthorized>
         <h3>Không có quyền truy cập</h3>
     </NotAuthorized>
 </AuthorizeView>
-
-
-
-@* <AuthorizeView Roles="1">
-    <Authorized>
-        @if (isLoaded)
-        {
-            <hr />
-
-            <h4>Quản lý sản phẩm</h4>
-            <table class="table table-striped cardz">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>MenuID</th>
-                        <th>CategoryID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>IsDelete</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var user in listUser)
-                    {
-                        <tr>
-                            <td>@user.Name</td>
-                            <td>@user.Password</td>
-                            <td>@user.Address</td>
-                            <td>@user.Email</td>
-                            <td>@user.Phone</td>
-                            <td>@user.Role</td>
-                            <td>@(user.IsDelete)</td>
-                            <td>
-                                @if (!user.IsDelete)
-                                {
-                                    <button class="btn btn-primary" @onclick="() => EditUser(user.UserId)">Sửa</button>
-                                    <button class="btn btn-danger" @onclick="() => HideUser(user.UserId)">Ẩn</button>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-warning" @onclick="() => RestoreUser(user.UserId)">Khôi phục</button>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>Loading...</p>
-        }
-
-    </Authorized>
-    <NotAuthorized>
-        <h3>Không có quyền truy cập</h3>
-    </NotAuthorized>
-</AuthorizeView>
- *@
