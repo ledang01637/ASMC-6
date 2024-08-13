@@ -6,37 +6,60 @@
 @inject NavigationManager Navigation
 
 
+<style>
+    .product-table-container {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+        .product-table-container table {
+            width: 100%;
+        }
+
+    .search-bar, .filter-bar {
+        margin-bottom: 20px;
+    }
+</style>
 
 <AuthorizeView Roles="1">
     <Authorized>
-        @if (listCategory != null)
+        @if (isLoaded)
         {
             <hr />
-            <h4>Restaurants</h4>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Opening Hours</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var cate in listCategory)
-                    {
+            <h4>Quản lý danh mục</h4>
+            <div class="search-bar">
+                <input type="text" class="form-control" placeholder="Tìm kiếm danh mục..." @oninput="FilterCategories" />
+            </div>
+            <div class="product-table-container">
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            <td>@cate.CategoryId</td>
-                            <td>@cate.Name</td>
-                            <td>@cate.Description</td>
-                            <td>
-                                @*                                 <button class="btn btn-primary" @onclick="() => EditRest(cate.CategoryId)">Edit</button>
-                        <button class="btn btn-danger" @onclick="() => DeleteRest(cate.CategoryId)">Delete</button> *@
-                            </td>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>Mô tả</th>
+                            <th></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var cate in filteredCategory)
+                        {
+                            <tr>
+                                <td>@cate.CategoryId</td>
+                                <td>@cate.Name</td>
+                                <td>@cate.Description</td>
+                                <td>
+                                    <button class="btn btn-primary" @onclick="() => EditCategory(cate.CategoryId)">Sửa</button>
+                                    <button class="btn btn-danger" @onclick="() => DeleteCategory(cate.CategoryId)">Xóa</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <p class="text-danger">@errorMessage</p>
         }
         else
         {
@@ -47,4 +70,3 @@
         <h3>Không có quyền truy cập</h3>
     </NotAuthorized>
 </AuthorizeView>
-

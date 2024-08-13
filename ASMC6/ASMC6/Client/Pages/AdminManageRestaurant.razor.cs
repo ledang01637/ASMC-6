@@ -5,13 +5,16 @@ using System.Threading.Tasks;
 using System;
 using System.Net.Http.Json;
 using System.Linq;
+using Microsoft.AspNetCore.Components;
 
 namespace ASMC6.Client.Pages
 {
     public partial class AdminManageRestaurant
     {
-        private List<ASMC6.Shared.Restaurant> listRest;
-        private ASMC6.Shared.Restaurant rest = new ASMC6.Shared.Restaurant();
+        private List<ASMC6.Shared.Restaurant> listRest = new List<ASMC6.Shared.Restaurant>();
+        private List<ASMC6.Shared.Restaurant> filteredRest = new List<ASMC6.Shared.Restaurant>();
+        private bool isLoading = true;
+        private string errorMessage;
 
         protected override async Task OnInitializedAsync()
         {
@@ -22,15 +25,19 @@ namespace ASMC6.Client.Pages
         {
             try
             {
+                isLoading = true;
                 listRest = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
+                filteredRest = listRest;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                errorMessage = $"Error: {ex.Message}";
+            }
+            finally
+            {
+                isLoading = false;
             }
         }
-
-
 
         private async Task HideRest(int restaurantId)
         {
@@ -39,7 +46,7 @@ namespace ASMC6.Client.Pages
                 var restaurant = listRest.FirstOrDefault(p => p.RestaurantId == restaurantId);
                 if (restaurant != null)
                 {
-                    restaurant.IsDelete = true; // Mark the product as deleted
+                    restaurant.IsDelete = !restaurant.IsDelete; // Toggle the delete status
                     await httpClient.PutAsJsonAsync($"api/Restaurant/{restaurantId}", restaurant);
                     await Load();
                     StateHasChanged();
@@ -47,7 +54,7 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error hiding product: {ex.Message}");
+                errorMessage = $"Error hiding product: {ex.Message}";
             }
         }
 
@@ -56,18 +63,25 @@ namespace ASMC6.Client.Pages
             Navigation.NavigateTo($"/editrestaurant/{restaurantId}");
         }
 
-        private void DeleteRest(int restaurantId)
+        private void FilterRestaurant(ChangeEventArgs e)
         {
-            Navigation.NavigateTo($"/deleterestaurant/{restaurantId}");
+            var searchTerm = e.Value.ToString().ToLower();
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                filteredRest = listRest;
+            }
+            else if (listRest.Any(p => p.Name.ToLower().Equals(searchTerm)))
+            {
+                filteredRest = listRest.Where(p => p.Name.ToLower().Equals(searchTerm)).ToList();
+            }
+            else
+            {
+                filteredRest = listRest.Where(p => searchTerm.Any(c => p.Name.ToLower().Contains(c))).ToList();
+            }
         }
 
 
-        //chuyển trang
-        //protected override void OnInitialized()
-        //{
-        //    // Automatically redirect after a short delay
-        //    Task.Delay(2000).ContinueWith(_ => Navigation.NavigateTo("/", true));
-        //}
+
 
     }
 }

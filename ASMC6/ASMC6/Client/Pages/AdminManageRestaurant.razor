@@ -5,56 +5,76 @@
 @inject HttpClient httpClient
 @inject NavigationManager Navigation
 
+<style>
+    .product-table-container {
+        max-height: 600px;
+        overflow-y: auto;
+    }
 
+        .product-table-container table {
+            width: 100%;
+        }
 
+    .search-bar, .filter-bar {
+        margin-bottom: 20px;
+    }
+</style>
 
 <AuthorizeView Roles="1">
     <Authorized>
-        @if (listRest != null)
+        @if (isLoading)
         {
-            <hr />
-            <h4>Restaurants</h4>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Opening Hours</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var restaurant in listRest)
-                    {
-                        <tr>
-                            <td><img src="./image/restaurant/@restaurant.Image" alt="Alternate Text" width="100px" height="100px" /></td>
-                            <td>@restaurant.Name</td>
-                            <td>@restaurant.OpeningHours</td>
-                            <td>@restaurant.Menus</td>
-                            <td>@restaurant.IsDelete</td>
-                            <td>
-                                @if (!restaurant.IsDelete)
-                                {
-                                    <button class="btn btn-primary" @onclick="() => HideRest(restaurant.RestaurantId)">Sửa</button>
-                                    <button class="btn btn-danger" @onclick="() => HideRest(restaurant.RestaurantId)">Ẩn</button>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-warning" @onclick="() => HideRest(restaurant.RestaurantId)">Khôi phục</button>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <p>Loading...</p>
+        }
+        else if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <p class="text-danger">@errorMessage</p>
         }
         else
         {
-            <p>Loading...</p>
+            <hr />
+            <h4>Quản lý cửa hàng</h4>
+            <div class="search-bar">
+                <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm..." @oninput="FilterRestaurant" />
+            </div>
+            <div class="product-table-container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>Tên</th>
+                            <th>Thời gian mở cửa</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var restaurant in filteredRest)
+                        {
+                            <tr>
+                                <td><img src="./image/restaurant/@restaurant.Image" alt="Alternate Text" width="100px" height="100px" /></td>
+                                <td>@restaurant.Name</td>
+                                <td>@restaurant.OpeningHours.ToString("HH:mm:ss")</td>
+                                <td>@restaurant.IsDelete</td>
+                                <td>
+                                    @if (!restaurant.IsDelete)
+                                    {
+                                        <button class="btn btn-danger" @onclick="() => HideRest(restaurant.RestaurantId)">Ẩn</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-warning" @onclick="() => HideRest(restaurant.RestaurantId)">Khôi phục</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            //thông báo
         }
     </Authorized>
     <NotAuthorized>
         <h3>Không có quyền truy cập</h3>
     </NotAuthorized>
 </AuthorizeView>
-

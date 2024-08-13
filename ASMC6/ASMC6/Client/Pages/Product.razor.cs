@@ -3,28 +3,47 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
+using ASMC6.Client.Session;
 
 namespace ASMC6.Client.Pages
 {
     public partial class Product
     {
-        private List<ASMC6.Shared.Product> listProd;
-        private List<ASMC6.Shared.Product> pagedProducts;
-        private ASMC6.Shared.Product prod;
+        
+        private List<ASMC6.Shared.Restaurant> listRest = new List<ASMC6.Shared.Restaurant>();
+        private List<ASMC6.Shared.Product> listProd = new List<ASMC6.Shared.Product>();
+        private List<ASMC6.Shared.Product> pagedProducts = new List<ASMC6.Shared.Product>();
+        private List<ASMC6.Shared.Menu> listMenu = new List<ASMC6.Shared.Menu>();
+        private ASMC6.Shared.Restaurant restaurant = new ASMC6.Shared.Restaurant();
         private decimal minPrice;
         private decimal maxPrice = 100000;
-
-
         protected override async Task OnInitializedAsync()
         {
-            await LoadProducts();
-            ApplyFilter();
+            await Load();
+            StateHasChanged();
         }
-        private async Task LoadProducts()
+
+        private async Task Load()
         {
             try
             {
-                listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/product/GetProducts");
+                listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
+                listRest = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
+                listMenu = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Menu>>("api/Menu/GetMenus");
+                if (SUser.User != null)
+                {
+                    if (SUser.User.RoleId == 2)
+                    {
+                        restaurant = listRest.FirstOrDefault(r => r.UserId == SUser.User.UserId);
+                        var listRestLogin = listRest.Where(m => m.RestaurantId != restaurant.RestaurantId).ToList();
+                        var menuForRest = listMenu.Where(menu => listRestLogin.Any(lr => lr.RestaurantId == menu.RestaurantId)).ToList();
+                        listProd = listProd.Where(p => menuForRest.Any(mr => mr.MenuId == p.MenuId)).ToList();
+                    }
+                    if (restaurant != null)
+                    {
+                        listRest = listRest.Where(a => a.RestaurantId != restaurant.RestaurantId).ToList();
+                    }
+                }
             }
             catch (Exception ex)
             {

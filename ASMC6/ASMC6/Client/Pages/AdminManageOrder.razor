@@ -37,14 +37,15 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Image</th>
-                            <th>Product</th>
-                            <th>Restaurant</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Order Date</th>
-                            <th>User</th>
-                            <th>TotalAmount</th>
+                            <th>Ảnh</th>
+                            <th>Tên</th>
+                            <th>Cửa hàng</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Ngày đặt</th>
+                            <th>Người đặt</th>
+                            <th>Tổng giá</th>
+                            <th>Trạng thái</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,6 +80,7 @@
                                                     <td>@order.OrderDate.ToString("dd/MM/yyyy")</td>
                                                     <td>@connectUser.Name</td>
                                                     <td>@order.TotalAmount.ToString("#,##0")</td>
+                                                    <td>@order.Status</td>
                                                 </tr>
                                             }
                                         }
@@ -105,3 +107,4 @@
         <h3>Không có quyền truy cập</h3>
     </NotAuthorized>
 </AuthorizeView>
+
