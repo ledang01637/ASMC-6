@@ -41,91 +41,7 @@
                     Reset giá
                 </button>
 
-                <!-- Add other filters here -->
-
-
-
-                <hr />
-
-                <div class="col-md-12">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="heading-4">Nhà hàng</h4>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> Ăn vặt &
-                                    đường phố
-                                </div>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> Sang
-                                    trọng & thanh lịch
-                                </div>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> Sức khỏe
-                                </div>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> Buổi sáng
-                                </div>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> Sinh viên
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <hr />
-
-                <!---->
-                <div class="col-md-12">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="heading-4">Ưu đãi</h4>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> Combo
-                                    tặng kèm
-                                </div>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> Giảm giá
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <hr />
-
-                <!---->
-                <div class="col-md-12">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="heading-4">Thành phố</h4>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> Cần Thơ
-                                </div>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> Hồ Chí
-                                    Minh
-                                </div>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> An Giang
-                                </div>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> Hà Nội
-                                </div>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> Đà Nẵng
-                                </div>
-                                <div class="icon-list">
-                                    <input class="form-check-input" type="checkbox" /> Sóc Trăng
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div> 
             <!--Product-->
             <div class="col-md-9">
                 <div class="col-md-12 bg-primary"
@@ -143,80 +59,82 @@
                     </div>
                 </div>
 
-                <div id="carouselexamplecaptions" class="carousel col-md-12 row">
-                    <div class="carousel-inner row">
-                        @if (pagedProducts != null)
-                        {
-                            @foreach (var item in pagedProducts.Select((p, index) => new { p, index }).GroupBy(x => x.index / 8))
-                            {
-                                <div class="carousel-item @(item.First().index == 0 ? "active" : "")">
-                                    <div class="col-md-12 row">
-                                        @foreach (var product in item.Select(x => x.p))
-                                        {
-                                            <a class="col-md-3 text-decoration-none mt-3">
-                                                <div class="card position-relative">
-                                                    <div class="card-body">
-                                                        <div class="badge bg-danger text-white">75% Off</div>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <img src="./image/product/@product.Image"
-                                                                     class="img-fluid"
-                                                                     alt="Product Image" width="100%" style="height: 15rem;" />
-                                                            </div>
-                                                            <b>@product.Name</b>
-                                                            <div class="col-md-12">
-                                                                <div class="d-flex justify-content-between align-items-center">
+                <div id="carouselExampleIndicators" class="carousel slide">
+                    <div class="col-md-12 m-auto">
+                        <div class="carousel-inner">
+                            @{
+                                int itemsPerPage = 8;
+                                int totalItems = listProd.Count();
+                                int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+                                for (int pageIndex = 0; pageIndex < totalPages; pageIndex++)
+                                {
+                                    var pageProducts = listProd.Skip(pageIndex * itemsPerPage).Take(itemsPerPage);
+                                    <div class="carousel-item @(pageIndex == 0 ? "active" : "")">
+                                        <div class="container col-md-12 row">
+                                            @foreach (var product in pageProducts)
+                                            {
+                                                <a class="col-md-3 text-decoration-none mt-3">
+                                                    <div class="card position-relative">
+                                                        <div class="card-body">
+                                                            <div class="badge bg-danger text-white">75% Off</div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <img src="./image/product/@product.Image"
+                                                                         class="img-fluid"
+                                                                         alt="Product Image" width="100%" style="height: 15rem;" />
+                                                                </div>
+                                                                <b>@product.Name</b>
+                                                                <div class="col-md-12">
+                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                        <div>
+                                                                            <img src="./public/img--rated-433-out-of-5.svg"
+                                                                                 class="img-fluid"
+                                                                                 alt="Rating" />
+                                                                            <span class="empty-rating">3</span>
+                                                                        </div>
+                                                                    </div>
                                                                     <div>
-                                                                        <img src="./public/img--rated-433-out-of-5.svg"
-                                                                             class="img-fluid"
-                                                                             alt="Rating" />
-                                                                        <span class="empty-rating">3</span>
+                                                                        <b class="text-danger ins">@product.Price VND</b>
                                                                     </div>
                                                                 </div>
-                                                                <div>
-                                                                    <b class="text-danger ins">@product.Price VND</b>
-                                                                </div>
+                                                                <a class="nav-link" style="cursor: pointer" @onclick="() => AddToCart(product)">
+                                                                    <i class="fa-solid fa-cart-plus text-danger fs-4 position-absolute bottom-0 end-0 me-3 mb-3"></i>
+                                                                </a>
                                                             </div>
-                                                            <a class="nav-link" style="cursor: pointer" @onclick="() => AddToCart(product)">
-                                                                <i class="fa-solid fa-cart-plus text-danger fs-4 position-absolute bottom-0 end-0 me-3 mb-3"></i>
-                                                            </a>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </a>
-                                        }
+                                                </a>
+                                            }
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                        }
-                    </div>
-
-                    <div class="carousel col-md-12 mt-3">
-                        <button class="carousel-control-prev btn btn-secondary active"
-                                type="button"
-                                data-bs-target="#carouselexamplecaptions"
-                                data-bs-slide="prev">
-                            Previous
-                        </button>
-                        <div class="m-auto text-center">
-                            @foreach (var i in Enumerable.Range(0, (int)Math.Ceiling(pagedProducts.Count / 8.0)))
-                            {
-                                <button type="button"
-                                        data-bs-target="#carouselexamplecaptions"
-                                        data-bs-slide-to="@i"
-                                        class="@(i == 0 ? "active" : "") ms-1 btn"
-                                        aria-current="@(i == 0 ? "true" : "")"
-                                        aria-label="slide @(i + 1)">
-                                    @(@i + 1)
-                                </button>
+                                }
                             }
                         </div>
-                        <button class="carousel-control-next btn btn-secondary active"
-                                type="button"
-                                data-bs-target="#carouselexamplecaptions"
-                                data-bs-slide="next">
-                            Next
-                        </button>
+
+                        <div class="row mt-3">
+                            <div class="col-md-3 text-start">
+                                <button class="btn btn-primary rounded col-md-3" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <div class="mt-3 border border-0">
+                                    @for (int i = 0; i < totalPages; i++)
+                                    {
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" class="border border-0 fs-5 m-1 @(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")" aria-label="Slide @(i + 1)">
+                                            @(i + 1)
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-end">
+                                <button class="btn btn-primary rounded col-md-3" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
