@@ -6,7 +6,7 @@
 
 
 <article class="container">
-    <div class="mt-4 mb-4 register mx-auto" style="height: 800px !important;">
+    <div class="mt-4 mb-4 register mx-auto card bg-light" style="height: 750px !important;">
         <h1 class="text-center fw-bold pt-4">
             Đăng Ký Tài Khoản
         </h1>
@@ -38,8 +38,8 @@
                 <InputText @bind-Value="user.Address" class="form-control" />
                 <ValidationMessage For="@(() => user.Address)" style="margin-left:10px; position:absolute; left:0; bottom:-25px; font-size:15px !important;" />
             </div>  
-            <div class="form-group text-center" style="margin-bottom:20px">
-                <button type="submit" class="register-submit-btn btn btn-primary">Đăng ký</button>
+            <div class="form-group text-center mt-2" style="margin-bottom:20px">
+                <button type="submit" class="register-submit-btn btn btn-danger">Đăng ký</button>
             </div>
         </EditForm>
 

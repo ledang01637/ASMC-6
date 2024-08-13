@@ -1,0 +1,112 @@
+﻿@page "/restaurantProd/{restaurantId:int}"
+@using ASMC6.Server.Service
+@using ASMC6.Shared
+@inject HttpClient httpClient
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@inject CartService CartService
+
+<article class="container mb-3">
+    <div class="mt-5 mb-5 row text-light fw-bold bg-danger bg-opacity-90 align-items-center rounded">
+        <div class="col-md-5 mt-2 mb-2">
+            <img class="rounded" src="/image/restaurant/@restaurant.Image" width="100%" height="250px" alt="Restaurant Image">
+        </div>
+        <div class="info-res col-md-5 ms-2 fw-bold">
+            <div class="text-light">
+                <h1>@restaurant.Name</h1>
+                <hr>
+                <span>Thời gian mở cửa: @restaurant.OpeningHours.ToShortTimeString()</span><br>
+                <span>Địa chỉ: @restaurant.Address</span><br>
+                <span>Đánh giá: 4.8/5</span>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        @{
+            var menuForRest = menus.FirstOrDefault(menu => menu.RestaurantId == restaurant.RestaurantId);
+            var prodForMenuRest = products.Where(pro => pro.MenuId == menuForRest.MenuId).ToList();
+
+            <div id="carouselexamplecaptions" class="carousel col-md-12 row " style="margin-bottom:60px !important;">
+                <div class="carousel-inner row">
+                    @if (menuForRest != null)
+                    {
+                        if (prodForMenuRest.Count == 0)
+                        {
+                            <p>No products available</p>
+                        }
+                        @foreach (var item in prodForMenuRest.Select((p, index) => new { p, index }).GroupBy(x => x.index / 4))
+                        {
+                            <div class="carousel-item @(item.First().index == 0 ? "active" : "") ">
+                                <div class="col-md-12 row">
+                                    @foreach (var product in item.Select(x => x.p))
+                                    {
+                                        <a class="col-md-3 text-decoration-none mt-3">
+                                            <div class="card position-relative">
+                                                <div class="card-body">
+                                                    <div class="badge bg-danger text-white">75% Off</div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <img src="./image/product/@product.Image"
+                                                                 class="img-fluid"
+                                                                 alt="Product Image" width="100%" style="height: 15rem;" />
+                                                        </div>
+                                                        <b>@product.Name</b>
+                                                        <div class="col-md-12">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <div>
+                                                                    <img src="./public/img--rated-433-out-of-5.svg"
+                                                                         class="img-fluid"
+                                                                         alt="Rating" />
+                                                                    <span class="empty-rating">3</span>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <b class="text-danger ins">@product.Price VND</b>
+                                                            </div>
+                                                        </div>
+
+                                                        <a class="nav-link" style="cursor: pointer" @onclick="() => AddToCart(product)">
+                                                            <i class="fa-solid fa-cart-plus text-danger fs-4 position-absolute bottom-0 end-0 me-3 mb-3"></i>
+                                                        </a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="carousel col-md-12 mt-3">
+                    <button class="carousel-control-prev btn btn-secondary active"
+                            type="button"
+                            data-bs-target="#carouselexamplecaptions"
+                            data-bs-slide="prev">
+                        Previous
+                    </button>
+                    <div class="m-auto text-center">
+                        @foreach (var i in Enumerable.Range(0, (int)Math.Ceiling(prodForMenuRest.Count / 4.0)))
+                        {
+                            <button type="button"
+                                    data-bs-target="#carouselexamplecaptions"
+                                    data-bs-slide-to="@i"
+                                    class="border ms-1 btn"
+                                    aria-current="@(i == 0 ? "true" : "")"
+                                    aria-label="slide @(i + 1)">
+                                @(@i + 1)
+                            </button>
+                        }
+                    </div>
+                    <button class="carousel-control-next btn btn-secondary active"
+                            type="button"
+                            data-bs-target="#carouselexamplecaptions"
+                            data-bs-slide="next">
+                        Next
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</article>

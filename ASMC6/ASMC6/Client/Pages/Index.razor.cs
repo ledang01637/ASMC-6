@@ -15,8 +15,10 @@ namespace ASMC6.Client.Pages
     {
         private List<ASMC6.Shared.Restaurant> listRest = new List<ASMC6.Shared.Restaurant>();
         private List<ASMC6.Shared.Product> listProd = new List<ASMC6.Shared.Product>();
+        private List<ASMC6.Shared.Product> products = new List<ASMC6.Shared.Product>();
         private List<ASMC6.Shared.Menu> listMenu = new List<ASMC6.Shared.Menu>();
         private ASMC6.Shared.Restaurant restaurant = new ASMC6.Shared.Restaurant();
+
         protected override async Task OnInitializedAsync()
         {
             await Load();
@@ -27,6 +29,7 @@ namespace ASMC6.Client.Pages
         {
             try
             {
+                products = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
                 listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
                 listRest = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Restaurant>>("api/Restaurant/GetRestaurants");
                 listMenu = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Menu>>("api/Menu/GetMenus");
