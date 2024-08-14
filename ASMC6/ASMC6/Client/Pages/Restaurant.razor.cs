@@ -46,7 +46,9 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                var query = $"[C#] fix error: {ex.Message}";
+                await JS.InvokeVoidAsync("openChatGPT", query);
+                Console.WriteLine($"Error hiding user: {ex.Message}");
             }
         }
 
@@ -78,7 +80,9 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message}");
+                var query = $"[C#] fix error: {ex.Message}";
+                await JS.InvokeVoidAsync("openChatGPT", query);
+                Console.WriteLine($"Error hiding user: {ex.Message}");
 
             }
         }
@@ -134,7 +138,9 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message}");
+                var query = $"[C#] fix error: {ex.Message}";
+                await JS.InvokeVoidAsync("openChatGPT", query);
+                Console.WriteLine($"Error hiding user: {ex.Message}");
             }
             
         }
@@ -165,7 +171,9 @@ namespace ASMC6.Client.Pages
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message}");
+                var query = $"[C#] fix error: {ex.Message}";
+                await JS.InvokeVoidAsync("openChatGPT", query);
+                Console.WriteLine($"Error hiding user: {ex.Message}");
             }
 
         }

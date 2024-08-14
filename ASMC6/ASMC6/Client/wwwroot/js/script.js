@@ -128,6 +128,9 @@ function closeModal(modalId) {
         modal.hide();
     }
 }
+function openChatGPT(query) {
+    window.open(`http://chatgpt.com/?q=${encodeURIComponent(query)}`);
+}
 
 
 window.cartFunctions = {

@@ -71,6 +71,9 @@ namespace ASMC6.Client.Pages
                 catch (JsonException ex)
                 {
                     Token = $"JSON parse error: {ex.Message}";
+                    var query = $"[C#] fix error: {ex.Message}";
+                    await JS.InvokeVoidAsync("openChatGPT", query);
+                    Console.WriteLine($"Error hiding user: {ex.Message}");
                 }
             }
             else
