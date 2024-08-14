@@ -60,7 +60,7 @@ namespace ASMC6.Client.Pages
                 if (product != null)
                 {
                     product.IsDelete = true; // Mark the product as deleted
-                    await httpClient.PutAsJsonAsync($"api/Product/{productId}", product);
+                    await httpClient.PutAsJsonAsync($"api/Product/PutProduct/{productId}", product);
                     await LoadProduct();
                     StateHasChanged();
                 }
@@ -79,7 +79,7 @@ namespace ASMC6.Client.Pages
                 if (product != null)
                 {
                     product.IsDelete = false; // Restore the product
-                    await httpClient.PutAsJsonAsync($"api/Product/{productId}", product);
+                    await httpClient.PutAsJsonAsync($"api/Product/PutProduct/{productId}", product);
                     await LoadProduct();
                     StateHasChanged();
                 }
