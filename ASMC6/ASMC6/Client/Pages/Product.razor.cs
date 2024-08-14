@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System;
 using System.Linq;
 using ASMC6.Client.Session;
+using Microsoft.AspNetCore.Components;
 
 namespace ASMC6.Client.Pages
 {
@@ -21,6 +22,7 @@ namespace ASMC6.Client.Pages
         {
             await Load();
             StateHasChanged();
+            ApplyFilter();
         }
 
         private async Task Load()
@@ -83,5 +85,12 @@ namespace ASMC6.Client.Pages
             ApplyFilter();
             StateHasChanged();
         }
+
+        private void FilterProducts(ChangeEventArgs e)
+        {
+            var searchTerm = e.Value.ToString().ToLower();
+            pagedProducts = listProd.Where(p => p.Name.ToLower().Contains(searchTerm) || p.Description.ToLower().Contains(searchTerm)).ToList();
+        }
+
     }
 }
