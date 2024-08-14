@@ -13,6 +13,8 @@ namespace ASMC6.Client.Pages
     public partial class AdminManageProduct
     {
         private List<ASMC6.Shared.Product> listProd = new List<ASMC6.Shared.Product>();
+        private List<ASMC6.Shared.Menu> listMenu = new List<ASMC6.Shared.Menu>();
+        private List<ASMC6.Shared.Category> listCate = new List<ASMC6.Shared.Category>();
         private List<ASMC6.Shared.Product> filteredProd = new List<ASMC6.Shared.Product>();
         private List<Category> categories = new List<Category>();
         private bool isLoaded = false;
@@ -29,6 +31,8 @@ namespace ASMC6.Client.Pages
             try
             {
                 listProd = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Product>>("api/Product/GetProducts");
+                listMenu = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Menu>>("api/Menu/GetMenus");
+                listCate = await httpClient.GetFromJsonAsync<List<ASMC6.Shared.Category>>("api/Category/GetCategories");
                 filteredProd = listProd;
             }
             catch (Exception ex)
