@@ -1,0 +1,32 @@
+﻿#video-container {
+    position: relative;
+    margin: auto;
+    width: 640px;
+}
+
+video {
+    background: #dee;
+    display: none;
+}
+
+#localVideo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120px;
+    z-index: 10;
+    background: #333;
+}
+
+#remoteVideo {
+    width: 100%;
+}
+
+#action-buttons {
+    margin: auto;
+    text-align: center;
+}
+
+.hidden-first {
+    display: none;
+}

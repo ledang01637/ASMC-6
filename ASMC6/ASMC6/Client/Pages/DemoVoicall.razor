@@ -1,0 +1,16 @@
+﻿@page "/audio"
+@inject IJSRuntime JSRuntime
+
+<div class="container">
+    <h2>Chỉ phát âm thanh khi người dùng tương tác</h2>
+    <video src="/Video/acb.mp4" id="myVideo" controls muted autoplay >
+    </video>
+    <button @onclick="PlayAudio">Bật âm thanh</button>
+</div>
+
+@code {
+    private async Task PlayAudio()
+    {
+        await JSRuntime.InvokeVoidAsync("playAudio", "myVideo");
+    }
+}

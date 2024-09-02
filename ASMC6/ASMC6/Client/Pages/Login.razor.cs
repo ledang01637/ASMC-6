@@ -56,12 +56,12 @@ namespace ASMC6.Client.Pages
                         if (user.RoleId == 1)
                         {
                             await Task.Delay(1000);
-                            Navigation.NavigateTo("/adminproductmanage", true);
+                            Navigation.NavigateTo("/user1", true);
                         }
                         else
                         {
                             await Task.Delay(1000);
-                            Navigation.NavigateTo("/", true);
+                            Navigation.NavigateTo("/user1", true);
                         }
                     }
                     else

@@ -147,3 +147,12 @@ window.cartFunctions = {
         sessionStorage.setItem('cart', cart);
     }
 };
+
+window.playAudio = function (videoElementId) {
+    var video = document.getElementById(videoElementId);
+    if (video) {
+        video.muted = false;
+        video.play();
+    }
+}
+
