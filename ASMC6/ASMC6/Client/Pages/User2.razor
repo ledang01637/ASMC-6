@@ -82,12 +82,17 @@
     {
         await Js.InvokeVoidAsync("setupCall", token, callerId, calleeId);
     }
+    private async Task SetupButton()
+    {
+        await Js.InvokeVoidAsync("setupCallEvents", "localVideo", "remoteVideo", "answerCallButton", "callButton");
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             await SetupCall();
+            await SetupButton();
         }
     }
 }

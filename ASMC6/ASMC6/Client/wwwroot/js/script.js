@@ -81,7 +81,6 @@
     }
 }
 
-
 function checkTokenExpiry() {
     const token = localStorage.getItem('authToken');
     const expiryTime = localStorage.getItem('expiryTime');
@@ -154,5 +153,24 @@ window.playAudio = function (videoElementId) {
         video.muted = false;
         video.play();
     }
+}
+
+function setupCallEvents(localVideoId, remoteVideoId, answerButtonId, callButtonId) {
+    var localVideo = document.getElementById(localVideoId);
+    var remoteVideo = document.getElementById(remoteVideoId);
+    var answerButton = document.getElementById(answerButtonId);
+    var callButton = document.getElementById(callButtonId);
+
+    answerButton.addEventListener('click', function () {
+        remoteVideo.muted = false;
+        localVideo.play();
+        remoteVideo.play();
+    });
+
+    callButton.addEventListener('click', function () {
+        remoteVideo.muted = false;
+        localVideo.play();
+        remoteVideo.play();
+    });
 }
 
